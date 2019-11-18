@@ -15,17 +15,16 @@ import alphastar.core.structure.EGameStatus;
 import alphastar.core.structure.EPlayer;
 import alphastar.core.structure.IBoard;
 import alphastar.core.structure.IPosition;
-import alphastar.core.structure.IState;
+import jpgrahs.state.IState;
+import jpgrahs.state.State;
 
 public class Board implements IBoard {
 	private static Logger log = LoggerFactory.getLogger(Board.class);
-	IState state;
     int[][] boardValues;
     int totalMoves;
 	int n;
 
-    public Board(IState state) {
-    	this.state = state;
+    public Board() {
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
             var prop = new Properties();
             prop.load(input);
@@ -36,8 +35,7 @@ public class Board implements IBoard {
     	boardValues = new int[n][n];
     }
 
-    public Board(IState state, IBoard board) {
-    	this.state = state;
+    public Board(IBoard board) {
     	this.totalMoves = board.getTotalMoves();
         this.boardValues = new int[board.getBoardValues().length][board.getBoardValues().length];
         this.n = boardValues.length;
@@ -46,6 +44,19 @@ public class Board implements IBoard {
                 this.boardValues[i][j] = board.getBoardValues()[i][j];
             }
         }
+    }
+    
+    @Override
+    public IBoard copy() {
+    	/*var copy = new Board();
+    	
+    	newState.board = new Board(this, this.getBoard());
+    	newState.player = this.getPlayer();
+    	newState.node = node;*/
+    	
+       
+        //return copy;  
+        return null;
     }
 
 	@Override
@@ -75,11 +86,6 @@ public class Board implements IBoard {
     public void setBoardValues(int[][] boardValues) {
         this.boardValues = boardValues;
     }    
-
-	@Override
-	public IState getState() {
-		return this.state;
-	}
 	
     @Override
     public List<IPosition> getEmptyPositions() {

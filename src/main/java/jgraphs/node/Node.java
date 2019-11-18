@@ -1,4 +1,4 @@
-package alphastar.node;
+package jgraphs.node;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
@@ -12,22 +12,20 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
-import alphastar.core.structure.IState;
+import jpgrahs.state.IState;
+
 
 public class Node implements INode {
-	@Inject private IState state;
 	private static Logger log = LoggerFactory.getLogger(Node.class);
 	private UUID id;
+	private IState state;
 	private INode parent;
 	private List<INode> childArray;
 
-    public Node() {
+    @Inject
+    public Node(IState state) {
     	this.id = UUID.randomUUID();
     	this.childArray = new ArrayList<>();  	
-    }
-
-    public Node(IState state) {
-    	this();
 		try {
 			this.state = state.getClass().getDeclaredConstructor(INode.class, IState.class).newInstance(this, state);
 		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
@@ -35,13 +33,15 @@ public class Node implements INode {
 			log.error(e.getMessage());
 		}
     }
-
-    public Node(INode node) {
-    	this(node.getState());
-        this.parent = (node.getParent() != null)?node.getParent():null;
-        Collections.copy(this.childArray, node.getChildArray());
+    
+    @Override
+    public INode copy() {
+    	var newNode = new Node(this.state);
+        newNode.parent = (this.getParent() != null)?this.getParent():null;
+        Collections.copy(newNode.childArray, this.getChildArray());
+        return newNode;  
     }
-       
+           
     @Override
     public UUID getId() {
     	return this.id;
@@ -90,12 +90,7 @@ public class Node implements INode {
             return c.getState().getWinScore(); 
         }));
     }
-    
-    @Override
-    public void linkNodeAndState() {
-    	this.state.setNode(this);
-    }
-    
+       
     @Override
     public String toString() {
     	var sb = new StringBuilder();
@@ -108,6 +103,5 @@ public class Node implements INode {
     	sb.append(this.state.toString());
         return sb.toString();
     }
-
 
 }

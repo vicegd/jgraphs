@@ -1,4 +1,4 @@
-package alphastar.mcts;
+package jgraphs.mcts;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alphastar.node.INode;
+import jgraphs.node.INode;
 
 public class UCB {
 	private static Logger log = LoggerFactory.getLogger(UCB.class);

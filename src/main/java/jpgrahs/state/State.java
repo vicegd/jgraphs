@@ -1,14 +1,15 @@
-package alphastar.core;
+package jpgrahs.state;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import alphastar.core.structure.EPlayer;
 import alphastar.core.structure.IBoard;
-import alphastar.core.structure.IState;
 import alphastar.game.tictactoe.Board;
-import alphastar.node.INode;
+import jgraphs.node.INode;
+import jgraphs.node.Node;
 
 public class State implements IState {
 	UUID id;
@@ -20,8 +21,7 @@ public class State implements IState {
 
     public State() {
     	this.id = UUID.randomUUID();
-    	//this.node = node;
-        this.board = new Board(this);
+        this.board = new Board();
         this.player = EPlayer.None;
         this.visitCount = 0;
         this.winScore = 0;
@@ -29,13 +29,22 @@ public class State implements IState {
 
     public State(INode node, IState state) {
     	this.id = UUID.randomUUID();
-    	this.node = node;
-        this.board = new Board(this, state.getBoard());
+        this.board = new Board(state.getBoard());
         this.player = state.getPlayer();
-       // this.visitCount = state.getVisitCount();
-       // this.winScore = state.getWinScore();
         this.visitCount = 0;
         this.winScore = 0;
+    	this.node = node;
+    }
+    
+    @Override
+    public IState copy() {
+    	var newState = new State();
+    	
+    	newState.board = new Board(this.getBoard());
+    	newState.player = this.getPlayer();
+    	newState.node = node;
+    	
+        return newState;  
     }
 
     @Override
@@ -58,7 +67,7 @@ public class State implements IState {
 
     @Override
     public void setBoard(IBoard board) {
-    	this.board = new Board(this, board);
+    	this.board = new Board(board);
     }
 
     @Override

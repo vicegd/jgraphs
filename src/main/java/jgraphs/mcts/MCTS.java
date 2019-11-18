@@ -1,4 +1,4 @@
-package alphastar.mcts;
+package jgraphs.mcts;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,11 +12,15 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+
 import alphastar.core.structure.EGameStatus;
-import alphastar.node.INode;
-import alphastar.node.Node;
-import alphastar.tree.ITree;
-import visualizers.IVisualizer;
+import jgraphs.node.INode;
+import jgraphs.tree.ITree;
+import jgraphs.utils.BasicModule;
+import jgraphs.utils.Utils;
+import jgraphs.visualizers.IVisualizer;
 
 public class MCTS {
 	private static Logger log = LoggerFactory.getLogger(MCTS.class);
@@ -168,15 +172,17 @@ public class MCTS {
     private void expansion(INode promisingNode) {
     	var possibleStates = promisingNode.getState().getAllPossibleStates();
 	    possibleStates.forEach(state -> {
-	    	var newNode = new Node(state);
-	        newNode.setParent(promisingNode);
+	    	var newNode = Utils.getInstance().getInjector().getInstance(INode.class);
+	    	newNode.setState(state);
+	    	
+	    	newNode.setParent(promisingNode);
 	        promisingNode.getChildArray().add(newNode);       
 	        tree.addNode(newNode);
 	    });
     }
 
     private EGameStatus simulation(INode node) {
-        var tempNode = new Node(node);
+        var tempNode = node.copy();
         var tempState = tempNode.getState();
         var boardStatus = tempState.getBoard().checkStatus();
 

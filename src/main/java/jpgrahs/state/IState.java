@@ -1,11 +1,15 @@
-package alphastar.core.structure;
+package jpgrahs.state;
 
 import java.util.List;
 import java.util.UUID;
 
-import alphastar.node.INode;
+import alphastar.core.structure.EPlayer;
+import alphastar.core.structure.IBoard;
+import jgraphs.node.INode;
 
 public interface IState {
+    public IState copy();
+	
 	public UUID getId();
 	
 	public IBoard getBoard();

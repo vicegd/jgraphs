@@ -1,4 +1,4 @@
-package alphastar.mcts;
+package jgraphs.mcts;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,16 +7,16 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 
 import alphastar.core.Position;
 import alphastar.core.structure.EGameStatus;
 import alphastar.core.structure.EPlayer;
 import alphastar.game.tictactoe.Board;
-import alphastar.tree.Tree;
-import alphastar.tree.ITree;
-import visualizers.ConsoleVisualizer;
-import visualizers.GraphVisualizer;
+import jgraphs.tree.ITree;
+import jgraphs.utils.BasicModule;
+import jgraphs.utils.Utils;
+import jgraphs.visualizers.ConsoleVisualizer;
+import jgraphs.visualizers.GraphVisualizer;
 
 public class MCTSTest {
     ITree tree;
@@ -24,9 +24,7 @@ public class MCTSTest {
 
     @Before	
     public void initGameTree() {
-    	Injector injector = Guice.createInjector(new BasicModule());
-        this.tree = injector.getInstance(Tree.class);    
-        this.tree.initializeTree();
+    	this.tree = Utils.getInstance().getInjector().getInstance(ITree.class);
         
         this.mcts = new MCTS(tree);
         this.mcts.addVisualizer(new ConsoleVisualizer());
@@ -42,7 +40,7 @@ public class MCTSTest {
 
     @Test
     public void givenEmptyBoard_whenPerformMove_thenLessAvailablePossitions() {
-        var board = new Board(null);
+        var board = new Board();
         var initAvailablePositions = board.getEmptyPositions().size();
         assertEquals(9, initAvailablePositions);
         

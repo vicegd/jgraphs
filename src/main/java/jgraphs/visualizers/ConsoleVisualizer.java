@@ -1,11 +1,11 @@
-package visualizers;
+package jgraphs.visualizers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alphastar.core.structure.EGameStatus;
-import alphastar.node.INode;
-import alphastar.tree.ITree;
+import jgraphs.node.INode;
+import jgraphs.tree.ITree;
 
 public class ConsoleVisualizer implements IVisualizer {
 	private static Logger log = LoggerFactory.getLogger(ConsoleVisualizer.class);

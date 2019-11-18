@@ -2,7 +2,11 @@ package alphastar.core.structure;
 
 import java.util.List;
 
+import jpgrahs.state.IState;
+
 public interface IBoard {
+    public IBoard copy();
+	
 	public int getTotalMoves();
 	
 	public int[][] getBoardValues();
@@ -10,8 +14,6 @@ public interface IBoard {
 	public String getBoardValuesToHTML();
 
 	public void setBoardValues(int[][] boardValues);
-	
-	public IState getState();
 
 	public List<IPosition> getEmptyPositions();
 	

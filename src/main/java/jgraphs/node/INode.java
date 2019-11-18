@@ -1,11 +1,13 @@
-package alphastar.node;
+package jgraphs.node;
 
 import java.util.List;
 import java.util.UUID;
 
-import alphastar.core.structure.IState;
+import jpgrahs.state.IState;
 
 public interface INode {
+    public INode copy();
+    
 	public UUID getId();
 	
     public IState getState();
@@ -23,6 +25,4 @@ public interface INode {
     public INode getRandomChildNode();
 
     public INode getChildWithMaxScore();
-    
-    public void linkNodeAndState();
 }

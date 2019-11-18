@@ -1,4 +1,4 @@
-package visualizers;
+package jgraphs.visualizers;
 
 import static guru.nidi.graphviz.model.Factory.mutGraph;
 import static guru.nidi.graphviz.model.Factory.mutNode;
@@ -18,8 +18,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import alphastar.core.structure.EGameStatus;
-import alphastar.node.INode;
-import alphastar.tree.ITree;
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
@@ -29,6 +27,8 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
+import jgraphs.node.INode;
+import jgraphs.tree.ITree;
 
 public class GraphVisualizer implements IVisualizer {
 	private static Logger log = LoggerFactory.getLogger(GraphVisualizer.class);

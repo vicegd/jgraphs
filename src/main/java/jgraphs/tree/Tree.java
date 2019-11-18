@@ -1,4 +1,4 @@
-package alphastar.tree;
+package jgraphs.tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,20 +7,23 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-import alphastar.node.INode;
+import jgraphs.node.INode;
 
 public class Tree implements ITree {
-	@Inject private INode root;
 	private UUID id;
+	private INode root;
 	private HashMap<UUID, String> nodeNames;
 	private HashMap<UUID, INode> nodes;
 	private List<INode> nodeList;
     
-    public Tree() {
+	@Inject
+    public Tree(INode root) {
     	this.id = UUID.randomUUID();
+    	this.root = root;
     	this.nodeNames = new HashMap<UUID, String>();
 		this.nodes = new HashMap<UUID, INode>();
 		this.nodeList = new ArrayList<INode>();
+    	this.addNode(this.root);
     }
        
     @Override
@@ -28,12 +31,6 @@ public class Tree implements ITree {
     	return this.id;
     }
     
-    @Override
-    public void initializeTree() {
-    	this.addNode(this.root);
-    	this.root.linkNodeAndState();
-    }
-
     @Override
 	public INode getRoot() {
         return this.root;
