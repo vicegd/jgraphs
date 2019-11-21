@@ -1,8 +1,8 @@
 package jgraphs.visualizers;
 
 import alphastar.core.structure.EGameStatus;
-import jgraphs.node.INode;
-import jgraphs.tree.ITree;
+import jgraphs.core.node.INode;
+import jgraphs.core.tree.ITree;
 
 public interface IVisualizer {
 	public void nodeSimulated(INode node);

@@ -1,9 +1,9 @@
-package jgraphs.tree;
+package jgraphs.core.tree;
 
 import java.util.List;
 import java.util.UUID;
 
-import jgraphs.node.INode;
+import jgraphs.core.node.INode;
 
 public interface ITree {
 	public UUID getId();

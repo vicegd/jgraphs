@@ -1,4 +1,4 @@
-package alphastar.game.tictactoe;
+package jgraphs.game.tictactoe;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,53 +10,41 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alphastar.core.Position;
 import alphastar.core.structure.EGameStatus;
 import alphastar.core.structure.EPlayer;
-import alphastar.core.structure.IBoard;
-import alphastar.core.structure.IPosition;
-import jpgrahs.state.IState;
-import jpgrahs.state.State;
+import jgraphs.core.board.IBoard;
+import jgraphs.core.status.Position;
 
-public class Board implements IBoard {
-	private static Logger log = LoggerFactory.getLogger(Board.class);
-    int[][] boardValues;
-    int totalMoves;
-	int n;
+public class TicTacToeBoard implements IBoard {
+	private static Logger log = LoggerFactory.getLogger(TicTacToeBoard.class);
+    private int[][] boardValues;
+    private int totalMoves;
+    private int n;
 
-    public Board() {
+    public TicTacToeBoard() {
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
             var prop = new Properties();
             prop.load(input);
-            n = Integer.parseInt(prop.getProperty("board.default_size"));
+            this.n = Integer.parseInt(prop.getProperty("board.default_size"));
     	} catch (IOException ex) {
        		log.error(ex.getMessage());
     	}
-    	boardValues = new int[n][n];
-    }
-
-    public Board(IBoard board) {
-    	this.totalMoves = board.getTotalMoves();
-        this.boardValues = new int[board.getBoardValues().length][board.getBoardValues().length];
-        this.n = boardValues.length;
-        for (int i = 0; i < this.n; i++) {
-            for (int j = 0; j < this.n; j++) {
-                this.boardValues[i][j] = board.getBoardValues()[i][j];
-            }
-        }
+    	this.totalMoves = 0;
+    	this.boardValues = new int[n][n];
     }
     
     @Override
-    public IBoard copy() {
-    	/*var copy = new Board();
-    	
-    	newState.board = new Board(this, this.getBoard());
-    	newState.player = this.getPlayer();
-    	newState.node = node;*/
-    	
-       
-        //return copy;  
-        return null;
+    public IBoard createNewBoard() {
+    	var copy = new TicTacToeBoard();
+    	copy.n = this.n;
+    	copy.totalMoves = this.getTotalMoves();
+        copy.boardValues = new int[this.n][this.n];
+        for (int i = 0; i < this.n; i++) {
+            for (int j = 0; j < this.n; j++) {
+                copy.boardValues[i][j] = this.getBoardValues()[i][j];
+            }
+        }
+        return copy;
     }
 
 	@Override
@@ -88,9 +76,9 @@ public class Board implements IBoard {
     }    
 	
     @Override
-    public List<IPosition> getEmptyPositions() {
+    public List<Position> getEmptyPositions() {
         int size = this.boardValues.length;
-        List<IPosition> emptyPositions = new ArrayList<>();
+        List<Position> emptyPositions = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size; j++) {
                 if (boardValues[i][j] == 0)
@@ -101,9 +89,9 @@ public class Board implements IBoard {
     }
     
     @Override
-    public void performMove(EPlayer player, IPosition p) {
+    public void performMove(EPlayer player, Position p) {
         this.totalMoves++;
-        boardValues[p.getX()][p.getY()] = player.ordinal();
+        boardValues[p.x][p.y] = player.ordinal();
     }
 
     @Override

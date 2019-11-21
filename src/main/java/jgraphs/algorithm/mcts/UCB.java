@@ -1,4 +1,4 @@
-package jgraphs.mcts;
+package jgraphs.algorithm.mcts;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import jgraphs.node.INode;
+import jgraphs.core.node.INode;
 
 public class UCB {
 	private static Logger log = LoggerFactory.getLogger(UCB.class);
@@ -41,6 +41,6 @@ public class UCB {
         var totalVisits = node.getState().getVisitCount();
         return Collections.max(
           node.getChildArray(),
-          Comparator.comparing(c -> getValue(totalVisits, c.getState().getWinScore(), c.getState().getVisitCount())));
+          Comparator.comparing(c -> getValue(totalVisits, c.getState().getScore(), c.getState().getVisitCount())));
     }
 }

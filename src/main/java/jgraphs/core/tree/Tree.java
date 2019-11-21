@@ -1,4 +1,4 @@
-package jgraphs.tree;
+package jgraphs.core.tree;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -7,7 +7,7 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-import jgraphs.node.INode;
+import jgraphs.core.node.INode;
 
 public class Tree implements ITree {
 	private UUID id;

@@ -1,14 +1,14 @@
-package jpgrahs.state;
+package jgraphs.core.state;
 
 import java.util.List;
 import java.util.UUID;
 
 import alphastar.core.structure.EPlayer;
-import alphastar.core.structure.IBoard;
-import jgraphs.node.INode;
+import jgraphs.core.board.IBoard;
+import jgraphs.core.node.INode;
 
 public interface IState {
-    public IState copy();
+    public IState createNewState();
 	
 	public UUID getId();
 	
@@ -28,9 +28,9 @@ public interface IState {
 
     public void setVisitCount(int visitCount);
 
-    public double getWinScore();
+    public double getScore();
 
-    public void setWinScore(double winScore);
+    public void setScore(double score);
     
     public INode getNode();
     

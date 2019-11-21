@@ -1,4 +1,4 @@
-package jgraphs.mcts;
+package jgraphs.algorithm.mcts;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -16,10 +16,10 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import alphastar.core.structure.EGameStatus;
-import jgraphs.node.INode;
-import jgraphs.tree.ITree;
-import jgraphs.utils.BasicModule;
-import jgraphs.utils.Utils;
+import jgraphs.core.node.INode;
+import jgraphs.core.tree.ITree;
+import jgraphs.core.utils.BasicModule;
+import jgraphs.core.utils.Utils;
 import jgraphs.visualizers.IVisualizer;
 
 public class MCTS {
@@ -93,7 +93,7 @@ public class MCTS {
             if (checkStopCondition(i, start)) break; 
         }
 
-        var winnerNode = node.getChildWithMaxScore();
+        var winnerNode = node.getChildWithMaxValue();
         this.newMovement(winnerNode);
         this.moves.add(winnerNode);
         return winnerNode;
@@ -182,7 +182,7 @@ public class MCTS {
     }
 
     private EGameStatus simulation(INode node) {
-        var tempNode = node.copy();
+        var tempNode = node.createNewNode();
         var tempState = tempNode.getState();
         var boardStatus = tempState.getBoard().checkStatus();
 

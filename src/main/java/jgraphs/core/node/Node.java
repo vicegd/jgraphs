@@ -1,22 +1,16 @@
-package jgraphs.node;
+package jgraphs.core.node;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.google.inject.Inject;
 
-import jpgrahs.state.IState;
-
+import jgraphs.core.state.IState;
 
 public class Node implements INode {
-	private static Logger log = LoggerFactory.getLogger(Node.class);
 	private UUID id;
 	private IState state;
 	private INode parent;
@@ -26,20 +20,16 @@ public class Node implements INode {
     public Node(IState state) {
     	this.id = UUID.randomUUID();
     	this.childArray = new ArrayList<>();  	
-		try {
-			this.state = state.getClass().getDeclaredConstructor(INode.class, IState.class).newInstance(this, state);
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException
-				| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			log.error(e.getMessage());
-		}
+		this.state = state.createNewState();
+		this.state.setNode(this);
     }
     
     @Override
-    public INode copy() {
-    	var newNode = new Node(this.state);
-        newNode.parent = (this.getParent() != null)?this.getParent():null;
-        Collections.copy(newNode.childArray, this.getChildArray());
-        return newNode;  
+    public INode createNewNode() {
+    	var copy = new Node(this.state);
+        copy.parent = (this.getParent() != null)?this.getParent():null;
+        Collections.copy(copy.childArray, this.getChildArray());
+        return copy;  
     }
            
     @Override
@@ -85,9 +75,9 @@ public class Node implements INode {
     }
 
     @Override
-    public INode getChildWithMaxScore() {
-        return Collections.max(this.childArray, Comparator.comparing(c -> {
-            return c.getState().getWinScore(); 
+    public INode getChildWithMaxValue() {
+        return Collections.max(this.childArray, Comparator.comparing(node -> {
+            return node.getState().getScore(); 
         }));
     }
        

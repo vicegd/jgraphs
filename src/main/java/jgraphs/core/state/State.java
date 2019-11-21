@@ -1,50 +1,38 @@
-package jpgrahs.state;
+package jgraphs.core.state;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import com.google.inject.Inject;
+
 import alphastar.core.structure.EPlayer;
-import alphastar.core.structure.IBoard;
-import alphastar.game.tictactoe.Board;
-import jgraphs.node.INode;
-import jgraphs.node.Node;
+import jgraphs.core.board.IBoard;
+import jgraphs.core.node.INode;
 
 public class State implements IState {
-	UUID id;
-	INode node;
-    IBoard board;
-    EPlayer player;
-    int visitCount;
-    double winScore;
+	private UUID id;
+	private INode node;
+	private IBoard board;
+	private EPlayer player;
+	private int visitCount;
+	private double score;
 
-    public State() {
+	@Inject
+    public State(IBoard board) {
     	this.id = UUID.randomUUID();
-        this.board = new Board();
+        this.visitCount = 0;
+        this.score = 0;
+    	this.board = board.createNewBoard();
         this.player = EPlayer.None;
-        this.visitCount = 0;
-        this.winScore = 0;
     }
-
-    public State(INode node, IState state) {
-    	this.id = UUID.randomUUID();
-        this.board = new Board(state.getBoard());
-        this.player = state.getPlayer();
-        this.visitCount = 0;
-        this.winScore = 0;
-    	this.node = node;
-    }
-    
+   
     @Override
-    public IState copy() {
-    	var newState = new State();
-    	
-    	newState.board = new Board(this.getBoard());
-    	newState.player = this.getPlayer();
-    	newState.node = node;
-    	
-        return newState;  
+    public IState createNewState() {
+    	var copy = new State(this.board);
+    	copy.player = this.getPlayer();
+    	copy.node = node;
+        return copy;  
     }
 
     @Override
@@ -60,14 +48,14 @@ public class State implements IState {
     @Override
     public String getStateValuesToHTML() {
         var values = new StringBuilder();
-        values.append("<br/>score:" + this.getWinScore());
+        values.append("<br/>score:" + this.getScore());
         values.append("<br/>visits:" + this.getVisitCount());
         return values.toString();	        		
     }
 
     @Override
     public void setBoard(IBoard board) {
-    	this.board = new Board(board);
+    	this.board = board;
     }
 
     @Override
@@ -105,13 +93,13 @@ public class State implements IState {
     }
 
     @Override
-    public double getWinScore() {
-        return this.winScore;
+    public double getScore() {
+        return this.score;
     }
 
     @Override
-    public void setWinScore(double winScore) {
-        this.winScore = winScore;
+    public void setScore(double score) {
+        this.score = score;
     }
     
 	@Override
@@ -129,7 +117,7 @@ public class State implements IState {
         List<IState> possibleStates = new ArrayList<>();
         var availablePositions = this.board.getEmptyPositions();
         availablePositions.forEach(p -> {
-            var newState = new State(node, this);
+            var newState = this.createNewState();
             newState.setPlayer(this.getOpponent());
             newState.getBoard().performMove(newState.getPlayer(), p);
             possibleStates.add(newState);
@@ -144,14 +132,13 @@ public class State implements IState {
 
     @Override
     public void addScore(double score) {
-    	this.winScore += score;
+    	this.score += score;
     }
 
     @Override
     public void randomPlay() {
         var availablePositions = this.board.getEmptyPositions();
-        var totalPossibilities = availablePositions.size();
-        var selectRandom = (int) (Math.random() * totalPossibilities);
+        var selectRandom = (int) (Math.random() * availablePositions.size());
         this.board.performMove(this.player, availablePositions.get(selectRandom));
     }
 
@@ -166,7 +153,7 @@ public class State implements IState {
     	sb.append("State:\n");
     	sb.append("\tPlayer: \t" + this.player + "\n"); 
     	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
-    	sb.append("\tWinScore: \t" + this.winScore + "\n"); 
+    	sb.append("\tWinScore: \t" + this.score + "\n"); 
     	sb.append(this.board.toString());
         return sb.toString();
     }

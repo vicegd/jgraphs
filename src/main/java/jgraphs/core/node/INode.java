@@ -1,12 +1,12 @@
-package jgraphs.node;
+package jgraphs.core.node;
 
 import java.util.List;
 import java.util.UUID;
 
-import jpgrahs.state.IState;
+import jgraphs.core.state.IState;
 
 public interface INode {
-    public INode copy();
+    public INode createNewNode();
     
 	public UUID getId();
 	
@@ -24,5 +24,5 @@ public interface INode {
 
     public INode getRandomChildNode();
 
-    public INode getChildWithMaxScore();
+    public INode getChildWithMaxValue();
 }

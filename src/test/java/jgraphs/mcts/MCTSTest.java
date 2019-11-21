@@ -8,13 +8,15 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 
-import alphastar.core.Position;
 import alphastar.core.structure.EGameStatus;
 import alphastar.core.structure.EPlayer;
-import alphastar.game.tictactoe.Board;
-import jgraphs.tree.ITree;
-import jgraphs.utils.BasicModule;
-import jgraphs.utils.Utils;
+import jgraphs.algorithm.mcts.MCTS;
+import jgraphs.algorithm.mcts.UCB;
+import jgraphs.core.status.Position;
+import jgraphs.core.tree.ITree;
+import jgraphs.core.utils.BasicModule;
+import jgraphs.core.utils.Utils;
+import jgraphs.game.tictactoe.TicTacToeBoard;
 import jgraphs.visualizers.ConsoleVisualizer;
 import jgraphs.visualizers.GraphVisualizer;
 
@@ -40,7 +42,7 @@ public class MCTSTest {
 
     @Test
     public void givenEmptyBoard_whenPerformMove_thenLessAvailablePossitions() {
-        var board = new Board();
+        var board = new TicTacToeBoard();
         var initAvailablePositions = board.getEmptyPositions().size();
         assertEquals(9, initAvailablePositions);
         
