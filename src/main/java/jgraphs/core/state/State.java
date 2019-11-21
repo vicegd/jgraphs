@@ -16,15 +16,15 @@ public class State implements IState {
 	private IBoard board;
 	private IPlayerManager playerManager;
 	private int visitCount;
-	private double score;
+	private double[] scores;
 
 	@Inject
     public State(IBoard board, IPlayerManager playerManager) {
     	this.id = UUID.randomUUID();
         this.visitCount = 0;
-        this.score = 0;
     	this.board = board.createNewBoard();
     	this.playerManager = playerManager.createNewPlayerManager();
+    	this.scores = new double[this.playerManager.getNumberOfPlayers()];
     }
    
     @Override
@@ -47,7 +47,7 @@ public class State implements IState {
     @Override
     public String getStateValuesToHTML() {
         var values = new StringBuilder();
-        values.append("<br/>score:" + this.getScore());
+        values.append("<br/>scores:" + this.serializeScores());
         values.append("<br/>visits:" + this.getVisitCount());
         return values.toString();	        		
     }
@@ -78,13 +78,13 @@ public class State implements IState {
     }
 
     @Override
-    public double getScore() {
-        return this.score;
+    public double getScore(int player) {
+        return this.scores[player-1];
     }
 
     @Override
-    public void setScore(double score) {
-        this.score = score;
+    public void setScore(int player, double score) {
+        this.scores[player-1] = score;
     }
     
 	@Override
@@ -116,8 +116,8 @@ public class State implements IState {
     }
 
     @Override
-    public void addScore(double score) {
-    	this.score += score;
+    public void addScore(int player, double score) {
+   		this.scores[player-1] += score;
     }
 
     @Override
@@ -134,12 +134,22 @@ public class State implements IState {
     
     @Override
     public String toString() {
-    	StringBuilder sb = new StringBuilder();
+    	var sb = new StringBuilder();
     	sb.append("State:\n");
     	sb.append("\tPlayer: \t" + this.playerManager + "\n"); 
     	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
-    	sb.append("\tWinScore: \t" + this.score + "\n"); 
+    	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
     	sb.append(this.board.toString());
         return sb.toString();
+    }
+    
+    private String serializeScores() {
+    	var sb = new StringBuilder();
+    	sb.append("[");
+    	for (double score : this.scores) {
+    		sb.append(score + " ");
+    	}
+    	sb.append("]");
+    	return sb.toString();
     }
 }

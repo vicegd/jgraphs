@@ -7,30 +7,27 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.MCTS;
-import jgraphs.algorithm.mcts.UCB;
+import jgraphs.algorithm.mcts.treepolicy.UCB;
 import jgraphs.core.board.Position;
-import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.Utils;
 import jgraphs.game.tictactoe.TicTacToeBoard;
-import jgraphs.visualizers.ConsoleVisualizer;	
+import jgraphs.game.tictactoe.TicTacToeModule;
+import jgraphs.visualizers.ConsoleVisualizer;
 import jgraphs.visualizers.GraphVisualizer;
 
-public class MCTSTest {
-    ITree tree;
-    MCTS mcts;
+public class TicTacToeTest {
+    private MCTS mcts;
 
     @Before	
     public void initGameTree() {
-    	this.tree = Utils.getInstance().getInjector().getInstance(ITree.class);
-        
-        this.mcts = new MCTS(tree);
+        this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
         this.mcts.addVisualizer(new ConsoleVisualizer());
         this.mcts.addVisualizer(new GraphVisualizer());
     }
 
     @Test
     public void givenInitBoardState_whenGetAllPossibleStates_then9ElementsList() {
-        var initState = tree.getRoot().getState();
+        var initState = mcts.getTree().getRoot().getState();
         var possibleStates = initState.getAllPossibleStates();
         assertEquals(9, possibleStates.size());
     }
@@ -48,7 +45,7 @@ public class MCTSTest {
    
     @Test
     public void givenEmptyBoard_trainingP1_P1WinsOrDraw() {
-        var node = tree.getRoot();
+        var node = mcts.getTree().getRoot();
         this.mcts.setTrainP1(true);
         this.mcts.setTrainP2(false);
    
@@ -68,7 +65,7 @@ public class MCTSTest {
     
    // @Test
     public void givenEmptyBoard_trainingP2_P2WinsOrDraw() {
-        var node = tree.getRoot();
+        var node = mcts.getTree().getRoot();
         this.mcts.setTrainP1(false);
         this.mcts.setTrainP2(true);
    
@@ -80,7 +77,6 @@ public class MCTSTest {
             }
         }
         
-        this.mcts.printPath();
         var winStatus = node.getState().getBoard().checkStatus();
         assertTrue((winStatus == 2) || (winStatus == 0));
     }

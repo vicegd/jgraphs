@@ -10,4 +10,6 @@ public interface IPlayerManager {
     public int getOpponent();
 	
     public void togglePlayer();
+    
+    public int getNumberOfPlayers();
 }

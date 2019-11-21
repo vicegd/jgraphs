@@ -1,4 +1,4 @@
-package jgraphs.algorithm.mcts;
+package jgraphs.algorithm.mcts.treepolicy;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import jgraphs.core.node.INode;
 
-public class UCB {
+public class UCB implements ITreePolicy {
 	private static Logger log = LoggerFactory.getLogger(UCB.class);
 	double c;
 	
@@ -37,10 +37,10 @@ public class UCB {
         return (nodeWinScore / (double) nodeVisit) + this.c * Math.sqrt(Math.log(parentVisits) / (double) nodeVisit);
     }
 
-    public INode findBestNode(INode node) {
+    public INode findBestNode(int player, INode node) {
         var totalVisits = node.getState().getVisitCount();
         return Collections.max(
           node.getChildArray(),
-          Comparator.comparing(c -> getValue(totalVisits, c.getState().getScore(), c.getState().getVisitCount())));
+          Comparator.comparing(c -> getValue(totalVisits, c.getState().getScore(player), c.getState().getVisitCount())));
     }
 }

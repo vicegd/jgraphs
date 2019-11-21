@@ -24,5 +24,5 @@ public interface INode {
 
     public INode getRandomChildNode();
 
-    public INode getChildWithMaxValue();
+    public INode getChildWithMaxValue(int player);
 }

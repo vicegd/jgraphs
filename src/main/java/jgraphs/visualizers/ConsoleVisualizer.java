@@ -10,13 +10,8 @@ public class ConsoleVisualizer implements IVisualizer {
 	private static Logger log = LoggerFactory.getLogger(ConsoleVisualizer.class);
 	
 	@Override
-	public void nodeSimulated(INode node) {
-		//log.debug(node.toString());
-	}
-
-	@Override
-	public void newMovement(INode node) {
-		log.debug(node.toString());
+	public void movementPerformedEvent(INode winnerNode) {
+		log.debug(winnerNode.toString());
 	}
 
 	@Override

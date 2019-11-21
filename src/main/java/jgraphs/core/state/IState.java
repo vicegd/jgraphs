@@ -26,9 +26,9 @@ public interface IState {
 
     public void setVisitCount(int visitCount);
 
-    public double getScore();
+    public double getScore(int player);
 
-    public void setScore(double score);
+    public void setScore(int player, double score);
     
     public INode getNode();
     
@@ -38,7 +38,7 @@ public interface IState {
 
     public void incrementVisit();
 
-    public void addScore(double score);
+    public void addScore(int player, double score);
 
     public void randomPlay();
 

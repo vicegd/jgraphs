@@ -75,9 +75,9 @@ public class Node implements INode {
     }
 
     @Override
-    public INode getChildWithMaxValue() {
+    public INode getChildWithMaxValue(int player) {
         return Collections.max(this.childArray, Comparator.comparing(node -> {
-            return node.getState().getScore(); 
+            return node.getState().getScore(player); 
         }));
     }
        

@@ -12,6 +12,10 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.inject.Inject;
+
+import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
+import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.Utils;
@@ -19,23 +23,27 @@ import jgraphs.visualizers.IVisualizer;
 
 public class MCTS {
 	private static Logger log = LoggerFactory.getLogger(MCTS.class);
-	private UCB ucb;
-	private List<INode> moves;
+	private ITree tree;
+	private ITreePolicy treePolicy;
+	private IDefaultPolicy defaultPolicy;
+	private List<IVisualizer> visualizers;
+	private int movementNumber;
 	private long iterations;
 	private long memory;
 	private long seconds;
-	private int winScore;
-	private boolean trainP1;
-	private boolean trainP2;
-	private ITree tree;
-	private List<IVisualizer> visualizers;
+
+	private boolean trainP1; //QUITAR*******??
+	private boolean trainP2; //QUITAR*******??
+	
+	private int winScore; //QUITAR*******??
     
-    public MCTS(ITree tree) {
-    	this.tree = tree;
-    	this.ucb = new UCB();
+	@Inject
+    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy) {
+		this.tree = tree;
+		this.treePolicy = treePolicy;
+		this.defaultPolicy = defaultPolicy;
     	this.visualizers = new ArrayList<IVisualizer>();
-    	this.moves = new ArrayList<INode>();
-    	this.moves.add(tree.getRoot());
+    	this.movementNumber = 1;
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
             var prop = new Properties();
             prop.load(input);
@@ -49,69 +57,11 @@ public class MCTS {
        		log.error(ex.getMessage());
        }
     }
+	
+	public ITree getTree() {
+		return this.tree;
+	}
            
-    public INode findNextMove(INode node) {     
-    	var start = Instant.now();
-    	for (var i = 1; i < Integer.MAX_VALUE; i++) {
-            // Phase 1 - Selection
-            var promisingNode = selection(node);
-            
-            // Phase 2 - Expansion
-            if (promisingNode.getState().getBoard().checkStatus() == -1) { //-1 == IN PROGRESS
-            	if ((i > 1) && (promisingNode.getState().getVisitCount() == 0)) {}
-            	else 
-            	expansion(promisingNode);
-            }
-
-            // Phase 3 - Simulation
-            var nodeToExplore = promisingNode;
-            if (promisingNode.getChildArray().size() > 0) {
-                nodeToExplore = promisingNode.getRandomChildNode();
-            }
-            var result = simulation(nodeToExplore);
-            // Phase 4 - Update
-            var score = 0;
-            if (this.trainP1) {
-            	if (result == 1) score = this.winScore;
-            	else if (result == 2) score = -this.winScore;
-            }
-            if (this.trainP2) {
-            	if (result == 1) score = -this.winScore;
-            	else if (result == 2) score = this.winScore;
-            }
-            backPropogation(nodeToExplore, score);
-          //  System.out.println(i + " " + tree.getStatistics().numberNodes);
-          //  System.out.println("Visits:" + promisingNode.getState().getVisitCount() + " WinScore:" + promisingNode.getState().getWinScore() + " ID:" + promisingNode.getId() + " PARENT:" + (promisingNode.getParent()!=null?promisingNode.getParent().getId():"null"));
-            this.nodeSimulated(nodeToExplore);          
-            this.treeChanged(node, nodeToExplore, result, i);
-            
-            if (checkStopCondition(i, start)) break; 
-        }
-
-        var winnerNode = node.getChildWithMaxValue();
-        this.newMovement(winnerNode);
-        this.moves.add(winnerNode);
-        return winnerNode;
-    }
-    
-    private boolean checkStopCondition(int i, Instant start) {
-        var memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        
-        if (memoryUsed >= this.memory) return true; //break because of memory
-               
-        var duration = Duration.between(start, Instant.now());       
-        if (duration.getSeconds() >= this.seconds) return true; //break because of seconds
-        
-        if (i >= this.iterations) return true; //break because of iterations
-        return false;
-    }
-    
-    public void printPath() {
-    	for (INode n : moves) {
-    		log.info(n.toString());
-    	}
-    }
-    
     public void setTrainP1(boolean train) {
     	this.trainP1 = train;
     }
@@ -124,6 +74,14 @@ public class MCTS {
     	this.iterations = iterations;
     }
     
+    public void setMemory(int memory) {
+    	this.memory = memory;
+    }
+    
+    public void setSeconds(int seconds) {
+    	this.seconds = seconds;
+    }
+    
     public void setWinScore(int winScore) {
     	this.setWinScore(winScore);
     }
@@ -131,35 +89,74 @@ public class MCTS {
     public void addVisualizer(IVisualizer visualizer) {
     	visualizers.add(visualizer);
     }
-    
-    private void nodeSimulated(INode node) {
+	   
+    public INode findNextMove(INode node) {     
+    	var start = Instant.now();
+    	for (var i = 1; i < Integer.MAX_VALUE; i++) {
+            // Phase 1 - Selection
+            var promisingNode = selection(node);
+            
+            // Phase 2 - Expansion
+            if ((promisingNode.getState().getVisitCount() >= 1)||(promisingNode.equals(this.tree.getRoot())))
+            	expansion(promisingNode); //Only expand it if it is the root node or it has already been visited yet
+
+            // Phase 3 - Simulation
+            var nodeToExplore = promisingNode;
+            if (promisingNode.getChildArray().size() > 0) {
+                nodeToExplore = promisingNode.getRandomChildNode();
+            }
+            var result = simulation(nodeToExplore);
+            
+            // Phase 4 - Update
+            /*var score = 0;
+            if (this.trainP1) {
+            	if (result == 1) score = this.winScore;
+            	else if (result == 2) score = -this.winScore;
+            }
+            if (this.trainP2) {
+            	if (result == 1) score = -this.winScore;
+            	else if (result == 2) score = this.winScore;
+            }*/
+            backPropogation(nodeToExplore, result);
+
+            this.treeChangedEvent(node, nodeToExplore, result, i);
+            if (checkStopCondition(i, start)) break; 
+        }
+
+        var winnerNode = node.getChildWithMaxValue((node.getState().getPlayerManager().getPlayer()!=0)?node.getState().getPlayerManager().getPlayer():1);
+        this.movementPerformedEvent(winnerNode);
+        this.movementNumber++;
+        return winnerNode;
+    }
+ 
+    private void movementPerformedEvent(INode winnerNode) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.nodeSimulated(node);
+    		visualizer.movementPerformedEvent(winnerNode);
     	}
     }
     
-    private void newMovement(INode node) {
+    private void treeChangedEvent(INode currentNode, INode nodeToExplore, int result, int iterationNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.newMovement(node);
+    		visualizer.treeChanged(this.tree, currentNode, nodeToExplore, result, this.movementNumber, iterationNumber);
     	}
     }
     
-    private void treeChanged(INode currentNode, INode nodeToExplore, int result, int iteration) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.treeChanged(this.tree, currentNode, nodeToExplore, result, this.moves.size(), iteration);
-    	}
+    private boolean checkStopCondition(int iterationNumber, Instant start) {
+        var memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
+        if (memoryUsed >= this.memory) return true; //break because of memory
+               
+        var duration = Duration.between(start, Instant.now());       
+        if (duration.getSeconds() >= this.seconds) return true; //break because of seconds
+        
+        if (iterationNumber >= this.iterations) return true; //break because of iterations
+        return false;
     }
-    
+       
     private INode selection(INode rootNode) {
         var node = rootNode;
-       // System.out.println("ID:" + node.getId());
-       // System.out.println("CHILDREN:" + node.getChildArray().size());
-        for (INode n : node.getChildArray()) {
-       //     System.out.println("\tCHILD:" + n.getId());
-        }
+
         while (node.getChildArray().size() != 0) {
-            node = ucb.findBestNode(node);
-        //	System.out.println("\tID:" + node.getId());
+            node = treePolicy.findBestNode(rootNode.getState().getPlayerManager().getOpponent(), node);
         }
         return node;
     }
@@ -177,24 +174,31 @@ public class MCTS {
     }
 
     private int simulation(INode node) {
-        var tempNode = node.createNewNode();
-        var tempState = tempNode.getState();
-        var boardStatus = tempState.getBoard().checkStatus();
-
-        while (boardStatus == -1) { //IN PROGRESS
-            tempState.togglePlayer();
-            tempState.randomPlay();
-            boardStatus = tempState.getBoard().checkStatus();
-        }
-
-        return boardStatus;
+    	return defaultPolicy.simulation(node);
     }
     
-    private void backPropogation(INode nodeToExplore, int score) {
-    	INode node = nodeToExplore;
+    private void backPropogation(INode nodeToExplore, int result) {
+    	var score = 2.0;
+    	if (result == 0)
+    		score = 0;
+    	var node = nodeToExplore;
+    	var numberOfPlayers = nodeToExplore.getState().getPlayerManager().getNumberOfPlayers();
         while (node != null) {
         	node.getState().incrementVisit();
-            node.getState().addScore(score);
+        	for (var i = 2; i <= numberOfPlayers; i++) {
+        		if (node.getState().getPlayerManager().getPlayer() == i) {
+        			if (node.getState().getPlayerManager().getPlayer() == result)
+        				node.getState().addScore(i, score);
+        			else
+        				node.getState().addScore(i, -score);
+        		}
+        		else {
+        			if (node.getState().getPlayerManager().getPlayer() == result)
+        				node.getState().addScore(i, -score);
+        			else
+        				node.getState().addScore(i, score);
+        		}
+        	}
             node = node.getParent();         	
        }
     }

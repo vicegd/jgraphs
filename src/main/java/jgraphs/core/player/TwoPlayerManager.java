@@ -12,8 +12,8 @@ public class TwoPlayerManager extends AbstractPlayerManager {
 	@Override
 	public int getOpponent() {
     	switch (this.player) {
-			case 0: //no player by default
-				return 1; //player 1 begins
+			case 0: 
+				return 1; 
 			case 1:
 				return 2;
 			case 2:
@@ -21,6 +21,11 @@ public class TwoPlayerManager extends AbstractPlayerManager {
 			default:
 				return 0;
     	}
+	}
+
+	@Override
+	public int getNumberOfPlayers() {
+		return 2;
 	}
 
 }

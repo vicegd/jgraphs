@@ -12,8 +12,6 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
 
-import javax.swing.plaf.synth.ColorType;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,9 +21,7 @@ import guru.nidi.graphviz.attribute.Shape;
 import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
-import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
-import guru.nidi.graphviz.model.MutableNode;
 import jgraphs.core.node.INode;
 import jgraphs.core.tree.ITree;
 
@@ -45,11 +41,7 @@ public class GraphVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void nodeSimulated(INode node) {
-	}
-
-	@Override
-	public void newMovement(INode node) {
+	public void movementPerformedEvent(INode winnerNode) {
 	}
 
 	@Override
@@ -76,30 +68,32 @@ public class GraphVisualizer implements IVisualizer {
 		var n1Id = node.getId().toString();
 		var n1Info = getInfoFromNode(tree, node);
 		var n1 = mutNode(n1Id).add(Label.html(n1Info)).add(Shape.CIRCLE).add(Style.FILLED);
-		for (INode n : node.getChildArray()) {			
-			var n2Id = n.getId().toString();
-			var n2Info = getInfoFromNode(tree, n);
-			var n2 = mutNode(n2Id).add(Label.html(n2Info)).add(Shape.CIRCLE).add(Style.FILLED);
-			if (n.getId().equals(currentNode.getId())) {
-				n2.add(Color.LIGHTSEAGREEN);
+		for (INode n : node.getChildArray()) {	
+			if (n.getState().getVisitCount() > 0) {
+				var n2Id = n.getId().toString();
+				var n2Info = getInfoFromNode(tree, n);
+				var n2 = mutNode(n2Id).add(Label.html(n2Info)).add(Shape.CIRCLE).add(Style.FILLED);
+				if (n.getId().equals(currentNode.getId())) {
+					n2.add(Color.LIGHTSEAGREEN);
+				}
+				else if (n.getId().equals(nodeToExplore.getId())) {
+					n2.add(Color.ROYALBLUE2);
+				}
+				
+				var n1Ton2 = n1.addLink(n2);//.attrs().add(Color.LIGHTBLUE3);
+		        g.add(n1Ton2);
+		        
+		        
+				if (n.getId().equals(nodeToExplore.getId())) {
+					var n3 = mutNode(UUID.randomUUID().toString()).add(Label.html("SIMULATED RESULT:" + result)).add(Shape.CIRCLE).add(Style.FILLED).add(Color.PLUM2);
+					var link = n2.linkTo(n3).attrs().add(Color.RED).add(Style.DASHED);
+					var n2Ton3 = n2.addLink(link);
+			        g.add(n2Ton3);
+				}
+		        
+		        
+				iterateTree(tree, n, currentNode, nodeToExplore, result);				
 			}
-			else if (n.getId().equals(nodeToExplore.getId())) {
-				n2.add(Color.ROYALBLUE2);
-			}
-			
-			var n1Ton2 = n1.addLink(n2);//.attrs().add(Color.LIGHTBLUE3);
-	        g.add(n1Ton2);
-	        
-	        
-			if (n.getId().equals(nodeToExplore.getId())) {
-				var n3 = mutNode(UUID.randomUUID().toString()).add(Label.html("SIMULATED RESULT:" + result)).add(Shape.CIRCLE).add(Style.FILLED).add(Color.PLUM2);
-				var link = n2.linkTo(n3).attrs().add(Color.RED).add(Style.DASHED);
-				var n2Ton3 = n2.addLink(link);
-		        g.add(n2Ton3);
-			}
-	        
-	        
-			iterateTree(tree, n, currentNode, nodeToExplore, result);
 		}
 	}
 	
