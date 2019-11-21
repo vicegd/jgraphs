@@ -101,7 +101,7 @@ public class State implements IState {
     public List<IState> getAllPossibleStates() {
         List<IState> possibleStates = new ArrayList<>();
         var availablePositions = this.board.getEmptyPositions();
-        availablePositions.forEach(p -> {
+        availablePositions.forEach(p -> { //COMPROBAR QUE NO SEA YA UNA POSICION FINAL PORQUE SI ES ASI PARO ANTES
             var newState = this.createNewState();
             newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
             newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
