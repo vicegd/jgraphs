@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.board.Position;
-import jgraphs.core.status.EGameStatus;
-import jgraphs.core.status.EPlayer;
 
 public class TicTacToeBoard implements IBoard {
 	private static Logger log = LoggerFactory.getLogger(TicTacToeBoard.class);
@@ -89,13 +87,13 @@ public class TicTacToeBoard implements IBoard {
     }
     
     @Override
-    public void performMove(EPlayer player, Position p) {
+    public void performMove(int player, Position p) {
         this.totalMoves++;
-        boardValues[p.x][p.y] = player.ordinal();
+        boardValues[p.x][p.y] = player;
     }
 
     @Override
-    public EGameStatus checkStatus() {
+    public int checkStatus() {
         int boardSize = boardValues.length;
         int maxIndex = boardSize - 1;
         int[] diag1 = new int[boardSize];
@@ -109,11 +107,11 @@ public class TicTacToeBoard implements IBoard {
             }
             
             var checkRowForWin = checkForWin(row);
-            if(checkRowForWin != null)
+            if(checkRowForWin != -1)
                 return checkRowForWin;
             
             var checkColForWin = checkForWin(col);
-            if(checkColForWin != null)
+            if(checkColForWin != -1)
                 return checkColForWin;
             
             diag1[i] = boardValues[i][i];
@@ -121,17 +119,17 @@ public class TicTacToeBoard implements IBoard {
         }
 
         var checkDia1gForWin = checkForWin(diag1);
-        if(checkDia1gForWin != null)
+        if(checkDia1gForWin != -1)
             return checkDia1gForWin;
         
         var checkDiag2ForWin = checkForWin(diag2);
-        if(checkDiag2ForWin != null)
+        if(checkDiag2ForWin != -1)
             return checkDiag2ForWin;
         
         if (getEmptyPositions().size() > 0)
-            return EGameStatus.In_Progress;
+            return -1; //IN PROGRESS
         else 
-            return EGameStatus.Draw;
+            return 0; //DRAW
     }
   
     @Override
@@ -151,10 +149,10 @@ public class TicTacToeBoard implements IBoard {
         return sb.toString();
     }
     
-    private EGameStatus checkForWin(int[] row) {
+    private int checkForWin(int[] row) {
         boolean isEqual = true;
         int size = row.length;
-        EGameStatus previous = getStatus(row[0]);
+        int previous = getStatus(row[0]);
         for (int i = 0; i < size; i++) {
             if (previous != getStatus(row[i])) {
                 isEqual = false;
@@ -165,13 +163,13 @@ public class TicTacToeBoard implements IBoard {
         if(isEqual)
             return previous;
         else
-            return null;
+            return -1;
     }
     
-    private EGameStatus getStatus(int value) {
-    	if (value == 1) return EGameStatus.P1Won;
-    	else if (value == 2) return EGameStatus.P2Won;
-    	else return EGameStatus.In_Progress;
+    private int getStatus(int value) {
+    	if (value == 1) return 1;
+    	else if (value == 2) return 2;
+    	else return -1;
     }
 
 }

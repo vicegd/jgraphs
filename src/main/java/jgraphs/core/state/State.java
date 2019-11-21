@@ -8,13 +8,12 @@ import com.google.inject.Inject;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
-import jgraphs.core.status.EPlayer;
 
 public class State implements IState {
 	private UUID id;
 	private INode node;
 	private IBoard board;
-	private EPlayer player;
+	private int player;
 	private int visitCount;
 	private double score;
 
@@ -24,7 +23,7 @@ public class State implements IState {
         this.visitCount = 0;
         this.score = 0;
     	this.board = board.createNewBoard();
-        this.player = EPlayer.None;
+        this.player = 0;
     }
    
     @Override
@@ -59,26 +58,26 @@ public class State implements IState {
     }
 
     @Override
-    public EPlayer getPlayer() {
+    public int getPlayer() {
         return this.player;
     }
 
     @Override
-    public void setPlayer(EPlayer player) {
+    public void setPlayer(int player) {
         this.player = player;
     }
 
     @Override
-    public EPlayer getOpponent() {
+    public int getOpponent() {
     	switch (this.player) {
-    		case None:
-    			return EPlayer.P1;
-    		case P1:
-    			return EPlayer.P2;
-    		case P2:
-    			return EPlayer.P1;
+    		case 0: //no player by default
+    			return 1; //player 1 begins
+    		case 1:
+    			return 2;
+    		case 2:
+    			return 1;
     		default:
-    			return EPlayer.None;
+    			return 0;
     	}
     }
 

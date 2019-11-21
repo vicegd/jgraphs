@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 
 public class ConsoleVisualizer implements IVisualizer {
@@ -21,7 +20,7 @@ public class ConsoleVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void treeChanged(ITree tree, INode sourceNode, INode nodeToExplore, EGameStatus result, int movementNumber, int iterationNumber) {
+	public void treeChanged(ITree tree, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
 		// TODO Auto-generated method stub
 		
 	}

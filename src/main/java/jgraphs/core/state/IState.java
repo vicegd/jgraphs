@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
-import jgraphs.core.status.EPlayer;
 
 public interface IState {
     public IState createNewState();
@@ -18,11 +17,11 @@ public interface IState {
 
     public void setBoard(IBoard board);
     
-    public EPlayer getPlayer();
+    public int getPlayer();
 
-    public void setPlayer(EPlayer playerNo);
+    public void setPlayer(int playerNo);
 
-    public EPlayer getOpponent();
+    public int getOpponent();
     
     public int getVisitCount();
 

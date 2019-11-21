@@ -16,7 +16,6 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.BasicModule;
 import jgraphs.core.utils.Utils;
@@ -62,7 +61,7 @@ public class MCTS {
             var promisingNode = selection(node);
             
             // Phase 2 - Expansion
-            if (promisingNode.getState().getBoard().checkStatus() == EGameStatus.In_Progress) {
+            if (promisingNode.getState().getBoard().checkStatus() == -1) { //-1 == IN PROGRESS
             	if ((i > 1) && (promisingNode.getState().getVisitCount() == 0)) {}
             	else 
             	expansion(promisingNode);
@@ -77,12 +76,12 @@ public class MCTS {
             // Phase 4 - Update
             var score = 0;
             if (this.trainP1) {
-            	if (result == EGameStatus.P1Won) score = this.winScore;
-            	else if (result == EGameStatus.P2Won) score = -this.winScore;
+            	if (result == 1) score = this.winScore;
+            	else if (result == 2) score = -this.winScore;
             }
             if (this.trainP2) {
-            	if (result == EGameStatus.P1Won) score = -this.winScore;
-            	else if (result == EGameStatus.P2Won) score = this.winScore;
+            	if (result == 1) score = -this.winScore;
+            	else if (result == 2) score = this.winScore;
             }
             backPropogation(nodeToExplore, score);
           //  System.out.println(i + " " + tree.getStatistics().numberNodes);
@@ -149,7 +148,7 @@ public class MCTS {
     	}
     }
     
-    private void treeChanged(INode currentNode, INode nodeToExplore, EGameStatus result, int iteration) {
+    private void treeChanged(INode currentNode, INode nodeToExplore, int result, int iteration) {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.treeChanged(this.tree, currentNode, nodeToExplore, result, this.moves.size(), iteration);
     	}
@@ -181,12 +180,12 @@ public class MCTS {
 	    });
     }
 
-    private EGameStatus simulation(INode node) {
+    private int simulation(INode node) {
         var tempNode = node.createNewNode();
         var tempState = tempNode.getState();
         var boardStatus = tempState.getBoard().checkStatus();
 
-        while (boardStatus == EGameStatus.In_Progress) {
+        while (boardStatus == -1) { //IN PROGRESS
             tempState.togglePlayer();
             tempState.randomPlay();
             boardStatus = tempState.getBoard().checkStatus();

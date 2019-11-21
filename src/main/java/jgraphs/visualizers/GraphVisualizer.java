@@ -27,7 +27,6 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
 import jgraphs.core.node.INode;
-import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 
 public class GraphVisualizer implements IVisualizer {
@@ -54,7 +53,7 @@ public class GraphVisualizer implements IVisualizer {
 	}
 
 	@Override
-	public void treeChanged(ITree tree, INode sourceNode, INode nodeToExplore, EGameStatus result, int movementNumber, int iterationNumber) {
+	public void treeChanged(ITree tree, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
 		g = mutGraph("MCTS").setDirected(true);
 		var dateFormat = new SimpleDateFormat("yyyyMMdd_HHmm");
 		
@@ -73,7 +72,7 @@ public class GraphVisualizer implements IVisualizer {
 		}
 	}
 	
-	private void iterateTree(ITree tree, INode node, INode currentNode, INode nodeToExplore, EGameStatus result) {
+	private void iterateTree(ITree tree, INode node, INode currentNode, INode nodeToExplore, int result) {
 		var n1Id = node.getId().toString();
 		var n1Info = getInfoFromNode(tree, node);
 		var n1 = mutNode(n1Id).add(Label.html(n1Info)).add(Shape.CIRCLE).add(Style.FILLED);

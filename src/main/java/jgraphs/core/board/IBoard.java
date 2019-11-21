@@ -2,9 +2,6 @@ package jgraphs.core.board;
 
 import java.util.List;
 
-import jgraphs.core.status.EGameStatus;
-import jgraphs.core.status.EPlayer;
-
 public interface IBoard {
     public IBoard createNewBoard();
 	
@@ -18,7 +15,7 @@ public interface IBoard {
 
 	public List<Position> getEmptyPositions();
 	
-	public void performMove(EPlayer player, Position p);
+	public void performMove(int player, Position p);
 	
-	public EGameStatus checkStatus();
+	public int checkStatus();
 }
