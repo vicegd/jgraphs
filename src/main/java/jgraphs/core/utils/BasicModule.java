@@ -5,6 +5,8 @@ import com.google.inject.AbstractModule;
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
 import jgraphs.core.node.Node;
+import jgraphs.core.player.IPlayerManager;
+import jgraphs.core.player.TwoPlayerManager;
 import jgraphs.core.state.IState;
 import jgraphs.core.state.State;
 import jgraphs.core.tree.ITree;
@@ -17,6 +19,7 @@ public class BasicModule extends AbstractModule {
     	bind(ITree.class).to(Tree.class);
     	bind(INode.class).to(Node.class);
     	bind(IState.class).to(State.class);
+    	bind(IPlayerManager.class).to(TwoPlayerManager.class);
     	bind(IBoard.class).to(TicTacToeBoard.class);
     }
 }

@@ -8,28 +8,28 @@ import com.google.inject.Inject;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
+import jgraphs.core.player.IPlayerManager;
 
 public class State implements IState {
 	private UUID id;
 	private INode node;
 	private IBoard board;
-	private int player;
+	private IPlayerManager playerManager;
 	private int visitCount;
 	private double score;
 
 	@Inject
-    public State(IBoard board) {
+    public State(IBoard board, IPlayerManager playerManager) {
     	this.id = UUID.randomUUID();
         this.visitCount = 0;
         this.score = 0;
     	this.board = board.createNewBoard();
-        this.player = 0;
+    	this.playerManager = playerManager.createNewPlayerManager();
     }
    
     @Override
     public IState createNewState() {
-    	var copy = new State(this.board);
-    	copy.player = this.getPlayer();
+    	var copy = new State(this.board, this.playerManager);
     	copy.node = node;
         return copy;  
     }
@@ -58,27 +58,13 @@ public class State implements IState {
     }
 
     @Override
-    public int getPlayer() {
-        return this.player;
+    public IPlayerManager getPlayerManager() {
+        return this.playerManager;
     }
 
     @Override
-    public void setPlayer(int player) {
-        this.player = player;
-    }
-
-    @Override
-    public int getOpponent() {
-    	switch (this.player) {
-    		case 0: //no player by default
-    			return 1; //player 1 begins
-    		case 1:
-    			return 2;
-    		case 2:
-    			return 1;
-    		default:
-    			return 0;
-    	}
+    public void setPlayerManager(IPlayerManager player) {
+        this.playerManager = player;
     }
 
     @Override
@@ -117,8 +103,8 @@ public class State implements IState {
         var availablePositions = this.board.getEmptyPositions();
         availablePositions.forEach(p -> {
             var newState = this.createNewState();
-            newState.setPlayer(this.getOpponent());
-            newState.getBoard().performMove(newState.getPlayer(), p);
+            newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
+            newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
             possibleStates.add(newState);
         });
         return possibleStates;
@@ -138,19 +124,19 @@ public class State implements IState {
     public void randomPlay() {
         var availablePositions = this.board.getEmptyPositions();
         var selectRandom = (int) (Math.random() * availablePositions.size());
-        this.board.performMove(this.player, availablePositions.get(selectRandom));
+        this.board.performMove(this.playerManager.getPlayer(), availablePositions.get(selectRandom));
     }
 
     @Override
     public void togglePlayer() {
-        this.player = this.getOpponent();
+        this.playerManager.togglePlayer();
     }
     
     @Override
     public String toString() {
     	StringBuilder sb = new StringBuilder();
     	sb.append("State:\n");
-    	sb.append("\tPlayer: \t" + this.player + "\n"); 
+    	sb.append("\tPlayer: \t" + this.playerManager + "\n"); 
     	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
     	sb.append("\tWinScore: \t" + this.score + "\n"); 
     	sb.append(this.board.toString());

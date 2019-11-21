@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
+import jgraphs.core.player.IPlayerManager;
 
 public interface IState {
     public IState createNewState();
@@ -17,11 +18,9 @@ public interface IState {
 
     public void setBoard(IBoard board);
     
-    public int getPlayer();
+    public IPlayerManager getPlayerManager();
 
-    public void setPlayer(int playerNo);
-
-    public int getOpponent();
+    public void setPlayerManager(IPlayerManager playerManager);
     
     public int getVisitCount();
 
