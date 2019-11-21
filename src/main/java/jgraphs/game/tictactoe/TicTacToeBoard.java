@@ -10,9 +10,9 @@ import java.util.Properties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alphastar.core.structure.EGameStatus;
-import alphastar.core.structure.EPlayer;
 import jgraphs.core.board.IBoard;
+import jgraphs.core.status.EGameStatus;
+import jgraphs.core.status.EPlayer;
 import jgraphs.core.status.Position;
 
 public class TicTacToeBoard implements IBoard {

@@ -1,7 +1,7 @@
 package jgraphs.visualizers;
 
-import alphastar.core.structure.EGameStatus;
 import jgraphs.core.node.INode;
+import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 
 public interface IVisualizer {

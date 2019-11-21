@@ -8,10 +8,10 @@ import org.junit.Test;
 
 import com.google.inject.Guice;
 
-import alphastar.core.structure.EGameStatus;
-import alphastar.core.structure.EPlayer;
 import jgraphs.algorithm.mcts.MCTS;
 import jgraphs.algorithm.mcts.UCB;
+import jgraphs.core.status.EGameStatus;
+import jgraphs.core.status.EPlayer;
 import jgraphs.core.status.Position;
 import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.BasicModule;

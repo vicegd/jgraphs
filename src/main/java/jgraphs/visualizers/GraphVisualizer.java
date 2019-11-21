@@ -17,7 +17,6 @@ import javax.swing.plaf.synth.ColorType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alphastar.core.structure.EGameStatus;
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
@@ -28,6 +27,7 @@ import guru.nidi.graphviz.model.Link;
 import guru.nidi.graphviz.model.MutableGraph;
 import guru.nidi.graphviz.model.MutableNode;
 import jgraphs.core.node.INode;
+import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 
 public class GraphVisualizer implements IVisualizer {

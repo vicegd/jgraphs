@@ -3,9 +3,9 @@ package jgraphs.core.state;
 import java.util.List;
 import java.util.UUID;
 
-import alphastar.core.structure.EPlayer;
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
+import jgraphs.core.status.EPlayer;
 
 public interface IState {
     public IState createNewState();

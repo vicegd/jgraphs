@@ -2,8 +2,8 @@ package jgraphs.core.board;
 
 import java.util.List;
 
-import alphastar.core.structure.EGameStatus;
-import alphastar.core.structure.EPlayer;
+import jgraphs.core.status.EGameStatus;
+import jgraphs.core.status.EPlayer;
 import jgraphs.core.status.Position;
 
 public interface IBoard {

@@ -1,4 +1,4 @@
-package alphastar.core.structure;
+package jgraphs.core.status;
 
 public enum EGameStatus {
 	Draw,

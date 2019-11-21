@@ -3,8 +3,8 @@ package jgraphs.visualizers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import alphastar.core.structure.EGameStatus;
 import jgraphs.core.node.INode;
+import jgraphs.core.status.EGameStatus;
 import jgraphs.core.tree.ITree;
 
 public class ConsoleVisualizer implements IVisualizer {

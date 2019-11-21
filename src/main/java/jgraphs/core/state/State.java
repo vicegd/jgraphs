@@ -6,9 +6,9 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-import alphastar.core.structure.EPlayer;
 import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
+import jgraphs.core.status.EPlayer;
 
 public class State implements IState {
 	private UUID id;
