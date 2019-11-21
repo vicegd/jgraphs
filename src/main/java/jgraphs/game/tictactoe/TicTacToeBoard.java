@@ -11,9 +11,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jgraphs.core.board.IBoard;
+import jgraphs.core.board.Position;
 import jgraphs.core.status.EGameStatus;
 import jgraphs.core.status.EPlayer;
-import jgraphs.core.status.Position;
 
 public class TicTacToeBoard implements IBoard {
 	private static Logger log = LoggerFactory.getLogger(TicTacToeBoard.class);

@@ -10,9 +10,9 @@ import com.google.inject.Guice;
 
 import jgraphs.algorithm.mcts.MCTS;
 import jgraphs.algorithm.mcts.UCB;
+import jgraphs.core.board.Position;
 import jgraphs.core.status.EGameStatus;
 import jgraphs.core.status.EPlayer;
-import jgraphs.core.status.Position;
 import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.BasicModule;
 import jgraphs.core.utils.Utils;

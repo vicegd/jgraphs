@@ -4,7 +4,6 @@ import java.util.List;
 
 import jgraphs.core.status.EGameStatus;
 import jgraphs.core.status.EPlayer;
-import jgraphs.core.status.Position;
 
 public interface IBoard {
     public IBoard createNewBoard();
