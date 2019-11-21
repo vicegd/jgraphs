@@ -1,27 +1,12 @@
 package jgraphs.core.player;
 
-public class TwoPlayerManager implements IPlayerManager {
-	private int player;
+public class TwoPlayerManager extends AbstractPlayerManager {
 
-	public TwoPlayerManager() {
-		this.player = 0;
-	}
-	
 	@Override
 	public IPlayerManager createNewPlayerManager() {
     	var copy = new TwoPlayerManager();
     	copy.player = this.player;
         return copy;
-	}
-
-	@Override
-	public int getPlayer() {
-		return this.player;
-	}
-
-	@Override
-	public void setPlayer(int playerNo) {
-		this.player = playerNo;
 	}
 
 	@Override
@@ -36,11 +21,6 @@ public class TwoPlayerManager implements IPlayerManager {
 			default:
 				return 0;
     	}
-	}
-
-	@Override
-	public void togglePlayer() {
-		this.player = this.getOpponent();
 	}
 
 }
