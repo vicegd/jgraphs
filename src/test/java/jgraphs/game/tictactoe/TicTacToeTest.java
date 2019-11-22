@@ -1,4 +1,4 @@
-package jgraphs.mcts;
+package jgraphs.game.tictactoe;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,13 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.MCTS;
-import jgraphs.algorithm.mcts.treepolicy.UCB;
 import jgraphs.core.board.Position;
 import jgraphs.core.utils.Utils;
-import jgraphs.game.tictactoe.TicTacToeBoard;
-import jgraphs.game.tictactoe.TicTacToeModule;
-import jgraphs.visualizers.ConsoleVisualizer;
-import jgraphs.visualizers.GraphVisualizer;
+import jgraphs.visualizers.SimpleConsoleVisualizer;
+import jgraphs.visualizers.SimpleGraphVisualizer;
 
 public class TicTacToeTest {
     private MCTS mcts;
@@ -21,8 +18,8 @@ public class TicTacToeTest {
     @Before	
     public void initGameTree() {
         this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
-        this.mcts.addVisualizer(new ConsoleVisualizer());
-        this.mcts.addVisualizer(new GraphVisualizer());
+        this.mcts.addVisualizer(new SimpleConsoleVisualizer());
+        this.mcts.addVisualizer(new SimpleGraphVisualizer());
     }
 
     @Test
@@ -46,8 +43,6 @@ public class TicTacToeTest {
     @Test
     public void givenEmptyBoard_trainingP1_P1WinsOrDraw() {
         var node = mcts.getTree().getRoot();
-        this.mcts.setTrainP1(true);
-        this.mcts.setTrainP2(false);
    
         for (int i = 0; i < 9; i++) {
             node = mcts.findNextMove(node); 
@@ -66,8 +61,7 @@ public class TicTacToeTest {
    // @Test
     public void givenEmptyBoard_trainingP2_P2WinsOrDraw() {
         var node = mcts.getTree().getRoot();
-        this.mcts.setTrainP1(false);
-        this.mcts.setTrainP2(true);
+        this.mcts.setTrainers(new boolean[] {true, true});
    
         for (int i = 0; i < 9; i++) {
             node = mcts.findNextMove(node); 
@@ -79,12 +73,6 @@ public class TicTacToeTest {
         
         var winStatus = node.getState().getBoard().checkStatus();
         assertTrue((winStatus == 2) || (winStatus == 0));
-    }
-    
-    @Test
-    public void givenStats_whenGetUCTForNode_thenUCTMatchesWithManualData() {
-        var ucb = new UCB();
-        assertEquals(ucb.getValue(600, 300, 20), 15.79, 0.01);
     }
 
 }

@@ -1,7 +1,11 @@
 package jgraphs.core.player;
 
 public class TwoPlayerManager extends AbstractPlayerManager {
-
+	public TwoPlayerManager() {
+		this.nPlayers = 2;
+	}
+	
+	
 	@Override
 	public IPlayerManager createNewPlayerManager() {
     	var copy = new TwoPlayerManager();
@@ -25,7 +29,7 @@ public class TwoPlayerManager extends AbstractPlayerManager {
 
 	@Override
 	public int getNumberOfPlayers() {
-		return 2;
+		return this.nPlayers;
 	}
 
 }

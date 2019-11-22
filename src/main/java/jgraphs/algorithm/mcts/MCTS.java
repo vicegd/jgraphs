@@ -31,11 +31,8 @@ public class MCTS {
 	private long iterations;
 	private long memory;
 	private long seconds;
-
-	private boolean trainP1; //QUITAR*******??
-	private boolean trainP2; //QUITAR*******??
-	
-	private int winScore; //QUITAR*******??
+	private boolean[] trainers;
+	private boolean addInfoToTree;
     
 	@Inject
     public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy) {
@@ -50,9 +47,12 @@ public class MCTS {
             this.iterations = Long.parseLong(prop.getProperty("mcts.budget_iterations"));
             this.memory = Long.parseLong(prop.getProperty("mcts.budget_memory"));
             this.seconds = Long.parseLong(prop.getProperty("mcts.budget_seconds"));
-            this.winScore = Integer.parseInt(prop.getProperty("mcts.win_score"));
-            this.trainP1 = Boolean.parseBoolean(prop.getProperty("mcts.train_p1"));
-            this.trainP2 = Boolean.parseBoolean(prop.getProperty("mcts.train_p2"));
+            var trainersValue = prop.getProperty("mcts.trainers").split(" ");
+            this.trainers = new boolean[trainersValue.length];
+            for (var i = 0; i < trainersValue.length; i++) {
+            	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
+            }
+            this.addInfoToTree = Boolean.parseBoolean(prop.getProperty("mcts.add_info_to_tree"));
        } catch (IOException ex) {
        		log.error(ex.getMessage());
        }
@@ -62,12 +62,8 @@ public class MCTS {
 		return this.tree;
 	}
            
-    public void setTrainP1(boolean train) {
-    	this.trainP1 = train;
-    }
-    
-    public void setTrainP2(boolean train) {
-    	this.trainP2 = train;
+    public void setTrainers(boolean[] trainers) {
+    	this.trainers = trainers;
     }
 
     public void setIterations(int iterations) {
@@ -81,11 +77,7 @@ public class MCTS {
     public void setSeconds(int seconds) {
     	this.seconds = seconds;
     }
-    
-    public void setWinScore(int winScore) {
-    	this.setWinScore(winScore);
-    }
-    
+        
     public void addVisualizer(IVisualizer visualizer) {
     	visualizers.add(visualizer);
     }
@@ -108,15 +100,6 @@ public class MCTS {
             var result = simulation(nodeToExplore);
             
             // Phase 4 - Update
-            /*var score = 0;
-            if (this.trainP1) {
-            	if (result == 1) score = this.winScore;
-            	else if (result == 2) score = -this.winScore;
-            }
-            if (this.trainP2) {
-            	if (result == 1) score = -this.winScore;
-            	else if (result == 2) score = this.winScore;
-            }*/
             backPropogation(nodeToExplore, result);
 
             this.treeChangedEvent(node, nodeToExplore, result, i);
@@ -125,19 +108,28 @@ public class MCTS {
 
         var winnerNode = node.getChildWithMaxValue((node.getState().getPlayerManager().getPlayer()!=0)?node.getState().getPlayerManager().getPlayer():1);
         this.movementPerformedEvent(winnerNode);
+        if (winnerNode.getState().getBoard().checkStatus() != -1) {
+        	this.processFinishedEvent(winnerNode);
+        }
         this.movementNumber++;
         return winnerNode;
-    }
- 
-    private void movementPerformedEvent(INode winnerNode) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(winnerNode);
-    	}
     }
     
     private void treeChangedEvent(INode currentNode, INode nodeToExplore, int result, int iterationNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.treeChanged(this.tree, currentNode, nodeToExplore, result, this.movementNumber, iterationNumber);
+    		visualizer.treeChangedEvent(this.tree, currentNode, nodeToExplore, result, this.movementNumber, iterationNumber);
+    	}
+    }
+ 
+    private void movementPerformedEvent(INode winnerNode) {
+    	for(IVisualizer visualizer : visualizers) {
+    		visualizer.movementPerformedEvent(this.tree, winnerNode);
+    	}
+    }
+    
+    private void processFinishedEvent(INode winnerNode) {
+    	for(IVisualizer visualizer : visualizers) {
+    		visualizer.processFinishedEvent(this.tree, winnerNode);
     	}
     }
     
@@ -168,8 +160,8 @@ public class MCTS {
 	    	newNode.setState(state);
 	    	
 	    	newNode.setParent(promisingNode);
-	        promisingNode.getChildArray().add(newNode);       
-	        tree.addNode(newNode);
+	        promisingNode.getChildArray().add(newNode);     
+	        if (addInfoToTree) tree.addNode(newNode);
 	    });
     }
 
@@ -178,25 +170,18 @@ public class MCTS {
     }
     
     private void backPropogation(INode nodeToExplore, int result) {
-    	var score = 2.0;
-    	if (result == 0)
-    		score = 0;
     	var node = nodeToExplore;
     	var numberOfPlayers = nodeToExplore.getState().getPlayerManager().getNumberOfPlayers();
         while (node != null) {
         	node.getState().incrementVisit();
-        	for (var i = 2; i <= numberOfPlayers; i++) {
-        		if (node.getState().getPlayerManager().getPlayer() == i) {
-        			if (node.getState().getPlayerManager().getPlayer() == result)
-        				node.getState().addScore(i, score);
-        			else
-        				node.getState().addScore(i, -score);
-        		}
-        		else {
-        			if (node.getState().getPlayerManager().getPlayer() == result)
-        				node.getState().addScore(i, -score);
-        			else
-        				node.getState().addScore(i, score);
+        	for (var i = 1; i <= numberOfPlayers; i++) { //check all the players
+        		if (this.trainers[i-1] == true) { //we update data only if we should train that player
+        			if (result == i) //current player wins
+        				node.getState().addScore(i, treePolicy.getWinScore());
+        			else if (result == 0) //current player draws
+        				node.getState().addScore(i, treePolicy.getDrawScore());
+        			else //current player loses - when any other player wins 
+        				node.getState().addScore(i, treePolicy.getLoseScore());
         		}
         	}
             node = node.getParent();         	

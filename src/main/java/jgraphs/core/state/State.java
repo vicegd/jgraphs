@@ -47,6 +47,7 @@ public class State implements IState {
     @Override
     public String getStateValuesToHTML() {
         var values = new StringBuilder();
+        values.append("<br/>player:" + this.getPlayerManager().getPlayer());
         values.append("<br/>scores:" + this.serializeScores());
         values.append("<br/>visits:" + this.getVisitCount());
         return values.toString();	        		
@@ -101,11 +102,13 @@ public class State implements IState {
     public List<IState> getAllPossibleStates() {
         List<IState> possibleStates = new ArrayList<>();
         var availablePositions = this.board.getEmptyPositions();
-        availablePositions.forEach(p -> { //COMPROBAR QUE NO SEA YA UNA POSICION FINAL PORQUE SI ES ASI PARO ANTES
+        availablePositions.forEach(p -> { 
             var newState = this.createNewState();
-            newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
-            newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
-            possibleStates.add(newState);
+            if (newState.getBoard().checkStatus() == -1) {
+                newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
+            	newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
+            	possibleStates.add(newState);
+            }
         });
         return possibleStates;
     }
@@ -136,7 +139,7 @@ public class State implements IState {
     public String toString() {
     	var sb = new StringBuilder();
     	sb.append("State:\n");
-    	sb.append("\tPlayer: \t" + this.playerManager + "\n"); 
+    	sb.append("\tPlayer: \t" + this.playerManager.getPlayer() + "\n"); 
     	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
     	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
     	sb.append(this.board.toString());

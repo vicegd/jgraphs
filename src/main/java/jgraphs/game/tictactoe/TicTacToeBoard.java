@@ -1,32 +1,18 @@
 package jgraphs.game.tictactoe;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.core.board.IBoard;
 import jgraphs.core.board.Position;
 
 public class TicTacToeBoard implements IBoard {
-	private static Logger log = LoggerFactory.getLogger(TicTacToeBoard.class);
     private int[][] boardValues;
     private int totalMoves;
     private int n;
 
     public TicTacToeBoard() {
-    	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
-            var prop = new Properties();
-            prop.load(input);
-            this.n = Integer.parseInt(prop.getProperty("board.default_size"));
-    	} catch (IOException ex) {
-       		log.error(ex.getMessage());
-    	}
+    	this.n = 3;
     	this.totalMoves = 0;
     	this.boardValues = new int[n][n];
     }

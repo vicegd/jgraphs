@@ -2,6 +2,7 @@ package jgraphs.core.player;
 
 public abstract class AbstractPlayerManager implements IPlayerManager {
 	protected int player;
+	protected int nPlayers;
 
 	public AbstractPlayerManager() {
 		this.player = 0;

@@ -15,6 +15,6 @@ public interface ITree {
 	public String getNodeName(UUID id);
 	
 	public INode getNode(UUID id);
-	
+
 	public List<INode> getNodeList();
 }
