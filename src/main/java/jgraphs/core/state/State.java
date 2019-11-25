@@ -104,7 +104,7 @@ public class State implements IState {
         var availablePositions = this.board.getEmptyPositions();
         availablePositions.forEach(p -> { 
             var newState = this.createNewState();
-            if (newState.getBoard().checkStatus() == -1) {
+            if (newState.getBoard().checkStatus() == -1) { //still in progress
                 newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
             	newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
             	possibleStates.add(newState);

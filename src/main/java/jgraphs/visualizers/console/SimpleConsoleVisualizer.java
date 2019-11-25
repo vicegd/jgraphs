@@ -1,10 +1,11 @@
-package jgraphs.visualizers;
+package jgraphs.visualizers.console;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.tree.ITree;
+import jgraphs.visualizers.IVisualizer;
 
 public class SimpleConsoleVisualizer implements IVisualizer {
 	private static Logger log = LoggerFactory.getLogger(SimpleConsoleVisualizer.class);
@@ -15,13 +16,13 @@ public class SimpleConsoleVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void movementPerformedEvent(ITree tree, INode winnerNode) {
+	public void movementPerformedEvent(ITree tree, INode sourceNode, INode winnerNode, int movementNumber) {
 		log.debug(winnerNode.toString());
 	}
 
 	@Override
 	public void processFinishedEvent(ITree tree, INode winnerNode) {
 		log.debug("The process has ended. State:" + winnerNode.getState().getBoard().checkStatus());
-		log.debug("Las node is: " + tree.getNodeName(winnerNode.getId()));
+		log.debug("Last node is: " + tree.getNodeName(winnerNode.getId()));
 	}
 }

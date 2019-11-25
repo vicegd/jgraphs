@@ -106,8 +106,8 @@ public class MCTS {
             if (checkStopCondition(i, start)) break; 
         }
 
-        var winnerNode = node.getChildWithMaxValue((node.getState().getPlayerManager().getPlayer()!=0)?node.getState().getPlayerManager().getPlayer():1);
-        this.movementPerformedEvent(winnerNode);
+        var winnerNode = node.getChildWithMaxValue(node.getState().getPlayerManager().getOpponent());
+        this.movementPerformedEvent(node, winnerNode);
         if (winnerNode.getState().getBoard().checkStatus() != -1) {
         	this.processFinishedEvent(winnerNode);
         }
@@ -121,9 +121,9 @@ public class MCTS {
     	}
     }
  
-    private void movementPerformedEvent(INode winnerNode) {
+    private void movementPerformedEvent(INode currentNode, INode winnerNode) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(this.tree, winnerNode);
+    		visualizer.movementPerformedEvent(this.tree, currentNode, winnerNode, this.movementNumber);
     	}
     }
     

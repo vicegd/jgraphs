@@ -1,4 +1,4 @@
-package jgraphs.visualizers;
+package jgraphs.visualizers.graph;
 
 import static guru.nidi.graphviz.model.Factory.mutGraph;
 
