@@ -1,4 +1,4 @@
-package jgraphs.visualizers.graph;
+package jgraphs.visualizer.graph;
 
 import static guru.nidi.graphviz.model.Factory.mutNode;
 
@@ -23,7 +23,7 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import jgraphs.core.node.INode;
 import jgraphs.core.tree.ITree;
-import jgraphs.visualizers.IVisualizer;
+import jgraphs.visualizer.IVisualizer;
 
 public class AbstractGraphVisualizer implements IVisualizer {
 	protected static Logger log = LoggerFactory.getLogger(AbstractGraphVisualizer.class);

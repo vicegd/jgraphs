@@ -1,4 +1,4 @@
-package jgraphs.visualizers;
+package jgraphs.visualizer;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.tree.ITree;

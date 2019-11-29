@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
-import java.util.List;
+import java.time.Period;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -14,77 +13,69 @@ import org.slf4j.LoggerFactory;
 
 import com.google.inject.Inject;
 
+import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
+import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.tree.ITree;
 import jgraphs.core.utils.Utils;
-import jgraphs.visualizers.IVisualizer;
+import jgraphs.statistics.IStatistic;
 
-public class MCTS {
+public class MCTS extends AbstractProcess {
 	private static Logger log = LoggerFactory.getLogger(MCTS.class);
 	private ITree tree;
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
-	private List<IVisualizer> visualizers;
+	private IStatistic statistics;
+	private IBudgetManager budgetManager;
 	private int movementNumber;
-	private long iterations;
-	private long memory;
-	private long seconds;
 	private boolean[] trainers;
 	private boolean addInfoToTree;
     
 	@Inject
-    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy) {
+    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy, IStatistic statistics, IBudgetManager budgetManager) {
 		this.tree = tree;
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;
-    	this.visualizers = new ArrayList<IVisualizer>();
+		this.statistics = statistics;
+		this.budgetManager = budgetManager;
     	this.movementNumber = 1;
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
             var prop = new Properties();
             prop.load(input);
-            this.iterations = Long.parseLong(prop.getProperty("mcts.budget_iterations"));
-            this.memory = Long.parseLong(prop.getProperty("mcts.budget_memory"));
-            this.seconds = Long.parseLong(prop.getProperty("mcts.budget_seconds"));
             var trainersValue = prop.getProperty("mcts.trainers").split(" ");
             this.trainers = new boolean[trainersValue.length];
             for (var i = 0; i < trainersValue.length; i++) {
             	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
             }
             this.addInfoToTree = Boolean.parseBoolean(prop.getProperty("mcts.add_info_to_tree"));
-       } catch (IOException ex) {
+        } catch (IOException ex) {
        		log.error(ex.getMessage());
-       }
+        }
     }
 	
 	public ITree getTree() {
 		return this.tree;
 	}
+	
+	public IStatistic getStatistics() {
+		return this.statistics;
+	}
+	
+	public IBudgetManager getBudgetManager() {
+		return this.budgetManager;
+	}
            
     public void setTrainers(boolean[] trainers) {
     	this.trainers = trainers;
     }
-
-    public void setIterations(int iterations) {
-    	this.iterations = iterations;
-    }
-    
-    public void setMemory(int memory) {
-    	this.memory = memory;
-    }
-    
-    public void setSeconds(int seconds) {
-    	this.seconds = seconds;
-    }
-        
-    public void addVisualizer(IVisualizer visualizer) {
-    	visualizers.add(visualizer);
-    }
 	   
     public INode findNextMove(INode node) {     
-    	var start = Instant.now();
+    	var startTimer = Instant.now();
     	for (var i = 1; i < Integer.MAX_VALUE; i++) {
+        	var processTimer = Instant.now();
+        	
             // Phase 1 - Selection
             var promisingNode = selection(node);
             
@@ -102,48 +93,22 @@ public class MCTS {
             // Phase 4 - Update
             backPropogation(nodeToExplore, result);
 
-            this.treeChangedEvent(node, nodeToExplore, result, i);
-            if (checkStopCondition(i, start)) break; 
+            this.processDuration = processDuration.plus(Duration.between(processTimer, Instant.now()));          
+            super.treeChangedEvent(this.tree, node, nodeToExplore, result, this.movementNumber, i);
+            if (budgetManager.checkStopCondition(i, startTimer)) break; 
         }
 
         var winnerNode = node.getChildWithMaxValue(node.getState().getPlayerManager().getOpponent());
-        this.movementPerformedEvent(node, winnerNode);
+        super.movementPerformedEvent(tree, node, winnerNode, this.movementNumber);
+        this.totalDuration = totalDuration.plus(Duration.between(startTimer, Instant.now()));
         if (winnerNode.getState().getBoard().checkStatus() != -1) {
-        	this.processFinishedEvent(winnerNode);
+        	super.processFinishedEvent(tree, winnerNode, this.processDuration, this.totalDuration);
         }
         this.movementNumber++;
         return winnerNode;
     }
-    
-    private void treeChangedEvent(INode currentNode, INode nodeToExplore, int result, int iterationNumber) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.treeChangedEvent(this.tree, currentNode, nodeToExplore, result, this.movementNumber, iterationNumber);
-    	}
-    }
- 
-    private void movementPerformedEvent(INode currentNode, INode winnerNode) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(this.tree, currentNode, winnerNode, this.movementNumber);
-    	}
-    }
-    
-    private void processFinishedEvent(INode winnerNode) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.processFinishedEvent(this.tree, winnerNode);
-    	}
-    }
-    
-    private boolean checkStopCondition(int iterationNumber, Instant start) {
-        var memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
-        if (memoryUsed >= this.memory) return true; //break because of memory
-               
-        var duration = Duration.between(start, Instant.now());       
-        if (duration.getSeconds() >= this.seconds) return true; //break because of seconds
-        
-        if (iterationNumber >= this.iterations) return true; //break because of iterations
-        return false;
-    }
-       
+
+     
     private INode selection(INode rootNode) {
         var node = rootNode;
 

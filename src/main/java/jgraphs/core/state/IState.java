@@ -43,4 +43,6 @@ public interface IState {
     public void randomPlay();
 
     public void togglePlayer();
+    
+    public String serializeScores();
 }

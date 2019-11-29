@@ -9,7 +9,10 @@ import org.junit.Test;
 import jgraphs.algorithm.mcts.MCTS;
 import jgraphs.core.board.Position;
 import jgraphs.core.utils.Utils;
-import jgraphs.visualizers.console.SimpleConsoleVisualizer;
+import jgraphs.statistics.ConsoleStatistic;
+import jgraphs.visualizer.console.SimpleConsoleVisualizer;
+import jgraphs.visualizer.graph.GraphVisualizer;
+import jgraphs.visualizer.graph.SimpleGraphVisualizer;
 
 public class TicTacToeTest {
     private MCTS mcts;
@@ -18,7 +21,7 @@ public class TicTacToeTest {
     public void initGameTree() {
         this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());
-       
+        this.mcts.addStatistic(new ConsoleStatistic());
        // this.mcts.addVisualizer(new SimpleGraphVisualizer());
        // this.mcts.addVisualizer(new GraphVisualizer());
        // this.mcts.addVisualizer(new ShapeGraphVisualizer());
@@ -45,7 +48,7 @@ public class TicTacToeTest {
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
         var node = mcts.getTree().getRoot();
-        this.mcts.setIterations(500);
+        //this.mcts.getBudgetManager().setIterations(500);
         this.mcts.setTrainers(new boolean[] {true, false});
    
         for (int i = 0; i < 9; i++) {

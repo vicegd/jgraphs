@@ -146,7 +146,8 @@ public class State implements IState {
         return sb.toString();
     }
     
-    private String serializeScores() {
+    @Override
+    public String serializeScores() {
     	var sb = new StringBuilder();
     	sb.append("[");
     	for (double score : this.scores) {
