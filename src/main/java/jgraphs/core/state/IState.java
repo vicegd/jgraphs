@@ -3,30 +3,32 @@ package jgraphs.core.state;
 import java.util.List;
 import java.util.UUID;
 
-import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
-import jgraphs.core.player.IPlayerManager;
+import jgraphs.core.participant.IParticipantManager;
+import jgraphs.core.situation.ISituation;
 
 public interface IState {
     public IState createNewState();
 	
 	public UUID getId();
 	
-	public IBoard getBoard();
+	public ISituation getBoard();
 	
 	public String getStateValuesToHTML();
 
-    public void setBoard(IBoard board);
+    public void setSituation(ISituation board);
     
-    public IPlayerManager getPlayerManager();
+    public IParticipantManager getParticipantManager();
 
-    public void setPlayerManager(IPlayerManager playerManager);
+    public void setParticipantManager(IParticipantManager playerManager);
     
     public int getVisitCount();
 
     public void setVisitCount(int visitCount);
 
     public double getScore(int player);
+    
+    public double getTotalScores();
 
     public void setScore(int player, double score);
     
@@ -40,9 +42,9 @@ public interface IState {
 
     public void addScore(int player, double score);
 
-    public void randomPlay();
+    public void randomMovement();
 
-    public void togglePlayer();
+    public void nextParticipant();
     
     public String serializeScores();
 }

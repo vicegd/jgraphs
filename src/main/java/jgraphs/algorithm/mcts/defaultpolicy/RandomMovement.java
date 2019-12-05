@@ -11,8 +11,8 @@ public class RandomMovement implements IDefaultPolicy {
         var boardStatus = tempState.getBoard().checkStatus();
 
         while (boardStatus == -1) { //IN PROGRESS
-            tempState.togglePlayer();
-            tempState.randomPlay();
+            tempState.nextParticipant();
+            tempState.randomMovement();
             boardStatus = tempState.getBoard().checkStatus();
         }
 

@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.tree.ITree;
+import jgraphs.core.structure.IStructure;
 import jgraphs.statistics.IStatistic;
 import jgraphs.visualizer.IVisualizer;
 
-public abstract class AbstractProcess implements IProcess {
+public abstract class AbstractProcess {
 	protected Duration totalDuration;
 	protected Duration processDuration;
 	protected List<IVisualizer> visualizers;
@@ -30,24 +30,24 @@ public abstract class AbstractProcess implements IProcess {
     	statistics.add(statistic);
     }
 	
-    protected void treeChangedEvent(ITree tree, INode currentNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
+    protected void structureChangedEvent(IStructure structure, INode currentNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.treeChangedEvent(tree, currentNode, nodeToExplore, result, movementNumber, iterationNumber);
+    		visualizer.structureChangedEvent(structure, currentNode, nodeToExplore, result, movementNumber, iterationNumber);
     	}
     }
  
-    protected void movementPerformedEvent(ITree tree, INode currentNode, INode winnerNode, int movementNumber) {
+    protected void movementPerformedEvent(IStructure structure, INode currentNode, INode winnerNode, int movementNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(tree, currentNode, winnerNode, movementNumber);
+    		visualizer.movementPerformedEvent(structure, currentNode, winnerNode, movementNumber);
     	}
     }
     
-    protected void processFinishedEvent(ITree tree, INode winnerNode, Duration processDuration, Duration totalDuration) {
+    protected void processFinishedEvent(IStructure structure, INode winnerNode, Duration processDuration, Duration totalDuration) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.processFinishedEvent(tree, winnerNode);
+    		visualizer.processFinishedEvent(structure, winnerNode);
     	}
     	for(IStatistic statistic : statistics) {
-    		statistic.processFinishedEvent(tree, processDuration, totalDuration);
+    		statistic.processFinishedEvent(structure, processDuration, totalDuration);
     	}
     }
 }

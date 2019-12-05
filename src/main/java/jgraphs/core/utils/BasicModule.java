@@ -6,8 +6,8 @@ import jgraphs.core.node.INode;
 import jgraphs.core.node.Node;
 import jgraphs.core.state.IState;
 import jgraphs.core.state.State;
-import jgraphs.core.tree.ITree;
-import jgraphs.core.tree.Tree;
+import jgraphs.core.structure.ITree;
+import jgraphs.core.structure.Tree;
 
 public class BasicModule extends AbstractModule {
     @Override

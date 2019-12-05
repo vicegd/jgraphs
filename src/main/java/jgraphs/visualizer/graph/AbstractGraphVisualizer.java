@@ -22,7 +22,7 @@ import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import jgraphs.core.node.INode;
-import jgraphs.core.tree.ITree;
+import jgraphs.core.structure.IStructure;
 import jgraphs.visualizer.IVisualizer;
 
 public class AbstractGraphVisualizer implements IVisualizer {
@@ -43,28 +43,28 @@ public class AbstractGraphVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void treeChangedEvent(ITree tree, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
+	public void structureChangedEvent(IStructure structure, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
 	}
 
 	@Override
-	public void movementPerformedEvent(ITree tree, INode sourceNode, INode winnerNode, int movementNumber) {
+	public void movementPerformedEvent(IStructure structure, INode sourceNode, INode winnerNode, int movementNumber) {
 	}
 	
 	@Override
-	public void processFinishedEvent(ITree tree, INode winnerNode) {
+	public void processFinishedEvent(IStructure structure, INode winnerNode) {
 	}
 	
-	protected void iterateTree(ITree tree, INode node, INode currentNode, INode nodeToExplore, int result) {
+	protected void iterateTree(IStructure structure, INode node, INode currentNode, INode nodeToExplore, int result) {
 		var n1Id = node.getId().toString();
-		var n1Info = getInfoFromNode(tree, node);
+		var n1Info = getInfoFromNode(structure, node);
 		var n1 = mutNode(n1Id).add(Label.html(n1Info)).add(Shape.CIRCLE).add(Style.FILLED);
 		if ((currentNode != null)&&(node.getId().equals(currentNode.getId()))) {
 			n1.add(Color.LIGHTSEAGREEN);
 		}
-		for (INode n : node.getChildArray()) {	
+		for (INode n : node.getSuccessors()) {	
 			if (n.getState().getVisitCount() > 0) {
 				var n2Id = n.getId().toString();
-				var n2Info = getInfoFromNode(tree, n);
+				var n2Info = getInfoFromNode(structure, n);
 				var n2 = mutNode(n2Id).add(Label.html(n2Info)).add(Shape.CIRCLE).add(Style.FILLED);
 				
 				if (currentNode != null) {
@@ -90,27 +90,27 @@ public class AbstractGraphVisualizer implements IVisualizer {
 					}
 		        }
 				
-				iterateTree(tree, n, currentNode, nodeToExplore, result);				
+				iterateTree(structure, n, currentNode, nodeToExplore, result);				
 			}
 		}
 	}
 	
-	protected void iterateTree(ITree tree, INode node, INode currentNode, INode nodeToExplore) {
-		iterateTree(tree, node, currentNode, nodeToExplore, Integer.MIN_VALUE);
+	protected void iterateTree(IStructure structure, INode node, INode currentNode, INode nodeToExplore) {
+		iterateTree(structure, node, currentNode, nodeToExplore, Integer.MIN_VALUE);
 	}
 	
-	protected void iterateTree(ITree tree, INode node) {
-		iterateTree(tree, node, null, null, Integer.MIN_VALUE);
+	protected void iterateTree(IStructure structure, INode node) {
+		iterateTree(structure, node, null, null, Integer.MIN_VALUE);
 	}
 	
-	protected String getInfoFromNode(ITree tree, INode node) {
-		return ((tree.getNodeName(node.getId()) != null)?tree.getNodeName(node.getId()):node.getId().toString()) + 
+	protected String getInfoFromNode(IStructure structure, INode node) {
+		return ((structure.getNodeName(node.getId()) != null)?structure.getNodeName(node.getId()):node.getId().toString()) + 
 	        		"<br/>" + node.getState().getStateValuesToHTML() + 
-	        		"<br/>" + node.getState().getBoard().getBoardValuesToHTML();
+	        		"<br/>" + node.getState().getBoard().getSituationValuesToHTML();
 	}
 	
-	protected String getUniqueFolderPath(ITree tree) {
-		return dateFormat.format(new Date()) + "_" + tree.getId().toString().replace("-", "");
+	protected String getUniqueFolderPath(IStructure structure) {
+		return dateFormat.format(new Date()) + "_" + structure.getId().toString().replace("-", "");
 	}
 
 	protected void saveGraph(MutableGraph g, String pictureFilePath, String dotFilePath) {

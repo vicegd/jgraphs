@@ -36,7 +36,7 @@ public class UCB implements ITreePolicy {
     public INode findBestNode(int player, INode node) {
         var totalVisits = node.getState().getVisitCount();
         return Collections.max(
-          node.getChildArray(),
+          node.getSuccessors(),
           Comparator.comparing(c -> getValue(totalVisits, c.getState().getScore(player), c.getState().getVisitCount())));
     }
 	

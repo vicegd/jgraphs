@@ -2,8 +2,8 @@ package jgraphs.statistics;
 
 import java.time.Duration;
 
-import jgraphs.core.tree.ITree;
+import jgraphs.core.structure.IStructure;
 
 public interface IStatistic {
-	public void processFinishedEvent(ITree tree, Duration processDuration, Duration totalDuration);
+	public void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration);
 }

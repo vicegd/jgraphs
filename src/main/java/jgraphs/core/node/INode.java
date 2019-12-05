@@ -14,15 +14,15 @@ public interface INode {
 
     public void setState(IState state);
 
-    public INode getParent();
+    public List<INode> getPredecessors();
 
-    public void setParent(INode parent);
+    public void setPredecessors(List<INode> predecessors);
 
-    public List<INode> getChildArray();
+    public List<INode> getSuccessors();
 
-    public void setChildArray(List<INode> childArray);
+    public void setSuccessors(List<INode> successors);
 
-    public INode getRandomChildNode();
+    public INode getRandomSuccessorNode();
 
-    public INode getChildWithMaxValue(int player);
+    public INode getSuccessorWithMaxValue(int participant);
 }

@@ -1,4 +1,4 @@
-package jgraphs.core.board;
+package jgraphs.core.situation;
 
 public class Position {
     public int x;

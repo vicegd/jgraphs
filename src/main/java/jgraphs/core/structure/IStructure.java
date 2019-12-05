@@ -1,20 +1,18 @@
-package jgraphs.core.tree;
+package jgraphs.core.structure;
 
 import java.util.List;
 import java.util.UUID;
 
 import jgraphs.core.node.INode;
 
-public interface ITree {
+public interface IStructure {
 	public UUID getId();
-		
-	public INode getRoot();
 	
-	public void addNode(INode node);
+	public INode getFirst();
 	
 	public String getNodeName(UUID id);
 	
 	public INode getNode(UUID id);
-
+	
 	public List<INode> getNodeList();
 }

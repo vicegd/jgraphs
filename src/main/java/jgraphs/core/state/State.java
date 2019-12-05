@@ -6,30 +6,30 @@ import java.util.UUID;
 
 import com.google.inject.Inject;
 
-import jgraphs.core.board.IBoard;
 import jgraphs.core.node.INode;
-import jgraphs.core.player.IPlayerManager;
+import jgraphs.core.participant.IParticipantManager;
+import jgraphs.core.situation.ISituation;
 
 public class State implements IState {
 	private UUID id;
 	private INode node;
-	private IBoard board;
-	private IPlayerManager playerManager;
+	private ISituation situation;
+	private IParticipantManager participantManager;
 	private int visitCount;
 	private double[] scores;
 
 	@Inject
-    public State(IBoard board, IPlayerManager playerManager) {
+    public State(ISituation situation, IParticipantManager participantManager) {
     	this.id = UUID.randomUUID();
-        this.visitCount = 0;
-    	this.board = board.createNewBoard();
-    	this.playerManager = playerManager.createNewPlayerManager();
-    	this.scores = new double[this.playerManager.getNumberOfPlayers()];
+        this.visitCount = 0; //visits = 0;
+    	this.situation = situation.createNewSituation();
+    	this.participantManager = participantManager.createNewParticipantManager();
+    	this.scores = new double[this.participantManager.getNumberOfParticipants()]; //scores = 0
     }
    
     @Override
     public IState createNewState() {
-    	var copy = new State(this.board, this.playerManager);
+    	var copy = new State(this.situation, this.participantManager);
     	copy.node = node;
         return copy;  
     }
@@ -40,32 +40,32 @@ public class State implements IState {
     }
     
     @Override
-    public IBoard getBoard() {
-        return this.board;
+    public ISituation getBoard() {
+        return this.situation;
     }
     
     @Override
     public String getStateValuesToHTML() {
         var values = new StringBuilder();
-        values.append("<br/>player:" + this.getPlayerManager().getPlayer());
+        values.append("<br/>participant:" + this.getParticipantManager().getParticipant());
         values.append("<br/>scores:" + this.serializeScores());
         values.append("<br/>visits:" + this.getVisitCount());
         return values.toString();	        		
     }
 
     @Override
-    public void setBoard(IBoard board) {
-    	this.board = board;
+    public void setSituation(ISituation board) {
+    	this.situation = board;
     }
 
     @Override
-    public IPlayerManager getPlayerManager() {
-        return this.playerManager;
+    public IParticipantManager getParticipantManager() {
+        return this.participantManager;
     }
 
     @Override
-    public void setPlayerManager(IPlayerManager player) {
-        this.playerManager = player;
+    public void setParticipantManager(IParticipantManager participantManager) {
+        this.participantManager = participantManager;
     }
 
     @Override
@@ -79,13 +79,22 @@ public class State implements IState {
     }
 
     @Override
-    public double getScore(int player) {
-        return this.scores[player-1];
+    public double getScore(int participant) {
+        return this.scores[participant-1];
+    }
+    
+    @Override
+    public double getTotalScores() {
+    	var total = 0.0;
+    	for (var i = 0; i < scores.length; i++) {
+    		total += scores[i];
+    	}
+    	return total;
     }
 
     @Override
-    public void setScore(int player, double score) {
-        this.scores[player-1] = score;
+    public void setScore(int participant, double score) {
+        this.scores[participant-1] = score;
     }
     
 	@Override
@@ -101,12 +110,12 @@ public class State implements IState {
     @Override
     public List<IState> getAllPossibleStates() {
         List<IState> possibleStates = new ArrayList<>();
-        var availablePositions = this.board.getEmptyPositions();
+        var availablePositions = this.situation.getEmptyPositions();
         availablePositions.forEach(p -> { 
             var newState = this.createNewState();
             if (newState.getBoard().checkStatus() == -1) { //still in progress
-                newState.getPlayerManager().setPlayer(this.getPlayerManager().getOpponent());
-            	newState.getBoard().performMove(newState.getPlayerManager().getPlayer(), p);
+                newState.getParticipantManager().setParticipant(this.getParticipantManager().getOpponent());
+            	newState.getBoard().performMovement(newState.getParticipantManager().getParticipant(), p);
             	possibleStates.add(newState);
             }
         });
@@ -124,25 +133,25 @@ public class State implements IState {
     }
 
     @Override
-    public void randomPlay() {
-        var availablePositions = this.board.getEmptyPositions();
+    public void randomMovement() {
+        var availablePositions = this.situation.getEmptyPositions();
         var selectRandom = (int) (Math.random() * availablePositions.size());
-        this.board.performMove(this.playerManager.getPlayer(), availablePositions.get(selectRandom));
+        this.situation.performMovement(this.participantManager.getParticipant(), availablePositions.get(selectRandom));
     }
 
     @Override
-    public void togglePlayer() {
-        this.playerManager.togglePlayer();
+    public void nextParticipant() {
+        this.participantManager.nextParticipant();
     }
     
     @Override
     public String toString() {
     	var sb = new StringBuilder();
     	sb.append("State:\n");
-    	sb.append("\tPlayer: \t" + this.playerManager.getPlayer() + "\n"); 
+    	sb.append("\tParticipant: \t" + this.participantManager.getParticipant() + "\n"); 
     	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
     	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
-    	sb.append(this.board.toString());
+    	sb.append(this.situation.toString());
         return sb.toString();
     }
     

@@ -13,13 +13,14 @@ import jgraphs.core.state.IState;
 public class Node implements INode {
 	private UUID id;
 	private IState state;
-	private INode parent;
-	private List<INode> childArray;
+	private List<INode> predecessors;
+	private List<INode> successors;
 
     @Inject
     public Node(IState state) {
     	this.id = UUID.randomUUID();
-    	this.childArray = new ArrayList<>();  	
+    	this.predecessors = new ArrayList<INode>();
+    	this.successors = new ArrayList<INode>();  	
 		this.state = state.createNewState();
 		this.state.setNode(this);
     }
@@ -27,8 +28,8 @@ public class Node implements INode {
     @Override
     public INode createNewNode() {
     	var copy = new Node(this.state);
-        copy.parent = (this.getParent() != null)?this.getParent():null;
-        Collections.copy(copy.childArray, this.getChildArray());
+   		copy.getPredecessors().addAll(this.getPredecessors());
+   		copy.getSuccessors().addAll(this.getSuccessors());
         return copy;  
     }
            
@@ -48,35 +49,35 @@ public class Node implements INode {
     }
 
     @Override
-    public INode getParent() {
-        return this.parent;
+    public List<INode> getPredecessors() {
+        return this.predecessors;
     }
 
     @Override
-    public void setParent(INode parent) {
-        this.parent = parent;
+    public void setPredecessors(List<INode> predecessors) {
+        this.predecessors = predecessors;
     }
 
     @Override
-    public List<INode> getChildArray() {
-        return this.childArray;
+    public List<INode> getSuccessors() {
+        return this.successors;
     }
 
     @Override
-    public void setChildArray(List<INode> childArray) {
-        this.childArray = childArray;
+    public void setSuccessors(List<INode> successors) {
+        this.successors = successors;
     }
 
     @Override
-    public INode getRandomChildNode() {
-    	if (this.childArray.size() == 0) return null;
-   		var selectRandom = (int) (Math.random() * this.childArray.size());
-    	return this.childArray.get(selectRandom);
+    public INode getRandomSuccessorNode() {
+    	if (this.successors.size() == 0) return null;
+   		var selectRandom = (int) (Math.random() * this.successors.size());
+    	return this.successors.get(selectRandom);
     }
 
     @Override
-    public INode getChildWithMaxValue(int player) {
-        return Collections.max(this.childArray, Comparator.comparing(node -> {
+    public INode getSuccessorWithMaxValue(int player) {
+        return Collections.max(this.successors, Comparator.comparing(node -> {
             return node.getState().getScore(player); 
         }));
     }
@@ -86,9 +87,11 @@ public class Node implements INode {
     	var sb = new StringBuilder();
     	sb.append("Node: \n");
     	sb.append("\tId: " + this.id + "\n");
-    	sb.append("\tParent: " + ((this.parent != null)?this.parent.getId():"Null") + "\n"); 
-    	for (INode n : this.childArray) {
-    		sb.append("\tChild: " + n.getId() + "\n"); 
+    	for (INode n : this.predecessors) {
+    		sb.append("\tPredecessor: " + n.getId() + "\n"); 
+    	}
+    	for (INode n : this.successors) {
+    		sb.append("\tSuccessor: " + n.getId() + "\n"); 
     	}
     	sb.append(this.state.toString());
         return sb.toString();

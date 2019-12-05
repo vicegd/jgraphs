@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
-import java.time.Period;
 import java.util.Properties;
 
 import org.slf4j.Logger;
@@ -18,27 +17,24 @@ import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
-import jgraphs.core.tree.ITree;
+import jgraphs.core.structure.ITree;
+import jgraphs.core.utils.IllegalTreeOperationException;
 import jgraphs.core.utils.Utils;
-import jgraphs.statistics.IStatistic;
 
 public class MCTS extends AbstractProcess {
 	private static Logger log = LoggerFactory.getLogger(MCTS.class);
 	private ITree tree;
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
-	private IStatistic statistics;
 	private IBudgetManager budgetManager;
 	private int movementNumber;
 	private boolean[] trainers;
-	private boolean addInfoToTree;
     
 	@Inject
-    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy, IStatistic statistics, IBudgetManager budgetManager) {
+    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
 		this.tree = tree;
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;
-		this.statistics = statistics;
 		this.budgetManager = budgetManager;
     	this.movementNumber = 1;
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
@@ -49,7 +45,6 @@ public class MCTS extends AbstractProcess {
             for (var i = 0; i < trainersValue.length; i++) {
             	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
             }
-            this.addInfoToTree = Boolean.parseBoolean(prop.getProperty("mcts.add_info_to_tree"));
         } catch (IOException ex) {
        		log.error(ex.getMessage());
         }
@@ -57,10 +52,6 @@ public class MCTS extends AbstractProcess {
 	
 	public ITree getTree() {
 		return this.tree;
-	}
-	
-	public IStatistic getStatistics() {
-		return this.statistics;
 	}
 	
 	public IBudgetManager getBudgetManager() {
@@ -80,13 +71,13 @@ public class MCTS extends AbstractProcess {
             var promisingNode = selection(node);
             
             // Phase 2 - Expansion
-            if ((promisingNode.getState().getVisitCount() >= 1)||(promisingNode.equals(this.tree.getRoot())))
+            if ((promisingNode.getState().getVisitCount() >= 1)||(promisingNode.equals(this.tree.getFirst())))
             	expansion(promisingNode); //Only expand it if it is the root node or it has already been visited yet
 
             // Phase 3 - Simulation
             var nodeToExplore = promisingNode;
-            if (promisingNode.getChildArray().size() > 0) {
-                nodeToExplore = promisingNode.getRandomChildNode();
+            if (promisingNode.getSuccessors().size() > 0) {
+                nodeToExplore = promisingNode.getRandomSuccessorNode();
             }
             var result = simulation(nodeToExplore);
             
@@ -94,13 +85,13 @@ public class MCTS extends AbstractProcess {
             backPropogation(nodeToExplore, result);
 
             this.processDuration = processDuration.plus(Duration.between(processTimer, Instant.now()));          
-            super.treeChangedEvent(this.tree, node, nodeToExplore, result, this.movementNumber, i);
+            super.structureChangedEvent(this.tree, node, nodeToExplore, result, this.movementNumber, i);
             if (budgetManager.checkStopCondition(i, startTimer)) break; 
         }
 
-        var winnerNode = node.getChildWithMaxValue(node.getState().getPlayerManager().getOpponent());
-        super.movementPerformedEvent(tree, node, winnerNode, this.movementNumber);
-        this.totalDuration = totalDuration.plus(Duration.between(startTimer, Instant.now()));
+        var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
+        super.movementPerformedEvent(tree, node, winnerNode, this.movementNumber);       
+    	this.totalDuration = totalDuration.plus(Duration.between(startTimer, Instant.now()));
         if (winnerNode.getState().getBoard().checkStatus() != -1) {
         	super.processFinishedEvent(tree, winnerNode, this.processDuration, this.totalDuration);
         }
@@ -112,8 +103,8 @@ public class MCTS extends AbstractProcess {
     private INode selection(INode rootNode) {
         var node = rootNode;
 
-        while (node.getChildArray().size() != 0) {
-            node = treePolicy.findBestNode(rootNode.getState().getPlayerManager().getOpponent(), node);
+        while (node.getSuccessors().size() != 0) {
+            node = treePolicy.findBestNode(rootNode.getState().getParticipantManager().getOpponent(), node);
         }
         return node;
     }
@@ -123,10 +114,14 @@ public class MCTS extends AbstractProcess {
 	    possibleStates.forEach(state -> {
 	    	var newNode = Utils.getInstance().getInjector().getInstance(INode.class);
 	    	newNode.setState(state);
-	    	
-	    	newNode.setParent(promisingNode);
-	        promisingNode.getChildArray().add(newNode);     
-	        if (addInfoToTree) tree.addNode(newNode);
+    	
+	    	newNode.getPredecessors().add(promisingNode);
+	        promisingNode.getSuccessors().add(newNode);     
+			try {
+				tree.addNode(newNode);
+			} catch (IllegalTreeOperationException e) {
+				log.error(e.getMessage());
+			}
 	    });
     }
 
@@ -136,7 +131,7 @@ public class MCTS extends AbstractProcess {
     
     private void backPropogation(INode nodeToExplore, int result) {
     	var node = nodeToExplore;
-    	var numberOfPlayers = nodeToExplore.getState().getPlayerManager().getNumberOfPlayers();
+    	var numberOfPlayers = nodeToExplore.getState().getParticipantManager().getNumberOfParticipants();
         while (node != null) {
         	node.getState().incrementVisit();
         	for (var i = 1; i <= numberOfPlayers; i++) { //check all the players
@@ -149,7 +144,9 @@ public class MCTS extends AbstractProcess {
         				node.getState().addScore(i, treePolicy.getLoseScore());
         		}
         	}
-            node = node.getParent();         	
+        	if (node.getPredecessors().size() > 0)
+        		node = node.getPredecessors().get(0);          	
+        	else node = null;
        }
     }
 }
