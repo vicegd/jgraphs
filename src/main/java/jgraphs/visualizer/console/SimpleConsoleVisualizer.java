@@ -22,7 +22,7 @@ public class SimpleConsoleVisualizer implements IVisualizer {
 
 	@Override
 	public void processFinishedEvent(IStructure structure, INode winnerNode) {
-		log.info("The process has ended. State:" + winnerNode.getState().getBoard().checkStatus());
+		log.info("The process has ended. State:" + winnerNode.getState().getSituation().checkStatus());
 		log.info("Last node is: " + structure.getNodeName(winnerNode.getId()));
 	}
 	

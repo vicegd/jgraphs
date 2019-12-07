@@ -27,7 +27,6 @@ public class MCTS extends AbstractProcess {
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
 	private IBudgetManager budgetManager;
-	private int movementNumber;
 	private boolean[] trainers;
     
 	@Inject
@@ -49,20 +48,12 @@ public class MCTS extends AbstractProcess {
        		log.error(ex.getMessage());
         }
     }
-	
-	public ITree getTree() {
-		return this.tree;
-	}
-	
-	public IBudgetManager getBudgetManager() {
-		return this.budgetManager;
-	}
            
     public void setTrainers(boolean[] trainers) {
     	this.trainers = trainers;
     }
 	   
-    public INode findNextMove(INode node) {     
+    public INode executeAlgorithm(INode node) {     
     	var startTimer = Instant.now();
     	for (var i = 1; i < Integer.MAX_VALUE; i++) {
         	var processTimer = Instant.now();
@@ -92,7 +83,7 @@ public class MCTS extends AbstractProcess {
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         super.movementPerformedEvent(tree, node, winnerNode, this.movementNumber);       
     	this.totalDuration = totalDuration.plus(Duration.between(startTimer, Instant.now()));
-        if (winnerNode.getState().getBoard().checkStatus() != -1) {
+        if (winnerNode.getState().getSituation().checkStatus() != -1) {
         	super.processFinishedEvent(tree, winnerNode, this.processDuration, this.totalDuration);
         }
         this.movementNumber++;

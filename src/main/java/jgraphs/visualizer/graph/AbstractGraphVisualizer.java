@@ -106,7 +106,7 @@ public class AbstractGraphVisualizer implements IVisualizer {
 	protected String getInfoFromNode(IStructure structure, INode node) {
 		return ((structure.getNodeName(node.getId()) != null)?structure.getNodeName(node.getId()):node.getId().toString()) + 
 	        		"<br/>" + node.getState().getStateValuesToHTML() + 
-	        		"<br/>" + node.getState().getBoard().getSituationValuesToHTML();
+	        		"<br/>" + node.getState().getSituation().getSituationValuesToHTML();
 	}
 	
 	protected String getUniqueFolderPath(IStructure structure) {

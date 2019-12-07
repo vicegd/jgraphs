@@ -15,6 +15,8 @@ public interface ISituation {
 
 	public List<Position> getEmptyPositions();
 	
+	public List<ISituation> getNextSituations();
+	
 	public void performMovement(int actor, Position p);
 	
 	public int checkStatus();

@@ -1,4 +1,4 @@
-package jgraphs.game.tictactoe;
+package jgraphs.app.tictactoe;
 
 import jgraphs.algorithm.mcts.budget.DefaultBudgetManager;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
@@ -22,6 +22,6 @@ public class TicTacToeModule extends BasicModule {
     	bind(IDefaultPolicy.class).to(RandomMovement.class);
     	bind(IStatistic.class).to(TreeConsoleStatistic.class);
     	bind(IBudgetManager.class).to(DefaultBudgetManager.class);
-    	bind(ISituation.class).to(TicTacToeBoard.class);
+    	bind(ISituation.class).to(TicTacToeSituation.class);
     }
 }

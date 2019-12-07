@@ -1,4 +1,4 @@
-package jgraphs.game.tictactoe;
+package jgraphs.app.tictactoe;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.MCTS;
+import jgraphs.app.tictactoe.TicTacToeSituation;
+import jgraphs.app.tictactoe.TicTacToeModule;
 import jgraphs.core.situation.Position;
 import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
@@ -28,14 +30,14 @@ public class TicTacToeTest {
 
     @Test
     public void givenInitBoardState_whenGetAllPossibleStates_then9ElementsList() {
-        var initState = mcts.getTree().getFirst().getState();
+        var initState = this.mcts.getStructure().getFirst().getState();
         var possibleStates = initState.getAllPossibleStates();
         assertEquals(9, possibleStates.size());
     }
 
     @Test
     public void givenEmptyBoard_whenPerformMove_thenLessAvailablePossitions() {
-        var board = new TicTacToeBoard();
+        var board = new TicTacToeSituation();
         var initAvailablePositions = board.getEmptyPositions().size();
         assertEquals(9, initAvailablePositions);
         
@@ -46,18 +48,18 @@ public class TicTacToeTest {
    
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
-        var node = mcts.getTree().getFirst();
+        var node = this.mcts.getStructure().getFirst();
         //this.mcts.getBudgetManager().setIterations(500);
         //this.mcts.setTrainers(new boolean[] {true, false});
    
         for (int i = 0; i < 9; i++) {
-            node = mcts.findNextMove(node); 
-            if (node.getState().getBoard().checkStatus() != -1) { 
+            node = this.mcts.executeAlgorithm(node); 
+            if (node.getState().getSituation().checkStatus() != -1) { 
                 break;
             }
         }
         
-        var winStatus = node.getState().getBoard().checkStatus();
+        var winStatus = node.getState().getSituation().checkStatus();
         assertTrue(winStatus == 1);
     }
 

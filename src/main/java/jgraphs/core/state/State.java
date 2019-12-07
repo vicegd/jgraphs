@@ -40,7 +40,7 @@ public class State implements IState {
     }
     
     @Override
-    public ISituation getBoard() {
+    public ISituation getSituation() {
         return this.situation;
     }
     
@@ -113,11 +113,24 @@ public class State implements IState {
         var availablePositions = this.situation.getEmptyPositions();
         availablePositions.forEach(p -> { 
             var newState = this.createNewState();
-            if (newState.getBoard().checkStatus() == -1) { //still in progress
+            if (newState.getSituation().checkStatus() == -1) { //still in progress
                 newState.getParticipantManager().setParticipant(this.getParticipantManager().getOpponent());
-            	newState.getBoard().performMovement(newState.getParticipantManager().getParticipant(), p);
+            	newState.getSituation().performMovement(newState.getParticipantManager().getParticipant(), p);
             	possibleStates.add(newState);
             }
+        });
+        return possibleStates;
+    }
+    
+    @Override
+    public List<IState> getNextStates() {
+        List<IState> possibleStates = new ArrayList<>();
+        var availableSituations = this.situation.getNextSituations();
+        availableSituations.forEach(s -> { 
+            var newState = this.createNewState();
+            newState.getParticipantManager().setParticipant(this.getParticipantManager().getOpponent());
+            newState.setSituation(s);
+            possibleStates.add(newState);
         });
         return possibleStates;
     }

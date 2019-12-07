@@ -12,7 +12,7 @@ public interface IState {
 	
 	public UUID getId();
 	
-	public ISituation getBoard();
+	public ISituation getSituation();
 	
 	public String getStateValuesToHTML();
 
@@ -37,6 +37,8 @@ public interface IState {
     public void setNode(INode node);
 
     public List<IState> getAllPossibleStates();
+    
+    public List<IState> getNextStates();
 
     public void incrementVisit();
 

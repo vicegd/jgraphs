@@ -1,4 +1,4 @@
-package jgraphs.game.tictactoe;
+package jgraphs.app.tictactoe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,12 +6,12 @@ import java.util.List;
 import jgraphs.core.situation.ISituation;
 import jgraphs.core.situation.Position;
 
-public class TicTacToeBoard implements ISituation {
+public class TicTacToeSituation implements ISituation {
     private int[][] situationValues;
     private int totalMoves;
     private int n;
 
-    public TicTacToeBoard() {
+    public TicTacToeSituation() {
     	this.n = 3;
     	this.totalMoves = 0;
     	this.situationValues = new int[n][n];
@@ -19,7 +19,7 @@ public class TicTacToeBoard implements ISituation {
     
     @Override
     public ISituation createNewSituation() {
-    	var copy = new TicTacToeBoard();
+    	var copy = new TicTacToeSituation();
     	copy.totalMoves = this.getTotalMovements();
         copy.situationValues = new int[this.n][this.n];
         for (var i = 0; i < this.n; i++) {
@@ -71,10 +71,17 @@ public class TicTacToeBoard implements ISituation {
         return emptyPositions;
     }
     
+	@Override
+	public List<ISituation> getNextSituations() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+    
     @Override
-    public void performMovement(int player, Position p) {
+    public void performMovement(int participant, Position p) {
         this.totalMoves++;
-        this.situationValues[p.x][p.y] = player;
+        this.situationValues[p.x][p.y] = participant;
     }
 
     @Override
