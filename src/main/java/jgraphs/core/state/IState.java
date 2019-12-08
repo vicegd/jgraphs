@@ -35,16 +35,14 @@ public interface IState {
     public INode getNode();
     
     public void setNode(INode node);
-
-    public List<IState> getAllPossibleStates();
     
-    public List<IState> getNextStates();
+    public List<IState> nextStates();
 
     public void incrementVisit();
 
     public void addScore(int player, double score);
 
-    public void randomMovement();
+    public IState randomNextState();
 
     public void nextParticipant();
     

@@ -7,9 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.MCTS;
-import jgraphs.app.tictactoe.TicTacToeSituation;
-import jgraphs.app.tictactoe.TicTacToeModule;
-import jgraphs.core.situation.Position;
 import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
@@ -23,7 +20,7 @@ public class TicTacToeTest {
         this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
         this.mcts.addStatistic(new TreeConsoleStatistic());
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());
-        this.mcts.addVisualizer(new SimpleGraphVisualizer());
+       // this.mcts.addVisualizer(new SimpleGraphVisualizer());
        // this.mcts.addVisualizer(new GraphVisualizer());
        // this.mcts.addVisualizer(new ShapeGraphVisualizer());
     }
@@ -31,19 +28,19 @@ public class TicTacToeTest {
     @Test
     public void givenInitBoardState_whenGetAllPossibleStates_then9ElementsList() {
         var initState = this.mcts.getStructure().getFirst().getState();
-        var possibleStates = initState.getAllPossibleStates();
+        var possibleStates = initState.nextStates();
         assertEquals(9, possibleStates.size());
     }
 
     @Test
     public void givenEmptyBoard_whenPerformMove_thenLessAvailablePossitions() {
-        var board = new TicTacToeSituation();
-        var initAvailablePositions = board.getEmptyPositions().size();
-        assertEquals(9, initAvailablePositions);
+        var situation = new TicTacToeSituation();
+        var initAvailablePositions = situation.nextSituations();
+        assertEquals(9, initAvailablePositions.size());
         
-        board.performMovement(1, new Position(1, 1));
-        var availablePositions = board.getEmptyPositions().size();
-        assertEquals(8, availablePositions);
+        var situation2 = situation.nextSituations().get(0);
+        var availablePositions = situation2.nextSituations();
+        assertEquals(8, availablePositions.size());
     }
    
     @Test
@@ -53,9 +50,10 @@ public class TicTacToeTest {
         //this.mcts.setTrainers(new boolean[] {true, false});
    
         for (int i = 0; i < 9; i++) {
-            node = this.mcts.executeAlgorithm(node); 
-            if (node.getState().getSituation().checkStatus() != -1) { 
-                break;
+            this.mcts.execute(node); 
+            if (this.mcts.getResult().size() > 0) {
+            	node = this.mcts.getResult().get(0);
+            	break;
             }
         }
         

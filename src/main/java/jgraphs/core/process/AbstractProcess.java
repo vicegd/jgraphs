@@ -30,6 +30,7 @@ public abstract class AbstractProcess {
     	this.visualizers = new ArrayList<IVisualizer>();
     	this.statistics = new ArrayList<IStatistic>();
     	this.result = new ArrayList<INode>();
+    	this.movementNumber = 1;
 	}
 	
 	public void execute(INode node) {
@@ -39,7 +40,7 @@ public abstract class AbstractProcess {
     	executeAlgorithm(node);
     	
     	this.totalDuration = totalDuration.plus(Duration.between(totalTimer, Instant.now()));
-    	this.processFinishedEvent(this.structure, this.processDuration, this.totalDuration);
+    	//this.processFinishedEvent(this.structure, this.processDuration, this.totalDuration);
 	}
 	
 	protected abstract void executeAlgorithm(INode node);

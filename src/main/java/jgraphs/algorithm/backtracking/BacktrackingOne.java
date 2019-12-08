@@ -13,7 +13,7 @@ import jgraphs.core.utils.IllegalTreeOperationException;
 import jgraphs.core.utils.Utils;
 
 public class BacktrackingOne extends AbstractProcess {    
-	boolean end;
+	private boolean end;
 	
 	@Inject
     public BacktrackingOne(ITree tree) {
@@ -37,7 +37,7 @@ public class BacktrackingOne extends AbstractProcess {
     		this.end = true;
     	}
     	else if (!this.end) {
-        	var possibleStates = node.getState().getNextStates();
+        	var possibleStates = node.getState().nextStates();
     	    possibleStates.forEach(state -> {
     	    	if (!this.end) {
 	    	    	var newNode = Utils.getInstance().getInjector().getInstance(INode.class);

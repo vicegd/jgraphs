@@ -4,98 +4,65 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jgraphs.core.situation.ISituation;
-import jgraphs.core.situation.Position;
 
 public class TicTacToeSituation implements ISituation {
-    private int[][] situationValues;
-    private int totalMoves;
     private int n;
+    private int level;
+	private int[][] values;
 
     public TicTacToeSituation() {
     	this.n = 3;
-    	this.totalMoves = 0;
-    	this.situationValues = new int[n][n];
+    	this.level = 0;
+    	this.values = new int[n][n];
     }
     
     @Override
     public ISituation createNewSituation() {
     	var copy = new TicTacToeSituation();
-    	copy.totalMoves = this.getTotalMovements();
-        copy.situationValues = new int[this.n][this.n];
+    	copy.level = this.level;
+        copy.values = new int[this.n][this.n];
         for (var i = 0; i < this.n; i++) {
             for (var j = 0; j < this.n; j++) {
-                copy.situationValues[i][j] = this.getSituationValues()[i][j];
+                copy.values[i][j] = this.values[i][j];
             }
         }
         return copy;
     }
-
+    
 	@Override
-	public int getTotalMovements() {
-		return this.totalMoves;
+	public List<ISituation> nextSituations() {
+		return this.nextSituations(-1, null);
 	}
     
-    @Override
-    public int[][] getSituationValues() {
-        return this.situationValues;
-    }
-    
-    @Override
-    public String getSituationValuesToHTML() {
-        var values = new StringBuilder();
-        for (var i = 0; i < situationValues.length; i++) {
-            values.append("|");
-        	for (var j = 0; j < situationValues.length; j++) {
-        		values.append(situationValues[i][j] + "|");
-        	}
-        	values.append("<br/>");
-        } 
-        return values.toString();
-    }
-    
-    @Override
-    public void setSituationValues(int[][] situationValues) {
-        this.situationValues = situationValues;
-    }    
-	
-    @Override
-    public List<Position> getEmptyPositions() {
-        int size = this.situationValues.length; 
-        List<Position> emptyPositions = new ArrayList<>();
-        for (var i = 0; i < size; i++) {
-            for (var j = 0; j < size; j++) {
-                if (situationValues[i][j] == 0)
-                    emptyPositions.add(new Position(i, j));
+	@Override
+	public List<ISituation> nextSituations(int participant, Object value) {
+		List<ISituation> situations = new ArrayList<>();
+		
+        for (var i = 0; i < this.values.length; i++) {
+            for (var j = 0; j < this.values.length; j++) {
+                if (this.values[i][j] == 0) {
+					var situation = (TicTacToeSituation)this.createNewSituation();
+					situation.values[i][j] = participant;
+					situation.level += 1;
+					situations.add(situation);
+                }
             }
         }
-        return emptyPositions;
-    }
-    
-	@Override
-	public List<ISituation> getNextSituations() {
-		// TODO Auto-generated method stub
-		return null;
+        return situations;
 	}
-
-    
-    @Override
-    public void performMovement(int participant, Position p) {
-        this.totalMoves++;
-        this.situationValues[p.x][p.y] = participant;
-    }
-
+   
     @Override
     public int checkStatus() {
-        var boardSize = situationValues.length;
+        var boardSize = values.length;
         var maxIndex = boardSize - 1;
         var diag1 = new int[boardSize];
         var diag2 = new int[boardSize];
         
         for (int i = 0; i < boardSize; i++) {
-            var row = situationValues[i];
+            var row = values[i];
             var col = new int[boardSize];
             for (int j = 0; j < boardSize; j++) {
-                col[j] = situationValues[j][i];
+                col[j] = values[j][i];
             }
             
             var checkRowForWin = checkForWin(row);
@@ -106,8 +73,8 @@ public class TicTacToeSituation implements ISituation {
             if(checkColForWin != -1)
                 return checkColForWin;
             
-            diag1[i] = situationValues[i][i];
-            diag2[i] = situationValues[maxIndex - i][i];
+            diag1[i] = values[i][i];
+            diag2[i] = values[maxIndex - i][i];
         }
 
         var checkDia1gForWin = checkForWin(diag1);
@@ -118,25 +85,44 @@ public class TicTacToeSituation implements ISituation {
         if(checkDiag2ForWin != -1)
             return checkDiag2ForWin;
         
-        if (getEmptyPositions().size() > 0)
+        if (this.nextSituations().size() > 0)
             return -1; //IN PROGRESS
         else 
             return 0; //DRAW
     }
+	
+    @Override
+    public String getValuesToString() {
+    	var v = new StringBuilder();
+        for (var i = 0; i < this.values.length; i++) {
+            for (int j = 0; j < this.values.length; j++) {
+            	v.append(this.values[i][j] + " ");
+            }
+            v.append("\n");
+        }
+        return v.toString();
+    }
+    
+    @Override
+    public String getValuesToHTML() {
+        var v = new StringBuilder();
+        for (var i = 0; i < this.values.length; i++) {
+            v.append("|");
+        	for (var j = 0; j < this.values.length; j++) {
+        		v.append(this.values[i][j] + "|");
+        	}
+        	v.append("<br/>");
+        } 
+        return v.toString();
+    }  
   
     @Override
     public String toString() {
     	var sb = new StringBuilder();
     	sb.append("Board:\n");
-    	sb.append("\tTotal moves: \t" + this.totalMoves + "\n");
-    	sb.append("\tGame status: \t" + this.checkStatus() + "\n");
-        var size = this.situationValues.length;
-        for (var i = 0; i < size; i++) {
-            for (int j = 0; j < size; j++) {
-            	sb.append(situationValues[i][j] + " ");
-            }
-            sb.append("\n");
-        }
+    	sb.append("\tTotal moves: \t" + this.level + "\n");
+    	sb.append("\tStatus: \t" + this.checkStatus() + "\n");
+        sb.append("\tValues: \n" + this.getValuesToString());
         sb.append("\n");
         return sb.toString();
     }

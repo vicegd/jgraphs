@@ -106,29 +106,15 @@ public class State implements IState {
 	public void setNode(INode node) {
 		this.node = node;
 	}
-
-    @Override
-    public List<IState> getAllPossibleStates() {
-        List<IState> possibleStates = new ArrayList<>();
-        var availablePositions = this.situation.getEmptyPositions();
-        availablePositions.forEach(p -> { 
-            var newState = this.createNewState();
-            if (newState.getSituation().checkStatus() == -1) { //still in progress
-                newState.getParticipantManager().setParticipant(this.getParticipantManager().getOpponent());
-            	newState.getSituation().performMovement(newState.getParticipantManager().getParticipant(), p);
-            	possibleStates.add(newState);
-            }
-        });
-        return possibleStates;
-    }
     
     @Override
-    public List<IState> getNextStates() {
+    public List<IState> nextStates() {
         List<IState> possibleStates = new ArrayList<>();
-        var availableSituations = this.situation.getNextSituations();
+        var nextParticipant = this.getParticipantManager().getOpponent();
+        var availableSituations = this.situation.nextSituations(nextParticipant, null);
         availableSituations.forEach(s -> { 
             var newState = this.createNewState();
-            newState.getParticipantManager().setParticipant(this.getParticipantManager().getOpponent());
+            newState.getParticipantManager().setParticipant(nextParticipant);
             newState.setSituation(s);
             possibleStates.add(newState);
         });
@@ -146,10 +132,10 @@ public class State implements IState {
     }
 
     @Override
-    public void randomMovement() {
-        var availablePositions = this.situation.getEmptyPositions();
-        var selectRandom = (int) (Math.random() * availablePositions.size());
-        this.situation.performMovement(this.participantManager.getParticipant(), availablePositions.get(selectRandom));
+    public IState randomNextState() {
+    	var states = nextStates();
+    	var selectRandom = (int)(Math.random() * states.size());
+    	return states.get(selectRandom);
     }
 
     @Override

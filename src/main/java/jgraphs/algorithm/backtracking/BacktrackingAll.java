@@ -33,7 +33,7 @@ public class BacktrackingAll extends AbstractProcess {
     		super.result.add(node);
     	}
     	else {
-        	var possibleStates = node.getState().getNextStates();
+        	var possibleStates = node.getState().nextStates();
     	    possibleStates.forEach(state -> {
     	    	var newNode = Utils.getInstance().getInjector().getInstance(INode.class);
 

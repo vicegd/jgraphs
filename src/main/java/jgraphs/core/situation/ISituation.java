@@ -4,20 +4,14 @@ import java.util.List;
 
 public interface ISituation {
     public ISituation createNewSituation();
-	
-	public int getTotalMovements();
-	
-	public int[][] getSituationValues();
-	
-	public String getSituationValuesToHTML();
+    
+    public List<ISituation> nextSituations();
 
-	public void setSituationValues(int[][] situationValues);
+	public List<ISituation> nextSituations(int participant, Object value);
 
-	public List<Position> getEmptyPositions();
-	
-	public List<ISituation> getNextSituations();
-	
-	public void performMovement(int actor, Position p);
-	
 	public int checkStatus();
+	
+	public String getValuesToString();
+	
+	public String getValuesToHTML();
 }
