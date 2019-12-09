@@ -16,7 +16,7 @@ public interface IState {
 	
 	public String getStateValuesToHTML();
 
-    public void setSituation(ISituation board);
+    public void setSituation(ISituation situation);
     
     public IParticipantManager getParticipantManager();
 

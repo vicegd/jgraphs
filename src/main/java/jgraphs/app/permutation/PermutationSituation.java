@@ -3,32 +3,21 @@ package jgraphs.app.permutation;
 import java.util.ArrayList;
 import java.util.List;
 
-import jgraphs.core.situation.AbstractSituation;
+import jgraphs.core.situation.AbstractIntArraySituation;
 import jgraphs.core.situation.ISituation;
 
-public class PermutationSituation extends AbstractSituation {
-	private int[] values;
+public class PermutationSituation extends AbstractIntArraySituation {
 	private boolean[] used;
 
-    public PermutationSituation() {
-    	this.n = 10;
-    	this.level = 0;
-    	this.values = new int[this.n];
-    	this.used = new boolean[this.n];
+    public PermutationSituation(int n) {
+    	super(n);
+    	this.used = new boolean[super.n];
     }
-    
-    public void setSize(int n) {
-    	this.n = n;
-    	this.values = new int[n];
-    	this.used = new boolean[n];
-    }
-    
+        
     @Override
     public ISituation createNewSituation() {
-    	var copy = new PermutationSituation();
-    	copy.n = this.n;
-    	copy.level = this.level;
-        copy.values = this.values.clone();
+    	var copy = new PermutationSituation(super.n);
+    	super.copyInfo(this, copy);
         copy.used = this.used.clone();
         return copy;
     }
@@ -55,26 +44,6 @@ public class PermutationSituation extends AbstractSituation {
     public int checkStatus() {
     	if (this.level == this.n) return 0;
     	else return -1;
-    }
-    
-    @Override
-    public String getValuesToString() {
-        var v = new StringBuilder();
-        for (var i = 0; i < this.used.length; i++) {
-            v.append(this.values[i]+1 + " ");
-        } 
-        return v.toString();
-    }
-    
-    @Override
-    public String getValuesToHTML() {
-        var v = new StringBuilder();
-        v.append("<p>");
-        for (var i = 0; i < used.length; i++) {
-            v.append(values[i]+1 + " ");
-        } 
-        v.append("</p>");
-        return v.toString();
     }
   
 }

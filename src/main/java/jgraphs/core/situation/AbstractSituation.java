@@ -6,6 +6,11 @@ public abstract class AbstractSituation implements ISituation {
     protected int n;
     protected int level;
 	
+    public AbstractSituation(int n) {
+    	this.n = n;
+    	this.level = 0;
+    }
+    
 	@Override
 	public boolean hasFinished() {
 		if (this.checkStatus() != -1) return true;
@@ -25,6 +30,11 @@ public abstract class AbstractSituation implements ISituation {
     	sb.append("\tStatus: \t" + this.checkStatus() + "\n");
         sb.append("\tValues: \t" + this.getValuesToString());
         return sb.toString();
+    }
+    
+    protected void copyInfo(AbstractSituation source, AbstractSituation target) {
+    	target.n = source.n;
+    	target.level = source.level;
     }
 
 }

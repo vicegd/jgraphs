@@ -19,18 +19,19 @@ public class State implements IState {
 	private double[] scores;
 
 	@Inject
-    public State(ISituation situation, IParticipantManager participantManager) {
+    public State(IParticipantManager participantManager) {
     	this.id = UUID.randomUUID();
-        this.visitCount = 0; //visits = 0;
-    	this.situation = situation.createNewSituation();
+        this.visitCount = 0; //visits = 0;    	
     	this.participantManager = participantManager.createNewParticipantManager();
     	this.scores = new double[this.participantManager.getNumberOfParticipants()]; //scores = 0
     }
    
     @Override
     public IState createNewState() {
-    	var copy = new State(this.situation, this.participantManager);
-    	copy.node = node;
+    	var copy = new State(this.participantManager);
+    	copy.node = this.node;
+    	if (this.situation != null)
+    		copy.situation = this.situation.createNewSituation();
         return copy;  
     }
 
@@ -54,8 +55,8 @@ public class State implements IState {
     }
 
     @Override
-    public void setSituation(ISituation board) {
-    	this.situation = board;
+    public void setSituation(ISituation situation) {
+    	this.situation = situation;
     }
 
     @Override

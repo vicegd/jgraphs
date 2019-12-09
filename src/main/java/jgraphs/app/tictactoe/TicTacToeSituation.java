@@ -3,28 +3,18 @@ package jgraphs.app.tictactoe;
 import java.util.ArrayList;
 import java.util.List;
 
-import jgraphs.core.situation.AbstractSituation;
+import jgraphs.core.situation.AbstractIntTableSituation;
 import jgraphs.core.situation.ISituation;
 
-public class TicTacToeSituation extends AbstractSituation {
-	private int[][] values;
-
+public class TicTacToeSituation extends AbstractIntTableSituation {
     public TicTacToeSituation() {
-    	this.n = 3;
-    	this.level = 0;
-    	this.values = new int[n][n];
+    	super(3);
     }
     
     @Override
     public ISituation createNewSituation() {
     	var copy = new TicTacToeSituation();
-    	copy.level = this.level;
-        copy.values = new int[this.n][this.n];
-        for (var i = 0; i < this.n; i++) {
-            for (var j = 0; j < this.n; j++) {
-                copy.values[i][j] = this.values[i][j];
-            }
-        }
+    	super.copyInfo(this, copy);
         return copy;
     }
     
@@ -83,32 +73,7 @@ public class TicTacToeSituation extends AbstractSituation {
             return -1; //IN PROGRESS
         else 
             return 0; //DRAW
-    }
-	
-    @Override
-    public String getValuesToString() {
-    	var v = new StringBuilder();
-        for (var i = 0; i < this.values.length; i++) {
-            v.append("\n");
-        	for (int j = 0; j < this.values.length; j++) {
-            	v.append(this.values[i][j] + " ");
-            }
-        }
-        return v.toString();
-    }
-    
-    @Override
-    public String getValuesToHTML() {
-        var v = new StringBuilder();
-        for (var i = 0; i < this.values.length; i++) {
-            v.append("|");
-        	for (var j = 0; j < this.values.length; j++) {
-        		v.append(this.values[i][j] + "|");
-        	}
-        	v.append("<br/>");
-        } 
-        return v.toString();
-    }  
+    } 
       
     private int checkForWin(int[] row) {
         var isEqual = true;

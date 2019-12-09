@@ -25,19 +25,17 @@ public class PermutationOneTest {
     
     @Test
     public void givenInitState_whenGetAllPossiblePermutations1Elements_then1Result() {
-        var node = this.backtracking.getStructure().getFirst();
-        var permutationSituation = (PermutationSituation)node.getState().getSituation();
-        permutationSituation.setSize(1); 
-        this.backtracking.execute(node);        
+    	var tree = this.backtracking.getStructure();
+        tree.setFirstSituatiton(new PermutationSituation(1));
+        this.backtracking.execute(tree.getFirst());              
         assertEquals(1, this.backtracking.getResults().size());
     }
 
     @Test
     public void givenInitState_whenGetAllPossiblePermutations3Elements_then1Result() {
-        var node = this.backtracking.getStructure().getFirst();
-        var permutationSituation = (PermutationSituation)node.getState().getSituation();
-        permutationSituation.setSize(3); 
-        this.backtracking.execute(node);        
+    	var tree = this.backtracking.getStructure();
+        tree.setFirstSituatiton(new PermutationSituation(3));
+        this.backtracking.execute(tree.getFirst());              
         assertEquals(1, this.backtracking.getResults().size());
     }
 

@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jgraphs.core.node.INode;
+import jgraphs.core.situation.ISituation;
 
 public interface IStructure {
 	public UUID getId();
@@ -19,4 +20,6 @@ public interface IStructure {
 	public INode getNode(UUID id);
 	
 	public List<INode> getNodeList();
+	
+	public void setFirstSituatiton(ISituation situation);
 }

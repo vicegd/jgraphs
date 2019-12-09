@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 import jgraphs.core.node.INode;
+import jgraphs.core.situation.ISituation;
 
 public abstract class AbstractStructure implements IStructure {
 	protected UUID id;
@@ -53,6 +54,11 @@ public abstract class AbstractStructure implements IStructure {
 	@Override
 	public List<INode> getNodeList() {
 		return this.nodeList;
+	}
+	
+	@Override
+	public void setFirstSituatiton(ISituation situation) {
+		this.getFirst().getState().setSituation(situation);
 	}
 	
 	protected void addNewNode(INode node) {

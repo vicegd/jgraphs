@@ -44,10 +44,10 @@ public class TicTacToeTest {
    
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
-        var node = this.mcts.getStructure().getFirst();
+    	this.mcts.getStructure().setFirstSituatiton(new TicTacToeSituation());
         this.mcts.getBudgetManager().setIterations(10000);
         this.mcts.setTrainers(new boolean[] {true, false});
-        this.mcts.execute(node); 
+        this.mcts.execute(this.mcts.getStructure().getFirst()); 
         
         var status = this.mcts.getFirstResult().getState().getSituation().checkStatus();
         assertTrue(status == 1);

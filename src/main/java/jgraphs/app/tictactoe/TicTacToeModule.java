@@ -8,7 +8,6 @@ import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.algorithm.mcts.treepolicy.UCB;
 import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.participant.TwoParticipantsManager;
-import jgraphs.core.situation.ISituation;
 import jgraphs.core.utils.BasicModule;
 
 public class TicTacToeModule extends BasicModule {
@@ -19,6 +18,5 @@ public class TicTacToeModule extends BasicModule {
     	bind(IDefaultPolicy.class).to(RandomMovement.class);
     	bind(IBudgetManager.class).to(DefaultBudgetManager.class);
     	bind(IParticipantManager.class).to(TwoParticipantsManager.class);
-    	bind(ISituation.class).to(TicTacToeSituation.class);
     }
 }
