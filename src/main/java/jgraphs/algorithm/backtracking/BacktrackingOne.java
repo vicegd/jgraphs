@@ -1,6 +1,5 @@
 package jgraphs.algorithm.backtracking;
 
-import java.time.Duration;
 import java.time.Instant;
 
 import com.google.inject.Inject;
@@ -21,18 +20,25 @@ public class BacktrackingOne extends AbstractProcess {
 		this.end = false;
     }
 	
-	@Override
-	protected void executeAlgorithm(INode node) {
-		this.backtracking(node);	
-    	super.processDuration = super.processDuration.plus(Duration.between(super.processTimer, Instant.now()));   
+	public void execute(INode node) {
+    	super.totalTimer = Instant.now();
+    	super.processTimer = Instant.now();
+    	
+    	this.backtracking(node);   	
+		
+    	super.incrementProcessDuration(super.processTimer); 
+    	super.incrementTotalDuration(super.totalTimer);
+    	super.processFinishedEvent(super.structure, super.result, this.processDuration, this.totalDuration);
 	}
 	   
     private void backtracking(INode node) { 
     	super.movementNumber++;
     	node.getState().incrementVisit();
     	
-    	if (node.getState().getSituation().checkStatus() != -1) {
-    		super.movementPerformedEvent(super.structure, super.structure.getFirst(), super.structure.getLast(), this.movementNumber);       
+    	if (node.getState().getSituation().hasFinished()) {
+    		var a = Instant.now();
+    		super.movementPerformedEvent(super.structure, super.structure.getSecondToLast(), super.structure.getLast(), this.movementNumber);        
+    		super.decrementProcessDuration(a);
     		super.result.add(node);
     		this.end = true;
     	}

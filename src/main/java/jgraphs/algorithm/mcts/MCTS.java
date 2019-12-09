@@ -3,7 +3,6 @@ package jgraphs.algorithm.mcts;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Duration;
 import java.time.Instant;
 import java.util.Properties;
 
@@ -45,16 +44,15 @@ public class MCTS extends AbstractProcess {
         }
     }
 	
-	@Override
-	protected void executeAlgorithm(INode node) {
-		this.mcts(node);	
-    	super.processDuration = super.processDuration.plus(Duration.between(super.processTimer, Instant.now()));   
+	public INode execute(INode node) {
+    	super.totalTimer = Instant.now();   	   	
+    	var winnerNode = this.mcts(node);   	
+    	return winnerNode;
 	}
               
-    public INode mcts(INode node) {     
-    	var startTimer = Instant.now();
+    private INode mcts(INode node) {     
     	for (var i = 1; i < Integer.MAX_VALUE; i++) {
-        	var processTimer = Instant.now();
+    		super.processTimer = Instant.now(); 
         	
             // Phase 1 - Selection
             var promisingNode = selection(node);
@@ -73,20 +71,26 @@ public class MCTS extends AbstractProcess {
             // Phase 4 - Update
             backPropogation(nodeToExplore, result);
 
-          //  this.processDuration = processDuration.plus(Duration.between(processTimer, Instant.now()));          
-          //  super.structureChangedEvent(super.structure, node, nodeToExplore, result, this.movementNumber, i);
-            if (budgetManager.checkStopCondition(i, startTimer)) break; 
+            super.incrementProcessDuration(super.processTimer);      
+            super.structureChangedEvent(super.structure, node, nodeToExplore, this.movementNumber, i, result);
+            if (budgetManager.checkStopCondition(i, super.totalTimer)) break; 
         }
 
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
-		System.out.println(node.getState().getSituation().getValuesToString());
-        //super.movementPerformedEvent(super.structure, node, winnerNode, this.movementNumber);       
-        if (winnerNode.getState().getSituation().checkStatus() != -1) {
-        	super.result.add(winnerNode);
-        	super.processFinishedEvent(super.structure, winnerNode, this.processDuration, this.totalDuration);
-        }
+        
+        super.movementPerformedEvent(super.structure, node, winnerNode, super.movementNumber);       
         super.movementNumber++;
+        super.incrementTotalDuration(super.totalTimer);
+        if (winnerNode.getState().getSituation().checkStatus() != -1) {
+        	super.result.add(winnerNode); 		       	
+        	super.processFinishedEvent(super.structure, super.result, super.processDuration, super.totalDuration);
+        }
+        
         return winnerNode;
+    }
+    
+    public IBudgetManager getBudgetManager() {
+    	return this.budgetManager;
     }
     
     public void setTrainers(boolean[] trainers) {

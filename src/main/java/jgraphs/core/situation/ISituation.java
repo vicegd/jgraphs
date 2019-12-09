@@ -11,6 +11,8 @@ public interface ISituation {
 
 	public int checkStatus();
 	
+	public boolean hasFinished();
+	
 	public String getValuesToString();
 	
 	public String getValuesToHTML();

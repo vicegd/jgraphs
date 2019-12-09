@@ -3,11 +3,10 @@ package jgraphs.app.tictactoe;
 import java.util.ArrayList;
 import java.util.List;
 
+import jgraphs.core.situation.AbstractSituation;
 import jgraphs.core.situation.ISituation;
 
-public class TicTacToeSituation implements ISituation {
-    private int n;
-    private int level;
+public class TicTacToeSituation extends AbstractSituation {
 	private int[][] values;
 
     public TicTacToeSituation() {
@@ -28,11 +27,6 @@ public class TicTacToeSituation implements ISituation {
         }
         return copy;
     }
-    
-	@Override
-	public List<ISituation> nextSituations() {
-		return this.nextSituations(-1, null);
-	}
     
 	@Override
 	public List<ISituation> nextSituations(int participant, Object value) {
@@ -95,10 +89,10 @@ public class TicTacToeSituation implements ISituation {
     public String getValuesToString() {
     	var v = new StringBuilder();
         for (var i = 0; i < this.values.length; i++) {
-            for (int j = 0; j < this.values.length; j++) {
+            v.append("\n");
+        	for (int j = 0; j < this.values.length; j++) {
             	v.append(this.values[i][j] + " ");
             }
-            v.append("\n");
         }
         return v.toString();
     }
@@ -115,18 +109,7 @@ public class TicTacToeSituation implements ISituation {
         } 
         return v.toString();
     }  
-  
-    @Override
-    public String toString() {
-    	var sb = new StringBuilder();
-    	sb.append("Board:\n");
-    	sb.append("\tTotal moves: \t" + this.level + "\n");
-    	sb.append("\tStatus: \t" + this.checkStatus() + "\n");
-        sb.append("\tValues: \n" + this.getValuesToString());
-        sb.append("\n");
-        return sb.toString();
-    }
-    
+      
     private int checkForWin(int[] row) {
         var isEqual = true;
         var size = row.length;

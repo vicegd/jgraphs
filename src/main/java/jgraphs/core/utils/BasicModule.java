@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.node.Node;
+import jgraphs.core.participant.IParticipantManager;
+import jgraphs.core.participant.SinglearticipantManager;
 import jgraphs.core.state.IState;
 import jgraphs.core.state.State;
 import jgraphs.core.structure.ITree;

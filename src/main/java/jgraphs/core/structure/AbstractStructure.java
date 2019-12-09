@@ -36,6 +36,11 @@ public abstract class AbstractStructure implements IStructure {
 	}
 	
 	@Override
+	public INode getSecondToLast() {
+		return this.nodeList.get(this.nodeList.size()-2);
+	}
+	
+	@Override
 	public String getNodeName(UUID id) {
 		return this.nodeNames.get(id);
 	}

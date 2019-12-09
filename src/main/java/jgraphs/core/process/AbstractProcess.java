@@ -17,6 +17,7 @@ public abstract class AbstractProcess {
 	protected static Logger log = LoggerFactory.getLogger(AbstractProcess.class);
 	protected Duration totalDuration;
 	protected Duration processDuration;
+	protected Instant totalTimer;
 	protected Instant processTimer;
 	protected List<IVisualizer> visualizers;
 	protected List<IStatistic> statistics;
@@ -32,19 +33,7 @@ public abstract class AbstractProcess {
     	this.result = new ArrayList<INode>();
     	this.movementNumber = 1;
 	}
-	
-	public void execute(INode node) {
-    	var totalTimer = Instant.now();
-    	this.processTimer = Instant.now();
-    	
-    	executeAlgorithm(node);
-    	
-    	this.totalDuration = totalDuration.plus(Duration.between(totalTimer, Instant.now()));
-    	//this.processFinishedEvent(this.structure, this.processDuration, this.totalDuration);
-	}
-	
-	protected abstract void executeAlgorithm(INode node);
-	
+		
 	public IStructure getStructure() {
 		return this.structure;
 	}
@@ -61,28 +50,37 @@ public abstract class AbstractProcess {
     	statistics.add(statistic);
     }
 	
-    protected void structureChangedEvent(IStructure structure, INode currentNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
+    protected void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.structureChangedEvent(structure, currentNode, nodeToExplore, result, movementNumber, iterationNumber);
+    		visualizer.structureChangedEvent(structure, sourceNode, endNode, movementNumber, iterationNumber, status);
     	}
     }
  
-    protected void movementPerformedEvent(IStructure structure, INode currentNode, INode winnerNode, int movementNumber) {
+    protected void movementPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(structure, currentNode, winnerNode, movementNumber);
+    		visualizer.movementPerformedEvent(structure, sourceNode, endNode, movementNumber);
     	}
     }
     
-    protected void processFinishedEvent(IStructure structure, INode winnerNode, Duration processDuration, Duration totalDuration) {
+    protected void processFinishedEvent(IStructure structure, List<INode> result, Duration processDuration, Duration totalDuration) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.processFinishedEvent(structure, winnerNode);
+    		visualizer.processFinishedEvent(structure, result);
     	}
-    }
-    
-    protected void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration) {
     	for(IStatistic statistic : statistics) {
     		statistic.processFinishedEvent(structure, processDuration, totalDuration);
     	}
+    }
+    
+    protected void incrementTotalDuration(Instant instant) {
+    	this.totalDuration = this.totalDuration.plus(Duration.between(instant, Instant.now()));
+    }
+    
+    protected void incrementProcessDuration(Instant instant) {
+    	this.processDuration = this.processDuration.plus(Duration.between(instant, Instant.now()));
+    }
+    
+    protected void decrementProcessDuration(Instant instant) {
+    	this.processDuration = this.processDuration.minus(Duration.between(instant, Instant.now()));
     }
     
 }

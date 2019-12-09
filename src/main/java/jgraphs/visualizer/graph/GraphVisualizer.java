@@ -9,10 +9,10 @@ import jgraphs.core.structure.ITree;
 public class GraphVisualizer extends AbstractGraphVisualizer {
 	
 	@Override
-	public void structureChangedEvent(IStructure structure, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
+	public void structureChangedEvent(IStructure structure, INode sourceNode, INode nodeToExplore, int movementNumber, int iterationNumber, int status) {
 		g = mutGraph("MCTS").setDirected(true);
 		
-		iterateTree(structure, structure.getFirst(), sourceNode, nodeToExplore, result);
+		iterateTree(structure, structure.getFirst(), sourceNode, nodeToExplore, status);
 		
 		var uniqueFolder = this.getUniqueFolderPath(structure);
 		var folderPath = this.path + "/" + uniqueFolder + "/movement" +  movementNumber;

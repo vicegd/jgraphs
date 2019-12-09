@@ -12,6 +12,8 @@ public interface IStructure {
 	
 	public INode getLast();
 	
+	public INode getSecondToLast();
+	
 	public String getNodeName(UUID id);
 	
 	public INode getNode(UUID id);

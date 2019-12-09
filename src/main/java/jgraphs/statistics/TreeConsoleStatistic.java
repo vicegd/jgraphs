@@ -23,7 +23,7 @@ public class TreeConsoleStatistic implements IStatistic {
 	@Override
 	public void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration) {
 		this.getData(structure);
-		log.info("\n\n******************************STATISTICS******************************");	
+		log.info("\n******************************STATISTICS******************************");	
 		log.info(String.format("Elapsed process time: %d,%d seconds", processDuration.getSeconds(), processDuration.getNano()));
 		log.info(String.format("Elapsed total time: %d,%d seconds", totalDuration.getSeconds(), totalDuration.getNano()));
 		log.info(String.format("Depth of the tree: %d", data.treeDepth));

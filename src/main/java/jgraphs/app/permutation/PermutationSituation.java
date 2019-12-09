@@ -3,11 +3,10 @@ package jgraphs.app.permutation;
 import java.util.ArrayList;
 import java.util.List;
 
+import jgraphs.core.situation.AbstractSituation;
 import jgraphs.core.situation.ISituation;
 
-public class PermutationSituation implements ISituation {
-	private int n;
-	private int level;
+public class PermutationSituation extends AbstractSituation {
 	private int[] values;
 	private boolean[] used;
 
@@ -33,11 +32,6 @@ public class PermutationSituation implements ISituation {
         copy.used = this.used.clone();
         return copy;
     }
-    
-	@Override
-	public List<ISituation> nextSituations() {
-		return this.nextSituations(0, null);
-	}
     
 	@Override
 	public List<ISituation> nextSituations(int participant, Object value) {
@@ -83,14 +77,4 @@ public class PermutationSituation implements ISituation {
         return v.toString();
     }
   
-    @Override
-    public String toString() {
-    	var sb = new StringBuilder();
-    	sb.append("Permutation:\n");
-    	sb.append("\tTotal moves: \t" + this.level + "\n");
-    	sb.append("\tStatus: \t" + this.checkStatus() + "\n");
-        sb.append("\tValues: \t" + this.getValuesToString());
-        sb.append("\n");
-        return sb.toString();
-    }
 }

@@ -46,15 +46,11 @@ public class TicTacToeTest {
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
         var node = this.mcts.getStructure().getFirst();
-        //this.mcts.getBudgetManager().setIterations(500);
-        //this.mcts.setTrainers(new boolean[] {true, false});
+        this.mcts.getBudgetManager().setIterations(10000);
+        this.mcts.setTrainers(new boolean[] {true, false});
    
-        for (int i = 0; i < 9; i++) {
-            this.mcts.execute(node); 
-            if (this.mcts.getResult().size() > 0) {
-            	node = this.mcts.getResult().get(0);
-            	break;
-            }
+        while (!node.getState().getSituation().hasFinished()) {
+            node = this.mcts.execute(node); 
         }
         
         var winStatus = node.getState().getSituation().checkStatus();

@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -25,7 +26,7 @@ import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
 import jgraphs.visualizer.IVisualizer;
 
-public class AbstractGraphVisualizer implements IVisualizer {
+public abstract class AbstractGraphVisualizer implements IVisualizer {
 	protected static Logger log = LoggerFactory.getLogger(AbstractGraphVisualizer.class);
 	protected String path;
 	protected MutableGraph g;
@@ -43,15 +44,15 @@ public class AbstractGraphVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void structureChangedEvent(IStructure structure, INode sourceNode, INode nodeToExplore, int result, int movementNumber, int iterationNumber) {
+	public void structureChangedEvent(IStructure structure, INode sourceNode, INode end, int movementNumber, int iterationNumber, int status) {
 	}
 
 	@Override
-	public void movementPerformedEvent(IStructure structure, INode sourceNode, INode winnerNode, int movementNumber) {
+	public void movementPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber) {
 	}
 	
 	@Override
-	public void processFinishedEvent(IStructure structure, INode winnerNode) {
+	public void processFinishedEvent(IStructure structure, List<INode> result) {
 	}
 	
 	protected void iterateTree(IStructure structure, INode node, INode currentNode, INode nodeToExplore, int result) {
