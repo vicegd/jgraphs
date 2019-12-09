@@ -17,7 +17,7 @@ public class PermutationOneTest {
     private BacktrackingOne backtracking;
 
     @Before	
-    public void initGameTree() {
+    public void initialize() {
         this.backtracking = Utils.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingOne.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
@@ -29,7 +29,7 @@ public class PermutationOneTest {
         var permutationSituation = (PermutationSituation)node.getState().getSituation();
         permutationSituation.setSize(1); 
         this.backtracking.execute(node);        
-        assertEquals(1, this.backtracking.getResult().size());
+        assertEquals(1, this.backtracking.getResults().size());
     }
 
     @Test
@@ -38,7 +38,7 @@ public class PermutationOneTest {
         var permutationSituation = (PermutationSituation)node.getState().getSituation();
         permutationSituation.setSize(3); 
         this.backtracking.execute(node);        
-        assertEquals(1, this.backtracking.getResult().size());
+        assertEquals(1, this.backtracking.getResults().size());
     }
 
 }

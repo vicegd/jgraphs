@@ -3,7 +3,6 @@ package jgraphs.algorithm.mcts;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.time.Instant;
 import java.util.Properties;
 
 import com.google.inject.Inject;
@@ -14,8 +13,6 @@ import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
-import jgraphs.core.structure.Tree;
-import jgraphs.core.utils.IllegalTreeOperationException;
 import jgraphs.core.utils.Utils;
 
 public class MCTS extends AbstractProcess {
@@ -26,11 +23,10 @@ public class MCTS extends AbstractProcess {
     
 	@Inject
     public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
-		super.structure = tree;
+		super.setStructure(tree);
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;
 		this.budgetManager = budgetManager;
-    	this.movementNumber = 1;
     	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
             var prop = new Properties();
             prop.load(input);
@@ -44,21 +40,20 @@ public class MCTS extends AbstractProcess {
         }
     }
 	
-	public INode execute(INode node) {
-    	super.totalTimer = Instant.now();   	   	
-    	var winnerNode = this.mcts(node);   	
-    	return winnerNode;
+	@Override
+	public void run(INode node) {
+        while (!node.getState().getSituation().hasFinished()) {
+            node = this.mcts(node); 
+        }
 	}
               
     private INode mcts(INode node) {     
-    	for (var i = 1; i < Integer.MAX_VALUE; i++) {
-    		super.processTimer = Instant.now(); 
-        	
+    	for (var i = 1; i < Integer.MAX_VALUE; i++) {       	
             // Phase 1 - Selection
             var promisingNode = selection(node);
             
             // Phase 2 - Expansion
-            if ((promisingNode.getState().getVisitCount() >= 1)||(promisingNode.equals(super.structure.getFirst())))
+            if ((promisingNode.getState().getVisitCount() >= 1)||(promisingNode.equals(super.getStructure().getFirst())))
             	expansion(promisingNode); //Only expand it if it is the root node or it has already been visited yet
 
             // Phase 3 - Simulation
@@ -70,20 +65,18 @@ public class MCTS extends AbstractProcess {
             
             // Phase 4 - Update
             backPropogation(nodeToExplore, result);
-
-            super.incrementProcessDuration(super.processTimer);      
-            super.structureChangedEvent(super.structure, node, nodeToExplore, this.movementNumber, i, result);
-            if (budgetManager.checkStopCondition(i, super.totalTimer)) break; 
+   
+            super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
+            if (budgetManager.checkStopCondition(i, super.getTimer())) break; 
         }
 
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         
-        super.movementPerformedEvent(super.structure, node, winnerNode, super.movementNumber);       
-        super.movementNumber++;
-        super.incrementTotalDuration(super.totalTimer);
+        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());       
+        super.incrementMovementNumber();
+
         if (winnerNode.getState().getSituation().checkStatus() != -1) {
-        	super.result.add(winnerNode); 		       	
-        	super.processFinishedEvent(super.structure, super.result, super.processDuration, super.totalDuration);
+        	super.addResult(winnerNode);	       	
         }
         
         return winnerNode;
@@ -109,16 +102,11 @@ public class MCTS extends AbstractProcess {
     private void expansion(INode promisingNode) {
     	var possibleStates = promisingNode.getState().nextStates();
 	    possibleStates.forEach(state -> {
-	    	var newNode = Utils.getInstance().getInjector().getInstance(INode.class);
+	    	var newNode = Utils.getInstance().createNodeInstance();
 	    	newNode.setState(state);
 	    	newNode.getPredecessors().add(promisingNode);
 	        promisingNode.getSuccessors().add(newNode);     
-			try {
-				var tree = (Tree)super.structure;
-				tree.addNode(newNode);
-			} catch (IllegalTreeOperationException e) {
-				log.error(e.getMessage());
-			}
+			super.addNodeToTreeStructure(newNode);
 	    });
     }
 

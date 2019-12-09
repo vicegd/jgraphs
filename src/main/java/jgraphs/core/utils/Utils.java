@@ -4,6 +4,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 
+import jgraphs.core.node.INode;
+
 public class Utils {
     private static Utils instance = null; 
     private Injector injector;
@@ -30,5 +32,9 @@ public class Utils {
     
     public Injector getInjector() {
     	return this.injector;
+    }
+    
+    public INode createNodeInstance() {
+    	return this.getInjector().getInstance(INode.class);
     }
 }

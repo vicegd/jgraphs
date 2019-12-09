@@ -10,13 +10,12 @@ import jgraphs.algorithm.mcts.MCTS;
 import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
-import jgraphs.visualizer.graph.SimpleGraphVisualizer;
 
 public class TicTacToeTest {
     private MCTS mcts;
 
     @Before	
-    public void initGameTree() {
+    public void initialize() {
         this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
         this.mcts.addStatistic(new TreeConsoleStatistic());
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());
@@ -48,13 +47,10 @@ public class TicTacToeTest {
         var node = this.mcts.getStructure().getFirst();
         this.mcts.getBudgetManager().setIterations(10000);
         this.mcts.setTrainers(new boolean[] {true, false});
-   
-        while (!node.getState().getSituation().hasFinished()) {
-            node = this.mcts.execute(node); 
-        }
+        this.mcts.execute(node); 
         
-        var winStatus = node.getState().getSituation().checkStatus();
-        assertTrue(winStatus == 1);
+        var status = this.mcts.getFirstResult().getState().getSituation().checkStatus();
+        assertTrue(status == 1);
     }
 
 }
