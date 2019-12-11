@@ -32,6 +32,14 @@ public abstract class AbstractSituation implements ISituation {
         return sb.toString();
     }
     
+    public int getSize() {
+    	return this.n;
+    }
+    
+    public int getLevel() {
+    	return this.level;
+    }
+    
     protected void copyInfo(AbstractSituation source, AbstractSituation target) {
     	target.n = source.n;
     	target.level = source.level;

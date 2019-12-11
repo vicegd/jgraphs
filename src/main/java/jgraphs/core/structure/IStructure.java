@@ -1,5 +1,6 @@
 package jgraphs.core.structure;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,5 +22,5 @@ public interface IStructure {
 	
 	public List<INode> getNodeList();
 	
-	public void setFirstSituatiton(ISituation situation);
+	public void setFirstSituation(ISituation situation);
 }

@@ -37,6 +37,11 @@ public class Node implements INode {
     public UUID getId() {
     	return this.id;
     }
+    
+	@Override
+	public void setId(UUID id) {
+		this.id = id;	
+	}
 
     @Override
     public IState getState() {

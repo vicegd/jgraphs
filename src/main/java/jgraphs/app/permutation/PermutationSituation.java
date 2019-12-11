@@ -45,5 +45,9 @@ public class PermutationSituation extends AbstractIntArraySituation {
     	if (this.level == this.n) return 0;
     	else return -1;
     }
+    
+    public boolean[] getUsed() {
+    	return this.used;
+    }
   
 }

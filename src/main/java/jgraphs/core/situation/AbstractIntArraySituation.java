@@ -27,11 +27,15 @@ public abstract class AbstractIntArraySituation extends AbstractSituation {
         v.append("</p>");
         return v.toString();
     }
+ 
+    public int[] getValues() {
+    	return this.values;
+    }
     
     protected void copyInfo(AbstractIntArraySituation source, AbstractIntArraySituation target) {
     	super.copyInfo(source, target);
     	target.values = source.values.clone();
     }
-  
+ 
 }
 

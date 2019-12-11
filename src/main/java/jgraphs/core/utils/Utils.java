@@ -5,6 +5,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 
 import jgraphs.core.node.INode;
+import jgraphs.core.structure.IGraph;
+import jgraphs.core.structure.ITree;
 
 public class Utils {
     private static Utils instance = null; 
@@ -36,5 +38,13 @@ public class Utils {
     
     public INode createNodeInstance() {
     	return this.getInjector().getInstance(INode.class);
+    }
+    
+    public ITree createTreeInstance() {
+    	return this.getInjector().getInstance(ITree.class);
+    }
+    
+    public IGraph createGraphInstance() {
+    	return this.getInjector().getInstance(IGraph.class);
     }
 }

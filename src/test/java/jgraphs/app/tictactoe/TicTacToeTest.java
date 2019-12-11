@@ -17,6 +17,7 @@ public class TicTacToeTest {
     @Before	
     public void initialize() {
         this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
+        this.mcts.getStructure().setFirstSituation(new TicTacToeSituation());
         this.mcts.addStatistic(new TreeConsoleStatistic());
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());
        // this.mcts.addVisualizer(new SimpleGraphVisualizer());
@@ -44,7 +45,6 @@ public class TicTacToeTest {
    
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
-    	this.mcts.getStructure().setFirstSituatiton(new TicTacToeSituation());
         this.mcts.getBudgetManager().setIterations(10000);
         this.mcts.setTrainers(new boolean[] {true, false});
         this.mcts.execute(this.mcts.getStructure().getFirst()); 

@@ -10,6 +10,8 @@ public interface INode {
     
 	public UUID getId();
 	
+	public void setId(UUID id);
+	
     public IState getState();
 
     public void setState(IState state);

@@ -57,7 +57,7 @@ public abstract class AbstractStructure implements IStructure {
 	}
 	
 	@Override
-	public void setFirstSituatiton(ISituation situation) {
+	public void setFirstSituation(ISituation situation) {
 		this.getFirst().getState().setSituation(situation);
 	}
 	

@@ -32,6 +32,10 @@ public abstract class AbstractIntTableSituation extends AbstractSituation {
         } 
         return v.toString();
     }
+    
+    public int[][] getValues() {
+    	return this.values;
+    }
            
     protected void copyInfo(AbstractIntTableSituation source, AbstractIntTableSituation target) {
     	super.copyInfo(source, target);

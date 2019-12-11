@@ -26,7 +26,7 @@ public class PermutationOneTest {
     @Test
     public void givenInitState_whenGetAllPossiblePermutations1Elements_then1Result() {
     	var tree = this.backtracking.getStructure();
-        tree.setFirstSituatiton(new PermutationSituation(1));
+        tree.setFirstSituation(new PermutationSituation(1));
         this.backtracking.execute(tree.getFirst());              
         assertEquals(1, this.backtracking.getResults().size());
     }
@@ -34,7 +34,7 @@ public class PermutationOneTest {
     @Test
     public void givenInitState_whenGetAllPossiblePermutations3Elements_then1Result() {
     	var tree = this.backtracking.getStructure();
-        tree.setFirstSituatiton(new PermutationSituation(3));
+        tree.setFirstSituation(new PermutationSituation(3));
         this.backtracking.execute(tree.getFirst());              
         assertEquals(1, this.backtracking.getResults().size());
     }
