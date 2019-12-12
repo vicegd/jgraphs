@@ -40,6 +40,11 @@ public class State implements IState {
     	return this.id;
     }
     
+	@Override
+	public void setId(UUID id) {
+		this.id = id;	
+	}
+    
     @Override
     public ISituation getSituation() {
         return this.situation;
@@ -99,6 +104,11 @@ public class State implements IState {
     }
     
 	@Override
+	public void setScores(double[] scores) {
+		this.scores = scores;
+	}
+    
+	@Override
 	public INode getNode() {
 		return this.node;
 	}
@@ -145,17 +155,6 @@ public class State implements IState {
     }
     
     @Override
-    public String toString() {
-    	var sb = new StringBuilder();
-    	sb.append("State:\n");
-    	sb.append("\tParticipant: \t" + this.participantManager.getParticipant() + "\n"); 
-    	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
-    	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
-    	sb.append(this.situation.toString());
-        return sb.toString();
-    }
-    
-    @Override
     public String serializeScores() {
     	var sb = new StringBuilder();
     	sb.append("[");
@@ -165,4 +164,31 @@ public class State implements IState {
     	sb.append("]");
     	return sb.toString();
     }
+    
+    @Override
+    public String toString() {
+    	var sb = new StringBuilder();
+    	sb.append("State:\n");
+    	sb.append("\tId: \t\t" + this.getId() + "\n"); 
+    	sb.append("\tParticipant: \t" + this.participantManager.getParticipant() + "\n"); 
+    	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
+    	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
+    	sb.append(this.situation.toString());
+        return sb.toString();
+    }
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (State)obj;
+		if (!this.id.equals(that.id)) return false;
+		if (!this.node.getId().equals(that.node.getId())) return false;
+		if (!this.situation.equals(that.situation)) return false;
+		if (this.participantManager.getNumberOfParticipants() != that.participantManager.getNumberOfParticipants()) return false;
+		if (this.participantManager.getParticipant() != that.participantManager.getParticipant()) return false;
+		if (this.participantManager.getOpponent() != that.participantManager.getOpponent()) return false;
+		if (this.visitCount != that.visitCount) return false;
+		if (!this.serializeScores().equals(that.serializeScores())) return false;
+        return true;        
+	}
+    
 }

@@ -12,6 +12,10 @@ public interface INode {
 	
 	public void setId(UUID id);
 	
+	public boolean containsPredecessor(UUID id);
+
+	public boolean containsSuccessor(UUID id);
+	
     public IState getState();
 
     public void setState(IState state);

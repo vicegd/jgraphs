@@ -105,7 +105,8 @@ public class MCTS extends AbstractProcess {
 	    	var newNode = Utils.getInstance().createNodeInstance();
 	    	newNode.setState(state);
 	    	newNode.getPredecessors().add(promisingNode);
-	        promisingNode.getSuccessors().add(newNode);     
+	        promisingNode.getSuccessors().add(newNode);   
+	        state.setNode(newNode);
 			super.addNodeToTreeStructure(newNode);
 	    });
     }

@@ -36,6 +36,10 @@ public abstract class AbstractIntTableSituation extends AbstractSituation {
     public int[][] getValues() {
     	return this.values;
     }
+    
+    public void setValues(int[][] values) {
+    	this.values = values;
+    }
            
     protected void copyInfo(AbstractIntTableSituation source, AbstractIntTableSituation target) {
     	super.copyInfo(source, target);

@@ -61,6 +61,24 @@ public abstract class AbstractStructure implements IStructure {
 		this.getFirst().getState().setSituation(situation);
 	}
 	
+	@Override
+	public void loadStructure(HashMap<UUID, String> nodeNames, HashMap<UUID, INode> nodes, List<INode> nodeList) {
+		this.nodeNames = nodeNames;
+		this.nodes = nodes;
+		this.nodeList = nodeList;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		var that = (AbstractStructure)obj;
+		
+		for (var n : this.nodeList) {
+			if (!n.equals(that.getNode(n.getId()))) return false;
+		}
+		
+        return true;
+	}
+	
 	protected void addNewNode(INode node) {
 		if (!nodes.containsKey(node.getId())) {
 			this.nodes.put(node.getId(), node);

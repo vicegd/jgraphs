@@ -12,7 +12,7 @@ public abstract class AbstractIntArraySituation extends AbstractSituation {
     public String getValuesToString() {
         var v = new StringBuilder();
         for (var i = 0; i < values.length; i++) {
-            v.append(values[i]+1 + " ");
+            v.append(values[i] + " ");
         } 
         return v.toString();
     }
@@ -22,14 +22,18 @@ public abstract class AbstractIntArraySituation extends AbstractSituation {
         var v = new StringBuilder();
         v.append("<p>");
         for (var i = 0; i < values.length; i++) {
-            v.append(values[i]+1 + " ");
+            v.append(values[i] + " ");
         } 
         v.append("</p>");
         return v.toString();
     }
- 
+       
     public int[] getValues() {
     	return this.values;
+    }
+    
+    public void setValues(int[] values) {
+    	this.values = values;
     }
     
     protected void copyInfo(AbstractIntArraySituation source, AbstractIntArraySituation target) {

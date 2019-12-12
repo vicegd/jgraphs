@@ -46,8 +46,22 @@ public class PermutationSituation extends AbstractIntArraySituation {
     	else return -1;
     }
     
+	@Override
+	public boolean equals(Object obj) {
+		if (!super.equals(obj)) return false;
+		var that = (PermutationSituation)obj;
+		for (var i = 0; i < this.used.length; i++) {
+			if (this.used[i] != that.used[i]) return false;
+		}
+        return true;
+	}
+    
     public boolean[] getUsed() {
     	return this.used;
+    }
+    
+    public void setUsed(boolean[] used) {
+    	this.used = used;
     }
   
 }

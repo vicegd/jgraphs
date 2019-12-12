@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,8 +34,10 @@ public class H2Persistence implements IPersistence {
 	    	Class.forName(JDBC_DRIVER); 
 	        conn = DriverManager.getConnection(DB_URL, USER, PASS);  
 	        stmt = conn.createStatement(); 
-	        String sql =  "INSERT INTO JGRAPHS VALUES ('" + key + "','" + serializer.serialize(structure) + "')";  
-	        stmt.executeUpdate(sql);       	         
+	        String sql =  "DELETE FROM JGRAPHS WHERE KEY = '" + key + "'"; 
+	        stmt.executeUpdate(sql);       
+	        sql =  "INSERT INTO JGRAPHS VALUES ('" + key + "','" + serializer.serialize(structure) + "')";  
+	        stmt.executeUpdate(sql);    
 	        stmt.close(); 
 	        conn.close(); 
 	    } catch(SQLException se) { 
@@ -57,6 +60,36 @@ public class H2Persistence implements IPersistence {
 
 	@Override
 	public IStructure loadStructure(String key, ISerializer serializer) {
-		return serializer.deserialize("persistence/" + key + ".json");  
+		Connection conn = null; 
+	    Statement stmt = null; 
+	    IStructure structure = null;
+	    try { 
+	    	Class.forName(JDBC_DRIVER); 
+	        conn = DriverManager.getConnection(DB_URL, USER, PASS);  
+	        stmt = conn.createStatement(); 
+	        String sql =  "SELECT ISTRUCTURE FROM JGRAPHS WHERE KEY = '" + key + "'";  
+	        var queryResult = stmt.executeQuery(sql); 
+	        queryResult.next();
+	        var json = new JSONArray(queryResult.getString("ISTRUCTURE"));
+	        structure = serializer.deserialize(json);	        
+	        stmt.close(); 
+	        conn.close(); 
+	    } catch(SQLException se) { 
+	        log.error(se.getMessage());
+	    } catch(Exception e) { 
+	    	log.error(e.getMessage());
+	    } finally { 
+	        try{ 
+	           if(stmt!=null) stmt.close(); 
+	        } catch(SQLException se) { 
+	        	log.error(se.getMessage());
+	        } 
+	        try { 
+	           if(conn!=null) conn.close(); 
+	        } catch(SQLException se){ 
+	        	log.error(se.getMessage());
+	        } 
+	    } 
+	    return structure;
 	}
 }
