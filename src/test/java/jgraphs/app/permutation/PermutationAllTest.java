@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
 import jgraphs.statistics.TreeConsoleStatistic;
-import jgraphs.traceability.BasicTraceability;
+import jgraphs.traceability.DefaultTraceability;
 import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
@@ -19,7 +19,7 @@ public class PermutationAllTest {
         this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
-        this.backtracking.addTraceability(new BasicTraceability());
+        this.backtracking.addTraceability(new DefaultTraceability());
     }
     
     //@Test

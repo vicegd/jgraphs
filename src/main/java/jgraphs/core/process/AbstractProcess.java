@@ -96,9 +96,6 @@ public abstract class AbstractProcess {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.structureChangedEvent(structure, sourceNode, endNode, movementNumber, iterationNumber, status);
     	}
-    	for(ITraceability traceability : traceabilities) {
-    		traceability.pause(structure);
-    	}
     	this.decrementProcessDuration(time);
     }
  
@@ -106,9 +103,6 @@ public abstract class AbstractProcess {
     	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.movementPerformedEvent(structure, sourceNode, endNode, movementNumber);
-    	}
-    	for(ITraceability traceability : traceabilities) {
-    		traceability.pause(structure);
     	}
     	this.decrementProcessDuration(time);
     }
@@ -118,13 +112,18 @@ public abstract class AbstractProcess {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.processFinishedEvent(structure, result);
     	}
-    	for(ITraceability traceability : traceabilities) {
-    		traceability.pause(structure);
-    	}
     	this.decrementProcessDuration(time);
     	for(IStatistic statistic : statistics) {
     		statistic.processFinishedEvent(structure, processDuration, totalDuration);
     	}
+    }
+    
+    protected void pauseEvent(IStructure structure) {
+    	var time = Instant.now();
+    	for(ITraceability traceability : traceabilities) {
+    		traceability.pause(structure);
+    	}
+    	this.decrementProcessDuration(time);
     }
     
 	protected void addNodeToTreeStructure(INode node) {

@@ -20,7 +20,7 @@ public class SerializerTest {
         this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
     }
     
-    @Test
+    //@Test
     public void givenStructure_serialize_thenJSONCreate() {
     	var tree = this.backtracking.getStructure();
     	tree.setFirstSituation(new PermutationSituation(1));
