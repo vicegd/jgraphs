@@ -1,5 +1,6 @@
 package jgraphs.serialization;
 
+import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
@@ -36,7 +37,7 @@ public abstract class AbstractSerializer implements ISerializer {
 			json.put(nodeObject);
 		}
 		
-		log.info(json.toString());
+		log.info(json.write(new StringWriter(), 3, 0).toString());
 		return json;
 	}
 	

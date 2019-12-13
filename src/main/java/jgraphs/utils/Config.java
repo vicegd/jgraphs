@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import jgraphs.logging.Logging;
 
 public class Config {
-	private static Logger log = Logging.getInstance().getLogger(Config.class);
-    private static Config instance = null; 
+	protected static final Logger log = Logging.getInstance().getLogger(Config.class);
+	private static Config instance = null; 
   
     private Config() { 
     } 

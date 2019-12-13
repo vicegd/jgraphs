@@ -9,7 +9,7 @@ import jgraphs.logging.Logging;
 import jgraphs.utils.IllegalTreeOperationException;
 
 public class Tree extends AbstractStructure implements ITree {
-	private static Logger log = Logging.getInstance().getLogger(Tree.class);
+	protected static final Logger log = Logging.getInstance().getLogger(Tree.class);
 
 	@Inject
     public Tree(INode root) {

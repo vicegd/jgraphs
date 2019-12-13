@@ -18,6 +18,7 @@ import jgraphs.utils.IllegalTreeOperationException;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractProcess {
+	protected static final Logger log = Logging.getInstance().getLogger(AbstractProcess.class);
 	private Duration totalDuration;
 	private Duration processDuration;
 	private List<IVisualizer> visualizers;
@@ -27,7 +28,6 @@ public abstract class AbstractProcess {
 	private Instant timer;
 	private int movementNumber;
 	private IStructure structure;
-	protected static Logger log = Logging.getInstance().getLogger(AbstractProcess.class);
 	
 	public AbstractProcess() {
 		this.totalDuration = Duration.ZERO;

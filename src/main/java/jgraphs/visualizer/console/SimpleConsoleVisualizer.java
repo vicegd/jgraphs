@@ -10,7 +10,7 @@ import jgraphs.logging.Logging;
 import jgraphs.visualizer.IVisualizer;
 
 public class SimpleConsoleVisualizer implements IVisualizer {
-	private static Logger log = Logging.getInstance().getLogger(SimpleConsoleVisualizer.class);
+	protected static final Logger log = Logging.getInstance().getLogger(SimpleConsoleVisualizer.class);
 	@Override
 	public void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
 		log.info("\n******************************STRUCTURE CHANGED***********************");

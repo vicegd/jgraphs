@@ -15,7 +15,7 @@ import jgraphs.core.structure.IStructure;
 import jgraphs.logging.Logging;
 
 public class TreeConsoleStatistic implements IStatistic {
-	private static Logger log = Logging.getInstance().getLogger(TreeConsoleStatistic.class);
+	protected static final Logger log = Logging.getInstance().getLogger(TreeConsoleStatistic.class);
 	HashMap<Integer, Integer> generatedWidths = new HashMap<Integer, Integer>();
 	HashMap<Integer, Integer> exploredWidths = new HashMap<Integer, Integer>();
 	TreeStatisticData data = new TreeStatisticData();

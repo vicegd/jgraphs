@@ -26,7 +26,7 @@ import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractGraphVisualizer implements IVisualizer {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractGraphVisualizer.class);
+	protected static final Logger log = Logging.getInstance().getLogger(AbstractGraphVisualizer.class);
 	protected String path;
 	protected MutableGraph g;
 	protected SimpleDateFormat dateFormat;

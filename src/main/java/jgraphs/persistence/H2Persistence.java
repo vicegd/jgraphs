@@ -15,8 +15,8 @@ import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
 
 public class H2Persistence implements IPersistence {
-	private static HashMap<String, String> config = Config.getInstance().getConfig(H2Persistence.class);
-	private static Logger log = Logging.getInstance().getLogger(H2Persistence.class);
+	protected static final HashMap<String, String> config = Config.getInstance().getConfig(H2Persistence.class);
+	protected static final Logger log = Logging.getInstance().getLogger(H2Persistence.class);
 	private String JDBC_DRIVER;   
 	private String DB_URL;  
 	private String USER; 

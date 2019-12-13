@@ -13,7 +13,7 @@ import jgraphs.core.node.INode;
 import jgraphs.logging.Logging;
 
 public class UCB implements ITreePolicy {
-	private static Logger log = Logging.getInstance().getLogger(UCB.class);
+	protected static final Logger log = Logging.getInstance().getLogger(UCB.class);
 	private double winScore = 1;
 	private double drawScore = 0.5;
 	private double loseScore = 0;

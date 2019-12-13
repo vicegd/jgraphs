@@ -12,7 +12,7 @@ import org.slf4j.Logger;
 import jgraphs.logging.Logging;
 
 public class DefaultBudgetManager implements IBudgetManager {
-	private static Logger log = Logging.getInstance().getLogger(DefaultBudgetManager.class);
+	protected static final Logger log = Logging.getInstance().getLogger(DefaultBudgetManager.class);
 	private long iterations;
 	private long memory;
 	private long seconds;

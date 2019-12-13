@@ -1,6 +1,7 @@
 package jgraphs.persistence;
 
 import java.io.IOException;
+import java.io.StringWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
@@ -14,15 +15,15 @@ import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
 
 public class FilePersistence implements IPersistence {
-	private static HashMap<String, String> config = Config.getInstance().getConfig(FilePersistence.class);
-	private static Logger log = Logging.getInstance().getLogger(FilePersistence.class);
+	protected static final HashMap<String, String> config = Config.getInstance().getConfig(FilePersistence.class);
+	protected static final Logger log = Logging.getInstance().getLogger(FilePersistence.class);
 	
 	@Override
 	public void saveStructure(String key, ISerializer serializer, IStructure structure) {
 		var json = serializer.serialize(structure);
 		var fileName = config.get("persistence_path") + key + ".json";
 		try {
-			Files.write(Paths.get(fileName), json.toString().getBytes());
+			Files.write(Paths.get(fileName), json.write(new StringWriter(), 3, 0).toString().getBytes());
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
