@@ -1,13 +1,15 @@
 package jgraphs.core.structure;
 
+import org.slf4j.Logger;
+
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
+import jgraphs.logging.Logging;
 import jgraphs.utils.IllegalTreeOperationException;
-import jgraphs.utils.Logger;
 
 public class Tree extends AbstractStructure implements ITree {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(Tree.class);
+	private static Logger log = Logging.getInstance().getLogger(Tree.class);
 
 	@Inject
     public Tree(INode root) {

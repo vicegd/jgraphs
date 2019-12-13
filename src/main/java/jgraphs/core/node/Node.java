@@ -65,8 +65,9 @@ public class Node implements INode {
     }
 
     @Override
-    public void setState(IState state) {
+    public void setState(IState state) {    	
         this.state = state;
+        this.state.setNode(this);
     }
 
     @Override

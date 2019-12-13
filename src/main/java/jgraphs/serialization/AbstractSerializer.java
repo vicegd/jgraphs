@@ -6,16 +6,17 @@ import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.situation.ISituation;
 import jgraphs.core.state.IState;
 import jgraphs.core.structure.IStructure;
-import jgraphs.utils.Logger;
+import jgraphs.logging.Logging;
 import jgraphs.utils.Dependency;
 
 public abstract class AbstractSerializer implements ISerializer {
-	protected static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractSerializer.class);
+	protected static Logger log = Logging.getInstance().getLogger(AbstractSerializer.class);
 	protected ISituation situation;
 	
 	@Override
@@ -58,7 +59,6 @@ public abstract class AbstractSerializer implements ISerializer {
 			node.setState(state);
 		
 			state.setId(UUID.fromString((String)stateObject.get("id")));
-			state.setNode(node);
 			state.setVisitCount((Integer)stateObject.get("visits"));
 			state.getParticipantManager().setParticipant((Integer)stateObject.get("currentParticipant"));
 			state.setScores(fromJSONArrayToDoubleArray(stateObject.get("scores")));

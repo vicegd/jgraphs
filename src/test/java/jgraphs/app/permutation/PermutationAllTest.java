@@ -3,9 +3,11 @@ package jgraphs.app.permutation;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
 import jgraphs.statistics.TreeConsoleStatistic;
+import jgraphs.traceability.BasicTraceability;
 import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
@@ -17,6 +19,7 @@ public class PermutationAllTest {
         this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
+        this.backtracking.addTraceability(new BasicTraceability());
     }
     
     //@Test
@@ -35,7 +38,7 @@ public class PermutationAllTest {
         assertEquals(24, this.backtracking.getResults().size());
     }
     
-    //@Test
+    @Test
     public void givenInitState_whenGetAllPossiblePermutations5Elements_then120Results() {
     	var tree = this.backtracking.getStructure();
         tree.setFirstSituation(new PermutationSituation(5));

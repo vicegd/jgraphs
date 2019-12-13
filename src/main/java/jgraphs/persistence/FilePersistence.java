@@ -6,24 +6,21 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.slf4j.Logger;
 
 import jgraphs.core.structure.IStructure;
+import jgraphs.logging.Logging;
 import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
-import jgraphs.utils.Logger;
 
 public class FilePersistence implements IPersistence {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(FilePersistence.class);
-	private HashMap<String, String> config;
-	
-	public FilePersistence() {
-		this.config = Config.getInstance().getConfig("filePersistence");
-	}
+	private static HashMap<String, String> config = Config.getInstance().getConfig(FilePersistence.class);
+	private static Logger log = Logging.getInstance().getLogger(FilePersistence.class);
 	
 	@Override
 	public void saveStructure(String key, ISerializer serializer, IStructure structure) {
 		var json = serializer.serialize(structure);
-		var fileName = this.config.get("persistence_path") + key + ".json";
+		var fileName = config.get("persistence_path") + key + ".json";
 		try {
 			Files.write(Paths.get(fileName), json.toString().getBytes());
 		} catch (IOException e) {
@@ -34,7 +31,7 @@ public class FilePersistence implements IPersistence {
 	@Override
 	public IStructure loadStructure(String key, ISerializer serializer) {
 		String content = "";
-		var fileName = this.config.get("persistence_path") + key + ".json";
+		var fileName = config.get("persistence_path") + key + ".json";
 		try {
 			content = Files.readString(Paths.get(fileName));
 		} catch (IOException e) {

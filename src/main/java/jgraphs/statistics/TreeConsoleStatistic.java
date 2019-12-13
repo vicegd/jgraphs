@@ -8,12 +8,14 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.utils.Logger;
+import jgraphs.logging.Logging;
 
 public class TreeConsoleStatistic implements IStatistic {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(TreeConsoleStatistic.class);
+	private static Logger log = Logging.getInstance().getLogger(TreeConsoleStatistic.class);
 	HashMap<Integer, Integer> generatedWidths = new HashMap<Integer, Integer>();
 	HashMap<Integer, Integer> exploredWidths = new HashMap<Integer, Integer>();
 	TreeStatisticData data = new TreeStatisticData();

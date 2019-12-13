@@ -6,8 +6,12 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
+import jgraphs.logging.Logging;
+
 public class Config {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(Config.class);
+	private static Logger log = Logging.getInstance().getLogger(Config.class);
     private static Config instance = null; 
   
     private Config() { 
@@ -19,7 +23,8 @@ public class Config {
     	return instance; 
     } 
     
-    public HashMap<String, String> getConfig(String path) {
+    public HashMap<String, String> getConfig(Class<?> className) {
+    	var path = className.getSimpleName();
     	var config = new HashMap<String, String>();
     	try (InputStream input = new FileInputStream("configs/" + path + ".properties")) {
             var prop = new Properties();

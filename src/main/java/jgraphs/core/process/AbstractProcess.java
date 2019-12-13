@@ -5,13 +5,16 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.Graph;
 import jgraphs.core.structure.IStructure;
 import jgraphs.core.structure.Tree;
+import jgraphs.logging.Logging;
 import jgraphs.statistics.IStatistic;
+import jgraphs.traceability.ITraceability;
 import jgraphs.utils.IllegalTreeOperationException;
-import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractProcess {
@@ -19,17 +22,19 @@ public abstract class AbstractProcess {
 	private Duration processDuration;
 	private List<IVisualizer> visualizers;
 	private List<IStatistic> statistics;
+	private List<ITraceability> traceabilities;
 	private List<INode> results;
 	private Instant timer;
 	private int movementNumber;
 	private IStructure structure;
-	protected static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractProcess.class);
+	protected static Logger log = Logging.getInstance().getLogger(AbstractProcess.class);
 	
 	public AbstractProcess() {
 		this.totalDuration = Duration.ZERO;
      	this.processDuration = Duration.ZERO;
     	this.visualizers = new ArrayList<IVisualizer>();
     	this.statistics = new ArrayList<IStatistic>();
+    	this.traceabilities = new ArrayList<ITraceability>();
     	this.results = new ArrayList<INode>();
     	this.movementNumber = 1;
 	}
@@ -75,17 +80,24 @@ public abstract class AbstractProcess {
 	}
 	
     public void addVisualizer(IVisualizer visualizer) {
-    	visualizers.add(visualizer);
+    	this.visualizers.add(visualizer);
     }
     
     public void addStatistic(IStatistic statistic) {
-    	statistics.add(statistic);
+    	this.statistics.add(statistic);
+    }
+    
+    public void addTraceability(ITraceability traceability) {
+    	this.traceabilities.add(traceability);
     }
     	
     protected void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
     	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.structureChangedEvent(structure, sourceNode, endNode, movementNumber, iterationNumber, status);
+    	}
+    	for(ITraceability traceability : traceabilities) {
+    		traceability.pause(structure);
     	}
     	this.decrementProcessDuration(time);
     }
@@ -95,6 +107,9 @@ public abstract class AbstractProcess {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.movementPerformedEvent(structure, sourceNode, endNode, movementNumber);
     	}
+    	for(ITraceability traceability : traceabilities) {
+    		traceability.pause(structure);
+    	}
     	this.decrementProcessDuration(time);
     }
     
@@ -102,6 +117,9 @@ public abstract class AbstractProcess {
     	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.processFinishedEvent(structure, result);
+    	}
+    	for(ITraceability traceability : traceabilities) {
+    		traceability.pause(structure);
     	}
     	this.decrementProcessDuration(time);
     	for(IStatistic statistic : statistics) {

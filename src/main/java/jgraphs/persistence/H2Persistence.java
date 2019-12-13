@@ -7,22 +7,22 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import org.json.JSONArray;
+import org.slf4j.Logger;
 
 import jgraphs.core.structure.IStructure;
+import jgraphs.logging.Logging;
 import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
-import jgraphs.utils.Logger;
 
 public class H2Persistence implements IPersistence {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(H2Persistence.class);
-	private HashMap<String, String> config;
+	private static HashMap<String, String> config = Config.getInstance().getConfig(H2Persistence.class);
+	private static Logger log = Logging.getInstance().getLogger(H2Persistence.class);
 	private String JDBC_DRIVER;   
 	private String DB_URL;  
 	private String USER; 
 	private String PASS; 
 
 	public H2Persistence() {
-		this.config = Config.getInstance().getConfig("H2Persistence");
 		this.JDBC_DRIVER = config.get("JDBC_DRIVER");  
 		this.DB_URL = config.get("DB_URL");  
 		this.USER = config.get("USER");  

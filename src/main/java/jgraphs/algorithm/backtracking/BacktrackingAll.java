@@ -33,7 +33,6 @@ public class BacktrackingAll extends AbstractProcess {
     	    	newNode.setState(state);
     	    	newNode.getPredecessors().add(node);
     	        node.getSuccessors().add(newNode);
-    	        state.setNode(newNode);
     	        super.addNodeToTreeStructure(newNode);
     			this.backtracking(newNode);
     	    });

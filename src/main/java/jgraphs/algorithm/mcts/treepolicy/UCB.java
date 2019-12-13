@@ -7,11 +7,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+
 import jgraphs.core.node.INode;
-import jgraphs.utils.Logger;
+import jgraphs.logging.Logging;
 
 public class UCB implements ITreePolicy {
-	private static org.slf4j.Logger log = Logger.getInstance().getLogger(UCB.class);
+	private static Logger log = Logging.getInstance().getLogger(UCB.class);
 	private double winScore = 1;
 	private double drawScore = 0.5;
 	private double loseScore = 0;
