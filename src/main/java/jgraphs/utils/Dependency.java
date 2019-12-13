@@ -1,4 +1,4 @@
-package jgraphs.core.utils;
+package jgraphs.utils;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
@@ -9,27 +9,27 @@ import jgraphs.core.state.IState;
 import jgraphs.core.structure.IGraph;
 import jgraphs.core.structure.ITree;
 
-public class Utils {
-    private static Utils instance = null; 
+public class Dependency {
+    private static Dependency instance = null; 
     private Injector injector;
   
-    private Utils() { 
+    private Dependency() { 
     	this.injector = Guice.createInjector(new BasicModule());	
     } 
     
-    private Utils(AbstractModule module) { 
+    private Dependency(AbstractModule module) { 
       	this.injector = Guice.createInjector(module);	
     } 
      
-    public static Utils getInstance() { 
+    public static Dependency getInstance() { 
     	if (instance == null)
-    		instance = new Utils();
+    		instance = new Dependency();
     	return instance; 
     } 
     
-    public static Utils getInstance(AbstractModule module) { 
+    public static Dependency getInstance(AbstractModule module) { 
     	if (instance == null)
-    		instance = new Utils(module);
+    		instance = new Dependency(module);
     	return instance; 
     } 
     

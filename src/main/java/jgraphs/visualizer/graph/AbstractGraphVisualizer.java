@@ -12,9 +12,6 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import guru.nidi.graphviz.attribute.Color;
 import guru.nidi.graphviz.attribute.Label;
 import guru.nidi.graphviz.attribute.Shape;
@@ -22,12 +19,14 @@ import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
+import jgraphs.algorithm.mcts.budget.DefaultBudgetManager;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
+import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractGraphVisualizer implements IVisualizer {
-	protected static Logger log = LoggerFactory.getLogger(AbstractGraphVisualizer.class);
+	private static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractGraphVisualizer.class);
 	protected String path;
 	protected MutableGraph g;
 	protected SimpleDateFormat dateFormat;

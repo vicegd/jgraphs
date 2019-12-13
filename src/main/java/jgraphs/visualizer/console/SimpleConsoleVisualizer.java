@@ -2,16 +2,14 @@ package jgraphs.visualizer.console;
 
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import jgraphs.algorithm.mcts.budget.DefaultBudgetManager;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
+import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public class SimpleConsoleVisualizer implements IVisualizer {
-	private static Logger log = LoggerFactory.getLogger(SimpleConsoleVisualizer.class);
-
+	private static org.slf4j.Logger log = Logger.getInstance().getLogger(SimpleConsoleVisualizer.class);
 	@Override
 	public void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
 		log.info("\n******************************STRUCTURE CHANGED***********************");

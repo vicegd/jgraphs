@@ -8,7 +8,7 @@ import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.algorithm.mcts.treepolicy.UCB;
 import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.participant.TwoParticipantsManager;
-import jgraphs.core.utils.BasicModule;
+import jgraphs.utils.BasicModule;
 
 public class TicTacToeModule extends BasicModule {
     @Override

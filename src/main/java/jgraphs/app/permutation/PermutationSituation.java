@@ -3,12 +3,16 @@ package jgraphs.app.permutation;
 import java.util.ArrayList;
 import java.util.List;
 
-import jgraphs.core.situation.AbstractIntArraySituation;
+import jgraphs.core.situation.IntArraySituation;
 import jgraphs.core.situation.ISituation;
 
-public class PermutationSituation extends AbstractIntArraySituation {
+public class PermutationSituation extends IntArraySituation {
 	private boolean[] used;
 
+	public PermutationSituation() {
+		this(10);
+	}
+	
     public PermutationSituation(int n) {
     	super(n);
     	this.used = new boolean[super.n];

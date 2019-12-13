@@ -3,22 +3,18 @@ package jgraphs.app.permutation;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
-import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
-import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
+import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class PermutationAllTest {
-	protected static Logger log = LoggerFactory.getLogger(PermutationAllTest.class);
     private BacktrackingAll backtracking;
 
     @Before
     public void initialize() {
-        this.backtracking = Utils.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
+        this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
     }

@@ -2,7 +2,7 @@ package jgraphs.app.permutation;
 
 import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.participant.SingleParticipantManager;
-import jgraphs.core.utils.BasicModule;
+import jgraphs.utils.BasicModule;
 
 public class PermutationModule extends BasicModule {
     @Override

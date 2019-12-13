@@ -5,7 +5,7 @@ import com.google.inject.Inject;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
-import jgraphs.core.utils.Utils;
+import jgraphs.utils.Dependency;
 
 public class BacktrackingOne extends AbstractProcess {    
 	private boolean end;
@@ -34,7 +34,7 @@ public class BacktrackingOne extends AbstractProcess {
         	var possibleStates = node.getState().nextStates();
     	    possibleStates.forEach(state -> {
     	    	if (!this.end) {
-    	    		var newNode = Utils.getInstance().createNodeInstance();	
+    	    		var newNode = Dependency.getInstance().createNodeInstance();	
 	    	    	newNode.setState(state); 	
 	    	    	newNode.getPredecessors().add(node);
 	    	        node.getSuccessors().add(newNode);     

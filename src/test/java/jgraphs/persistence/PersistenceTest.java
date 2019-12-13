@@ -1,21 +1,18 @@
-package jgraphs.app.permutation;
+package jgraphs.persistence;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
-import jgraphs.core.persistence.FilePersistence;
-import jgraphs.core.persistence.H2Persistence;
-import jgraphs.core.persistence.MemoryPersistence;
-import jgraphs.core.utils.Utils;
+import jgraphs.app.permutation.PermutationModule;
+import jgraphs.app.permutation.PermutationSerializer;
+import jgraphs.app.permutation.PermutationSituation;
+import jgraphs.utils.Dependency;
 
-public class PermutationPersistenceTest {
-	protected static Logger log = LoggerFactory.getLogger(PermutationPersistenceTest.class);
+public class PersistenceTest {
     private BacktrackingAll backtracking;
     private MemoryPersistence memoryPersistence = new MemoryPersistence();
     private FilePersistence filePersistence = new FilePersistence();
@@ -23,7 +20,7 @@ public class PermutationPersistenceTest {
     
     @Before
     public void initialize() {
-        this.backtracking = Utils.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
+        this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
     }
         
     @Test

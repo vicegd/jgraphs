@@ -1,9 +1,9 @@
-package jgraphs.core.persistence;
+package jgraphs.persistence;
 
 import java.util.HashMap;
 
-import jgraphs.core.serialization.ISerializer;
 import jgraphs.core.structure.IStructure;
+import jgraphs.serialization.ISerializer;
 
 public class MemoryPersistence implements IPersistence {
 	public static HashMap<String, IStructure> structures = new HashMap<String, IStructure>();

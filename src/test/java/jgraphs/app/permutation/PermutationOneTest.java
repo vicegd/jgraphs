@@ -4,21 +4,18 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.algorithm.backtracking.BacktrackingOne;
-import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
+import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class PermutationOneTest {
-	protected static Logger log = LoggerFactory.getLogger(PermutationOneTest.class);
     private BacktrackingOne backtracking;
 
     @Before	
     public void initialize() {
-        this.backtracking = Utils.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingOne.class);
+        this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingOne.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
     }

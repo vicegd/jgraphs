@@ -3,27 +3,25 @@ package jgraphs.app.permutation;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import jgraphs.core.serialization.AbstractSerializer;
 import jgraphs.core.situation.ISituation;
+import jgraphs.serialization.IntArraySerializer;
 
-public class PermutationSerializer extends AbstractSerializer {
+public class PermutationSerializer extends IntArraySerializer {
+	public PermutationSerializer() {
+		super.situation = (ISituation) new PermutationSituation();
+	}
+	
 	@Override
 	public JSONObject serializeSituation(ISituation situation) {
+		var object = super.serializeSituation(situation);
 		var permutationSituation = (PermutationSituation)situation;
-		var object = new JSONObject();
-		object.put("n", permutationSituation.getSize());
-		object.put("level", permutationSituation.getLevel());
-		object.put("values", new JSONArray(permutationSituation.getValues()));
 		object.put("used", new JSONArray(permutationSituation.getUsed()));
 		return object;
 	}
 
 	@Override
 	protected ISituation deserializeSituation(JSONObject object) {
-		var permutationSituation = new PermutationSituation(4);
-		permutationSituation.setSize((int)object.get("n"));
-		permutationSituation.setLevel((int)object.get("level"));
-		permutationSituation.setValues(super.fromJSONArrayToIntArray(object.get("values")));
+		var permutationSituation = (PermutationSituation)super.deserializeSituation(object);
 		permutationSituation.setUsed(super.fromJSONArrayToBooleanArray(object.get("used")));	
 		return permutationSituation;
 	}

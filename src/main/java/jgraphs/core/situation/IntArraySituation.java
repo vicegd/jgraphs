@@ -1,9 +1,11 @@
 package jgraphs.core.situation;
 
-public abstract class AbstractIntArraySituation extends AbstractSituation {
+import java.util.List;
+
+public class IntArraySituation extends AbstractSituation {
 	protected int[] values;
 
-    public AbstractIntArraySituation(int n) {
+    public IntArraySituation(int n) {
     	super(n);
     	this.values = new int[n];
     }
@@ -36,10 +38,28 @@ public abstract class AbstractIntArraySituation extends AbstractSituation {
     	this.values = values;
     }
     
-    protected void copyInfo(AbstractIntArraySituation source, AbstractIntArraySituation target) {
+    protected void copyInfo(IntArraySituation source, IntArraySituation target) {
     	super.copyInfo(source, target);
     	target.values = source.values.clone();
     }
+
+	@Override
+	public ISituation createNewSituation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ISituation> nextSituations(int participant, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkStatus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
  
 }
 

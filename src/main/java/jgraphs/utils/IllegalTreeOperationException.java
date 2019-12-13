@@ -1,4 +1,4 @@
-package jgraphs.core.utils;
+package jgraphs.utils;
 
 public class IllegalTreeOperationException extends Exception {
 	private static final long serialVersionUID = 1L;

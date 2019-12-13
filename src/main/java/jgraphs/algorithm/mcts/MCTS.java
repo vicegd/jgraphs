@@ -13,7 +13,7 @@ import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
-import jgraphs.core.utils.Utils;
+import jgraphs.utils.Dependency;
 
 public class MCTS extends AbstractProcess {
 	private ITreePolicy treePolicy;
@@ -102,7 +102,7 @@ public class MCTS extends AbstractProcess {
     private void expansion(INode promisingNode) {
     	var possibleStates = promisingNode.getState().nextStates();
 	    possibleStates.forEach(state -> {
-	    	var newNode = Utils.getInstance().createNodeInstance();
+	    	var newNode = Dependency.getInstance().createNodeInstance();
 	    	newNode.setState(state);
 	    	newNode.getPredecessors().add(promisingNode);
 	        promisingNode.getSuccessors().add(newNode);   

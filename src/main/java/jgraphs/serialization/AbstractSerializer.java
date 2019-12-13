@@ -1,4 +1,4 @@
-package jgraphs.core.serialization;
+package jgraphs.serialization;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,17 +6,17 @@ import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.situation.ISituation;
 import jgraphs.core.state.IState;
 import jgraphs.core.structure.IStructure;
-import jgraphs.core.utils.Utils;
+import jgraphs.utils.Logger;
+import jgraphs.utils.Dependency;
 
 public abstract class AbstractSerializer implements ISerializer {
-	private static Logger log = LoggerFactory.getLogger(AbstractSerializer.class);
+	protected static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractSerializer.class);
+	protected ISituation situation;
 	
 	@Override
 	public JSONArray serialize(IStructure structure) {
@@ -41,7 +41,7 @@ public abstract class AbstractSerializer implements ISerializer {
 	
 	@Override
 	public IStructure deserialize(JSONArray json) {
-		var structure = Utils.getInstance().createTreeInstance();
+		var structure = Dependency.getInstance().createTreeInstance();
 		var nodeNames = new HashMap<UUID, String>();
 		var nodes = new HashMap<UUID, INode>();
 		var nodeList = new ArrayList<INode>();
@@ -51,8 +51,8 @@ public abstract class AbstractSerializer implements ISerializer {
 			var stateObject = (JSONObject)nodeObject.get("state");
 			var situationObject = (JSONObject)stateObject.get("situation");
 			
-			var node = Utils.getInstance().createNodeInstance();			
-			var state = Utils.getInstance().createStateInstance();	
+			var node = Dependency.getInstance().createNodeInstance();			
+			var state = Dependency.getInstance().createStateInstance();	
 					
 			node.setId(UUID.fromString((String)nodeObject.get("id")));
 			node.setState(state);
@@ -124,6 +124,18 @@ public abstract class AbstractSerializer implements ISerializer {
 		int[] result = new int[arrayObject.length()];
 		for (var i = 0; i < arrayObject.length(); i++) 
 			result[i] = arrayObject.getInt(i);		
+		return result;
+	}
+	
+	protected static int[][] fromJSONTableToIntTable(Object object) {
+		var tableObject = (JSONArray)object;
+		int[][] result = new int[tableObject.length()][tableObject.length()];
+		for (var i = 0; i < tableObject.length(); i++) {
+			var arrayObject = (JSONArray)tableObject.get(i);
+			for (var j = 0; j < tableObject.length(); j++) {
+				result[i][j] = arrayObject.getInt(j);			
+			}
+		}	
 		return result;
 	}
 	

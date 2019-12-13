@@ -5,15 +5,13 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.Graph;
 import jgraphs.core.structure.IStructure;
 import jgraphs.core.structure.Tree;
-import jgraphs.core.utils.IllegalTreeOperationException;
 import jgraphs.statistics.IStatistic;
+import jgraphs.utils.IllegalTreeOperationException;
+import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractProcess {
@@ -25,7 +23,7 @@ public abstract class AbstractProcess {
 	private Instant timer;
 	private int movementNumber;
 	private IStructure structure;
-	protected static Logger log = LoggerFactory.getLogger(AbstractProcess.class);
+	protected static org.slf4j.Logger log = Logger.getInstance().getLogger(AbstractProcess.class);
 	
 	public AbstractProcess() {
 		this.totalDuration = Duration.ZERO;

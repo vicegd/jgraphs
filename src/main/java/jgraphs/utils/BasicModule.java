@@ -1,4 +1,4 @@
-package jgraphs.core.utils;
+package jgraphs.utils;
 
 import com.google.inject.AbstractModule;
 

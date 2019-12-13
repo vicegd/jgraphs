@@ -3,10 +3,10 @@ package jgraphs.app.tictactoe;
 import java.util.ArrayList;
 import java.util.List;
 
-import jgraphs.core.situation.AbstractIntTableSituation;
+import jgraphs.core.situation.IntTableSituation;
 import jgraphs.core.situation.ISituation;
 
-public class TicTacToeSituation extends AbstractIntTableSituation {
+public class TicTacToeSituation extends IntTableSituation {
     public TicTacToeSituation() {
     	super(3);
     }

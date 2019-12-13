@@ -1,9 +1,11 @@
 package jgraphs.core.situation;
 
-public abstract class AbstractIntTableSituation extends AbstractSituation {
+import java.util.List;
+
+public class IntTableSituation extends AbstractSituation {
 	protected int[][] values;
 
-    public AbstractIntTableSituation(int n) {
+    public IntTableSituation(int n) {
     	super(n);
     	this.values = new int[n][n];
     }
@@ -41,7 +43,7 @@ public abstract class AbstractIntTableSituation extends AbstractSituation {
     	this.values = values;
     }
            
-    protected void copyInfo(AbstractIntTableSituation source, AbstractIntTableSituation target) {
+    protected void copyInfo(IntTableSituation source, IntTableSituation target) {
     	super.copyInfo(source, target);
     	target.values = new int[target.n][target.n];
         for (var i = 0; i < super.n; i++) {
@@ -50,5 +52,23 @@ public abstract class AbstractIntTableSituation extends AbstractSituation {
             }
         }
     }
+
+	@Override
+	public ISituation createNewSituation() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<ISituation> nextSituations(int participant, Object value) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int checkStatus() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
   
 }

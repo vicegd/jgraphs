@@ -7,8 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.MCTS;
-import jgraphs.core.utils.Utils;
 import jgraphs.statistics.TreeConsoleStatistic;
+import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class TicTacToeTest {
@@ -16,7 +16,7 @@ public class TicTacToeTest {
 
     @Before	
     public void initialize() {
-        this.mcts = Utils.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
+        this.mcts = Dependency.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
         this.mcts.getStructure().setFirstSituation(new TicTacToeSituation());
         this.mcts.addStatistic(new TreeConsoleStatistic());
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());

@@ -1,23 +1,23 @@
-package jgraphs.app.permutation;
+package jgraphs.serialization;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
-import jgraphs.core.utils.Utils;
+import jgraphs.app.permutation.PermutationModule;
+import jgraphs.app.permutation.PermutationSerializer;
+import jgraphs.app.permutation.PermutationSituation;
+import jgraphs.utils.Dependency;
 
-public class PermutationSerializerTest {
-	protected static Logger log = LoggerFactory.getLogger(PermutationSerializerTest.class);
+public class SerializerTest {
     private BacktrackingAll backtracking;
 
     @Before
     public void initialize() {
-        this.backtracking = Utils.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
+        this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingAll.class);
     }
     
     @Test

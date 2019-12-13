@@ -1,4 +1,4 @@
-package jgraphs.core.serialization;
+package jgraphs.serialization;
 
 import org.json.JSONArray;
 

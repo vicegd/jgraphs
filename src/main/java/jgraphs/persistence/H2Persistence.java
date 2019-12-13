@@ -1,29 +1,32 @@
-package jgraphs.core.persistence;
+package jgraphs.persistence;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.HashMap;
 
 import org.json.JSONArray;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import jgraphs.core.serialization.ISerializer;
 import jgraphs.core.structure.IStructure;
+import jgraphs.serialization.ISerializer;
+import jgraphs.utils.Config;
+import jgraphs.utils.Logger;
 
 public class H2Persistence implements IPersistence {
-	protected static Logger log = LoggerFactory.getLogger(H2Persistence.class);
+	private static org.slf4j.Logger log = Logger.getInstance().getLogger(H2Persistence.class);
+	private HashMap<String, String> config;
 	private String JDBC_DRIVER;   
 	private String DB_URL;  
 	private String USER; 
 	private String PASS; 
 
 	public H2Persistence() {
-		this.JDBC_DRIVER = "org.h2.Driver";   
-		this.DB_URL = "jdbc:h2:~/test";  
-		this.USER = "sa"; 
-		this.PASS = ""; 
+		this.config = Config.getInstance().getConfig("H2Persistence");
+		this.JDBC_DRIVER = config.get("JDBC_DRIVER");  
+		this.DB_URL = config.get("DB_URL");  
+		this.USER = config.get("USER");  
+		this.PASS = config.get("PASS");
 	}
 	
 	@Override
@@ -31,8 +34,8 @@ public class H2Persistence implements IPersistence {
 		Connection conn = null; 
 	    Statement stmt = null; 
 	    try { 
-	    	Class.forName(JDBC_DRIVER); 
-	        conn = DriverManager.getConnection(DB_URL, USER, PASS);  
+	    	Class.forName(this.JDBC_DRIVER); 
+	        conn = DriverManager.getConnection(this.DB_URL, this.USER, this.PASS);  
 	        stmt = conn.createStatement(); 
 	        String sql =  "DELETE FROM JGRAPHS WHERE KEY = '" + key + "'"; 
 	        stmt.executeUpdate(sql);       
@@ -64,8 +67,8 @@ public class H2Persistence implements IPersistence {
 	    Statement stmt = null; 
 	    IStructure structure = null;
 	    try { 
-	    	Class.forName(JDBC_DRIVER); 
-	        conn = DriverManager.getConnection(DB_URL, USER, PASS);  
+	    	Class.forName(this.JDBC_DRIVER); 
+	        conn = DriverManager.getConnection(this.DB_URL, this.USER, this.PASS);  
 	        stmt = conn.createStatement(); 
 	        String sql =  "SELECT ISTRUCTURE FROM JGRAPHS WHERE KEY = '" + key + "'";  
 	        var queryResult = stmt.executeQuery(sql); 
