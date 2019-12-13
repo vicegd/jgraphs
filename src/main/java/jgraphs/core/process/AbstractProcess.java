@@ -38,7 +38,7 @@ public abstract class AbstractProcess {
     	this.results = new ArrayList<INode>();
     	this.movementNumber = 1;
 	}
-	
+
 	public void execute(INode node) {
 		this.initializeExecution();
 		this.run(node);

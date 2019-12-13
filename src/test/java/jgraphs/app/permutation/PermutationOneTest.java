@@ -14,14 +14,14 @@ public class PermutationOneTest {
     private BacktrackingOne backtracking;
 
     @Before	
-    public void initialize() {
+    public void initialize() {    	
         this.backtracking = Dependency.getInstance(new PermutationModule()).getInjector().getInstance(BacktrackingOne.class);
         this.backtracking.addStatistic(new TreeConsoleStatistic());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
     }
     
     @Test
-    public void givenInitState_whenGetAllPossiblePermutations1Elements_then1Result() {
+    public void givenInitState_whenGetAllPossiblePermutations1Elements_then1Result() {   	
     	var tree = this.backtracking.getStructure();
         tree.setFirstSituation(new PermutationSituation(1));
         this.backtracking.execute(tree.getFirst());              

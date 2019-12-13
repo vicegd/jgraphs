@@ -1,0 +1,9 @@
+<aspectj>
+    <aspects>
+        <aspect name="org.spf4j.perf.aspects.PerformanceMonitorAspect" />
+    </aspects>
+    <weaver options="-verbose">
+        <include within="com..*" />
+        <include within="org.spf4j.perf.aspects.PerformanceMonitorAspect" />
+    </weaver>
+</aspectj>

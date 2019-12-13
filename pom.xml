@@ -82,10 +82,23 @@
 		<dependency>
 		    <groupId>org.spf4j</groupId>
 		    <artifactId>spf4j-jmh</artifactId>
-		    <version>${spf4j-jmh.version}</version>
+		    <version>${spf4j.version}</version>
 		</dependency>
-		
-		
+		<dependency>
+		    <groupId>org.spf4j</groupId>
+		    <artifactId>spf4j-core</artifactId>
+		    <version>${spf4j.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.spf4j</groupId>
+		    <artifactId>spf4j-aspects</artifactId>
+		    <version>${spf4j.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.spf4j</groupId>
+		    <artifactId>spf4j-ui</artifactId>
+		    <version>${spf4j.version}</version>
+		</dependency>
     </dependencies>
 
     <properties>
@@ -103,7 +116,7 @@
         <json.version>20180130</json.version>
         <zjsonpatch.version>0.4.9</zjsonpatch.version>
         <h2.version>1.4.196</h2.version>
-        <spf4j-jmh.version>8.6.28</spf4j-jmh.version>
+        <spf4j.version>8.6.28</spf4j.version>
     </properties>
 
 </project>
