@@ -23,10 +23,10 @@ public class H2Persistence implements IPersistence {
 	private String PASS; 
 
 	public H2Persistence() {
-		this.JDBC_DRIVER = config.get("JDBC_DRIVER");  
-		this.DB_URL = config.get("DB_URL");  
-		this.USER = config.get("USER");  
-		this.PASS = config.get("PASS");
+		this.JDBC_DRIVER = config.get(Config.H2_PERSISTENCE_JDBC_DRIVER);  
+		this.DB_URL = config.get(Config.H2_PERSISTENCE_DB_URL);  
+		this.USER = config.get(Config.H2_PERSISTENCE_USER);  
+		this.PASS = config.get(Config.H2_PERSISTENCE_PASS);
 	}
 	
 	@Override

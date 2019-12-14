@@ -21,7 +21,7 @@ public class FilePersistence implements IPersistence {
 	@Override
 	public void saveStructure(String key, ISerializer serializer, IStructure structure) {
 		var json = serializer.serialize(structure);
-		var fileName = config.get("persistence_path") + key + ".json";
+		var fileName = config.get(Config.FILE_PERSISTENCE_PATH) + key + ".json";
 		try {
 			Files.write(Paths.get(fileName), json.write(new StringWriter(), 3, 0).toString().getBytes());
 		} catch (IOException e) {
@@ -32,7 +32,7 @@ public class FilePersistence implements IPersistence {
 	@Override
 	public IStructure loadStructure(String key, ISerializer serializer) {
 		String content = "";
-		var fileName = config.get("persistence_path") + key + ".json";
+		var fileName = config.get(Config.FILE_PERSISTENCE_PATH) + key + ".json";
 		try {
 			content = Files.readString(Paths.get(fileName));
 		} catch (IOException e) {

@@ -10,7 +10,7 @@ public class Logging {
 	private static Logging instance = null; 
   
     private Logging() { 
-        PropertyConfigurator.configure(Config.getInstance().getConfig(Logging.class).get("config_file_path"));
+        PropertyConfigurator.configure(Config.getInstance().getConfig(Logging.class).get(Config.LOGGING_PATH));
     } 
      
     public static Logging getInstance() { 

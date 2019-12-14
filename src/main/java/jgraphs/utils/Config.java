@@ -37,5 +37,15 @@ public class Config {
         }
     	return config;
     }
-   
+
+    public static final String DEFAULT_COMPARATOR_PATH = "path";
+    public static final String FILE_PERSISTENCE_PATH = "path";
+    public static final String H2_PERSISTENCE_DB_URL = "db.url";
+    public static final String H2_PERSISTENCE_JDBC_DRIVER = "jdbc.driver";
+    public static final String H2_PERSISTENCE_PASS = "pass";
+    public static final String H2_PERSISTENCE_USER = "user";
+    public static final String LOGGING_PATH = "path";
+    public static final String PROFILING_DB_FILE = "db.file";
+    public static final String PROFILING_PATH = "path";
+    public static final String PROFILING_TEXT_FILE = "text.file";
 }

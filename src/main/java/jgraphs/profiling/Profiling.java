@@ -14,19 +14,19 @@ public class Profiling {
 	protected static final Logger log = Logging.getInstance().getLogger(Profiling.class);
 	
 	public static void initialize() {
-		String tsDbFile = config.get("profiling_path") + config.get("db_file");
-		String tsTextFile = config.get("profiling_path") + config.get("text_file");
-		log.info("\nTime Series DB (TSDB) : {}\nTime Series text file : {}", tsDbFile, tsTextFile);
-		System.setProperty("spf4j.perf.ms.config", "TSDB@" + tsDbFile + "," + "TSDB_TXT@" + tsTextFile);
+		var dbFile = config.get(Config.PROFILING_PATH) + config.get(Config.PROFILING_DB_FILE);
+		var textFile = config.get(Config.PROFILING_PATH) + config.get(Config.PROFILING_TEXT_FILE);
+		log.info("\nTime Series DB (TSDB) : {}\nTime Series text file : {}", dbFile, textFile);
+		System.setProperty("spf4j.perf.ms.config", "TSDB@" + dbFile + "," + "TSDB_TXT@" + textFile);
 	}
 	
 	public static MeasurementRecorder getMeasurementRecorder(Object forWhat) {
-	    String unitOfMeasurement = "ms";
-	    int sampleTimeMillis = 1_000;
-	    int factor = 10;
-	    int lowerMagnitude = 0;
-	    int higherMagnitude = 4;
-	    int quantasPerMagnitude = 10;
+	    var unitOfMeasurement = "ms";
+	    var sampleTimeMillis = 1_000;
+	    var factor = 10;
+	    var lowerMagnitude = 0;
+	    var higherMagnitude = 4;
+	    var quantasPerMagnitude = 10;
 	 
 	    return RecorderFactory.createScalableQuantizedRecorder(
 	      forWhat, unitOfMeasurement, sampleTimeMillis, factor, lowerMagnitude, 
