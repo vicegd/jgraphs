@@ -17,7 +17,7 @@ import jgraphs.logging.Logging;
 import jgraphs.utils.Dependency;
 
 public abstract class AbstractSerializer implements ISerializer {
-	protected static Logger log = Logging.getInstance().getLogger(AbstractSerializer.class);
+	protected static final Logger log = Logging.getInstance().getLogger(AbstractSerializer.class);
 	protected ISituation situation;
 	
 	@Override
@@ -37,7 +37,7 @@ public abstract class AbstractSerializer implements ISerializer {
 			json.put(nodeObject);
 		}
 		
-		log.info(json.write(new StringWriter(), 3, 0).toString());
+		log.debug("SERIALIZATION:" + json.write(new StringWriter(), 3, 0).toString());
 		return json;
 	}
 	

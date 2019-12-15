@@ -17,7 +17,7 @@ import jgraphs.utils.Config;
 public class FilePersistence implements IPersistence {
 	protected static final HashMap<String, String> config = Config.getInstance().getConfig(FilePersistence.class);
 	protected static final Logger log = Logging.getInstance().getLogger(FilePersistence.class);
-	
+		
 	@Override
 	public void saveStructure(String key, ISerializer serializer, IStructure structure) {
 		var json = serializer.serialize(structure);
@@ -39,7 +39,7 @@ public class FilePersistence implements IPersistence {
 			log.error(e.getMessage());
 		}
 		var json = new JSONArray(content);
-		return serializer.deserialize(json);
-	}
-		
+		var result = serializer.deserialize(json);
+		return result;
+	}	
 }

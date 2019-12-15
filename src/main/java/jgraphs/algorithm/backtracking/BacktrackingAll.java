@@ -7,7 +7,7 @@ import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
 import jgraphs.utils.Dependency;
 
-public class BacktrackingAll extends AbstractProcess {    
+public class BacktrackingAll extends AbstractProcess {  
 	@Inject
     public BacktrackingAll(ITree tree) {
 		super.setStructure(tree);
@@ -15,7 +15,7 @@ public class BacktrackingAll extends AbstractProcess {
 	
 	@Override
 	public void run(INode node) {
-    	this.backtracking(node);   	
+    	this.backtracking(node);  
 	}
 	   
     private void backtracking(INode node) { 

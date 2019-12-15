@@ -17,4 +17,5 @@ public class MemoryPersistence implements IPersistence {
 	public IStructure loadStructure(String key, ISerializer serializer) {
 		return structures.get(key);
 	}
+	
 }

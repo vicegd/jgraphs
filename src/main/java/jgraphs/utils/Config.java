@@ -45,6 +45,8 @@ public class Config {
     public static final String H2_PERSISTENCE_PASS = "pass";
     public static final String H2_PERSISTENCE_USER = "user";
     public static final String LOGGING_PATH = "path";
+    public static final String PROFILING_DEFAULT_NAME = "default.name";
+    public static final String PROFILING_FORCE_DISABLED = "force.disabled";
     public static final String PROFILING_DB_FILE = "db.file";
     public static final String PROFILING_PATH = "path";
     public static final String PROFILING_TEXT_FILE = "text.file";

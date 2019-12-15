@@ -95,4 +95,5 @@ public class H2Persistence implements IPersistence {
 	    } 
 	    return structure;
 	}
+
 }

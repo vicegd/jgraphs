@@ -3,17 +3,30 @@ package jgraphs.app.tictactoe;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
+import org.slf4j.Logger;
 
 import jgraphs.algorithm.mcts.MCTS;
+import jgraphs.logging.Logging;
+import jgraphs.profiling.Profiling;
 import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class TicTacToeTest {
+	protected static final Logger log = Logging.getInstance().getLogger(TicTacToeTest.class);
+	protected static final Profiling profiling = Profiling.getInstance();
     private MCTS mcts;
 
+    @BeforeClass
+    public static void beforeClass() {
+    	profiling.createAndActivate(TicTacToeTest.class);
+    }
+    
+    
     @Before	
     public void initialize() {
         this.mcts = Dependency.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
@@ -51,6 +64,12 @@ public class TicTacToeTest {
         
         var status = this.mcts.getFirstResult().getState().getSituation().checkStatus();
         assertTrue(status == 1);
+    }
+    
+    @AfterClass
+    public static void afterClass() {
+        profiling.stop();
+        log.info(profiling.toString());
     }
 
 }

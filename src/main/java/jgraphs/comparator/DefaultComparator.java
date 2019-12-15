@@ -33,8 +33,8 @@ public class DefaultComparator implements IComparator {
 			var patch = JsonDiff.asJson(source, target);
 			
 			result = new JSONArray(patch.toString());
-
-			log.info(result.write(new StringWriter(), 3, 0).toString());
+			
+			log.debug("COMPARISON:" + result.write(new StringWriter(), 3, 0).toString());
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}		
@@ -51,7 +51,6 @@ public class DefaultComparator implements IComparator {
 		} catch (IOException e) {
 			log.error(e.getMessage());
 		}
-		
 		return result;
 	}
 
