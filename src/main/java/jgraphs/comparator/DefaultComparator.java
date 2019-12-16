@@ -7,20 +7,20 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.json.JSONArray;
-import org.slf4j.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
 
 public class DefaultComparator implements IComparator {
-	protected static final HashMap<String, String> config = Config.getInstance().getConfig(DefaultComparator.class);
-	protected static final Logger log = Logging.getInstance().getLogger(DefaultComparator.class);
+	protected static final HashMap<String, String> config = Config.getConfig(DefaultComparator.class);
+	protected static final ILogger logger = new DefaultLogger(DefaultComparator.class);
 	
 	@Override
 	public JSONArray compare(IStructure sourceStructure, IStructure targetStructure, ISerializer serializer) {
@@ -34,9 +34,9 @@ public class DefaultComparator implements IComparator {
 			
 			result = new JSONArray(patch.toString());
 			
-			log.debug("COMPARISON:" + result.write(new StringWriter(), 3, 0).toString());
+			logger.debug("COMPARISON:" + result.write(new StringWriter(), 3, 0).toString());
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}		
 		return result;
 	}
@@ -49,7 +49,7 @@ public class DefaultComparator implements IComparator {
 		try {
 			Files.write(Paths.get(fileName), result.write(new StringWriter(), 3, 0).toString().getBytes());
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		return result;
 	}

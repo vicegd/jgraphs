@@ -7,16 +7,16 @@ import java.sql.Statement;
 import java.util.HashMap;
 
 import org.json.JSONArray;
-import org.slf4j.Logger;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
 
 public class H2Persistence implements IPersistence {
-	protected static final HashMap<String, String> config = Config.getInstance().getConfig(H2Persistence.class);
-	protected static final Logger log = Logging.getInstance().getLogger(H2Persistence.class);
+	protected static final HashMap<String, String> config = Config.getConfig(H2Persistence.class);
+	protected static final ILogger logger = new DefaultLogger(H2Persistence.class);
 	private String JDBC_DRIVER;   
 	private String DB_URL;  
 	private String USER; 
@@ -44,19 +44,19 @@ public class H2Persistence implements IPersistence {
 	        stmt.close(); 
 	        conn.close(); 
 	    } catch(SQLException se) { 
-	        log.error(se.getMessage());
+	        logger.error(se.getMessage());
 	    } catch(Exception e) { 
-	    	log.error(e.getMessage());
+	    	logger.error(e.getMessage());
 	    } finally { 
 	        try{ 
 	           if(stmt!=null) stmt.close(); 
 	        } catch(SQLException se) { 
-	        	log.error(se.getMessage());
+	        	logger.error(se.getMessage());
 	        } 
 	        try { 
 	           if(conn!=null) conn.close(); 
 	        } catch(SQLException se){ 
-	        	log.error(se.getMessage());
+	        	logger.error(se.getMessage());
 	        } 
 	    } 
 	}
@@ -78,19 +78,19 @@ public class H2Persistence implements IPersistence {
 	        stmt.close(); 
 	        conn.close(); 
 	    } catch(SQLException se) { 
-	        log.error(se.getMessage());
+	        logger.error(se.getMessage());
 	    } catch(Exception e) { 
-	    	log.error(e.getMessage());
+	    	logger.error(e.getMessage());
 	    } finally { 
 	        try{ 
 	           if(stmt!=null) stmt.close(); 
 	        } catch(SQLException se) { 
-	        	log.error(se.getMessage());
+	        	logger.error(se.getMessage());
 	        } 
 	        try { 
 	           if(conn!=null) conn.close(); 
 	        } catch(SQLException se){ 
-	        	log.error(se.getMessage());
+	        	logger.error(se.getMessage());
 	        } 
 	    } 
 	    return structure;

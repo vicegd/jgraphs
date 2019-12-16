@@ -7,16 +7,16 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.json.JSONArray;
-import org.slf4j.Logger;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logging.Logging;
+import jgraphs.logger.DefaultLogger;
+import jgraphs.logger.ILogger;
 import jgraphs.serialization.ISerializer;
 import jgraphs.utils.Config;
 
 public class FilePersistence implements IPersistence {
-	protected static final HashMap<String, String> config = Config.getInstance().getConfig(FilePersistence.class);
-	protected static final Logger log = Logging.getInstance().getLogger(FilePersistence.class);
+	protected static final HashMap<String, String> config = Config.getConfig(FilePersistence.class);
+	protected static final ILogger logger = new DefaultLogger(FilePersistence.class);
 		
 	@Override
 	public void saveStructure(String key, ISerializer serializer, IStructure structure) {
@@ -25,7 +25,7 @@ public class FilePersistence implements IPersistence {
 		try {
 			Files.write(Paths.get(fileName), json.write(new StringWriter(), 3, 0).toString().getBytes());
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 
@@ -36,7 +36,7 @@ public class FilePersistence implements IPersistence {
 		try {
 			content = Files.readString(Paths.get(fileName));
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 		var json = new JSONArray(content);
 		var result = serializer.deserialize(json);

@@ -7,24 +7,25 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
 import jgraphs.app.permutation.PermutationModule;
 import jgraphs.app.permutation.PermutationSerializer;
 import jgraphs.app.permutation.PermutationSituation;
-import jgraphs.logging.Logging;
-import jgraphs.profiling.Profiling;
+import jgraphs.logger.DefaultLogger;
+import jgraphs.logger.ILogger;
+import jgraphs.profiler.DefaultProfiler;
+import jgraphs.profiler.IProfiler;
 import jgraphs.utils.Dependency;
 
 public class SerializerTest {
-	protected static final Logger log = Logging.getInstance().getLogger(SerializerTest.class);
-	protected static final Profiling profiling = Profiling.getInstance();
+	private static final ILogger logger = new DefaultLogger(SerializerTest.class);
+	private static final IProfiler profiler = new DefaultProfiler(SerializerTest.class);
     private BacktrackingAll backtracking;
-
+    
     @BeforeClass
     public static void beforeClass() {
-    	profiling.createAndActivate(SerializerTest.class);
+    	profiler.create();
     }
     
     @Before
@@ -33,41 +34,41 @@ public class SerializerTest {
     }
     
     @Test
-    public void givenStructure1Node_serialize_thenJSONCreate() {
-    	profiling.start(SerializerTest.class, "structure1Node");
+    public void givenStructure1Node_serialize_thenJSONCreate() {    	
+    	profiler.start("structure1Node");
     	var tree = this.backtracking.getStructure();
     	tree.setFirstSituation(new PermutationSituation(1));
         this.backtracking.execute(tree.getFirst());   
-           
-        profiling.start(SerializerTest.class, "serialize");
+
+        profiler.start("serialize");
         var json = new PermutationSerializer().serialize(tree);   
         assertEquals(2, json.length());
         
-        profiling.start(SerializerTest.class, "deserialize");
+        profiler.start("deserialize");
         var newTree = new PermutationSerializer().deserialize(json); 
         assertTrue(tree.equals(newTree));
     }
-    
+        
     @Test
     public void givenStructure65Nodes_serialize_thenJSONCreate() {
-    	profiling.start(SerializerTest.class, "structure65Nodes");
+    	profiler.start("structure65Nodes");
     	var tree = this.backtracking.getStructure();
     	tree.setFirstSituation(new PermutationSituation(4));
         this.backtracking.execute(tree.getFirst());   
            
-        profiling.start(SerializerTest.class, "serialize");
+        profiler.start("serialize");
         var json = new PermutationSerializer().serialize(tree);
         assertEquals(65, json.length());
         
-        profiling.start(SerializerTest.class, "deserialize");
+        profiler.start("deserialize");
         var newTree = new PermutationSerializer().deserialize(json);         
         assertTrue(tree.equals(newTree));
     }
     
     @AfterClass
     public static void afterClass() {
-        profiling.stop();
-        log.info(profiling.toString());
+        profiler.stop();
+        logger.info(profiler.toString());
     }
    
 }

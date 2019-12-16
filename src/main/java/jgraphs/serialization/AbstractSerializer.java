@@ -7,17 +7,17 @@ import java.util.UUID;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.slf4j.Logger;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.situation.ISituation;
 import jgraphs.core.state.IState;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 import jgraphs.utils.Dependency;
 
 public abstract class AbstractSerializer implements ISerializer {
-	protected static final Logger log = Logging.getInstance().getLogger(AbstractSerializer.class);
+	protected static final ILogger logger = new DefaultLogger(AbstractSerializer.class);
 	protected ISituation situation;
 	
 	@Override
@@ -37,7 +37,7 @@ public abstract class AbstractSerializer implements ISerializer {
 			json.put(nodeObject);
 		}
 		
-		log.debug("SERIALIZATION:" + json.write(new StringWriter(), 3, 0).toString());
+		logger.debug("SERIALIZATION:" + json.write(new StringWriter(), 3, 0).toString());
 		return json;
 	}
 	

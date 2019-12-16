@@ -36,7 +36,7 @@ public class MCTS extends AbstractProcess {
             	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
             }
         } catch (IOException ex) {
-       		log.error(ex.getMessage());
+       		logger.error(ex.getMessage());
         }
     }
 	

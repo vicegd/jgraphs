@@ -6,25 +6,14 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 
 public class Config {
-	protected static final Logger log = Logging.getInstance().getLogger(Config.class);
-	private static Config instance = null; 
+	protected static final ILogger logger = new DefaultLogger(Config.class);
   
-    private Config() { 
-    } 
-     
-    public static Config getInstance() { 
-    	if (instance == null)
-    		instance = new Config();
-    	return instance; 
-    } 
-    
-    public HashMap<String, String> getConfig(Class<?> className) {
-    	var path = className.getSimpleName();
+    public static HashMap<String, String> getConfig(Class<?> classType) {
+    	var path = classType.getSimpleName();
     	var config = new HashMap<String, String>();
     	try (InputStream input = new FileInputStream("configs/" + path + ".properties")) {
             var prop = new Properties();
@@ -33,7 +22,7 @@ public class Config {
             	config.put(p, prop.getProperty(p));
             }
         } catch (IOException ex) {
-       		log.error(ex.getMessage());
+       		logger.error(ex.getMessage());
         }
     	return config;
     }
@@ -44,10 +33,10 @@ public class Config {
     public static final String H2_PERSISTENCE_JDBC_DRIVER = "jdbc.driver";
     public static final String H2_PERSISTENCE_PASS = "pass";
     public static final String H2_PERSISTENCE_USER = "user";
-    public static final String LOGGING_PATH = "path";
-    public static final String PROFILING_DEFAULT_NAME = "default.name";
-    public static final String PROFILING_FORCE_DISABLED = "force.disabled";
-    public static final String PROFILING_DB_FILE = "db.file";
-    public static final String PROFILING_PATH = "path";
-    public static final String PROFILING_TEXT_FILE = "text.file";
+    public static final String LOGGER_PATH = "path";
+    public static final String ABSTRACT_PROFILER_DEFAULT_NAME = "default.name";
+    public static final String ABSTRACT_PROFILER_FORCE_DISABLED_ALL = "force.disabled.all";
+    public static final String ABSTRACT_PROFILER_FORCE_DISABLED_MEASUREMENTS = "force.disabled.measurements";
+    public static final String ABSTRACT_PROFILER_PATH = "path";
+    public static final String ABSTRACT_PROFILER_PERFORMANCE_TEXT_FILE = "performance.text.file";
 }

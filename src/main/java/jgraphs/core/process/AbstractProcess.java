@@ -5,20 +5,19 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.slf4j.Logger;
-
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.Graph;
 import jgraphs.core.structure.IStructure;
 import jgraphs.core.structure.Tree;
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 import jgraphs.statistics.IStatistic;
 import jgraphs.traceability.ITraceability;
 import jgraphs.utils.IllegalTreeOperationException;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractProcess {
-	protected static final Logger log = Logging.getInstance().getLogger(AbstractProcess.class);
+	protected static final ILogger logger = new DefaultLogger(AbstractProcess.class);
 	private Duration totalDuration;
 	private Duration processDuration;
 	private List<IVisualizer> visualizers;
@@ -131,7 +130,7 @@ public abstract class AbstractProcess {
 			var tree = (Tree)this.structure;
 			tree.addNode(node);
 		} catch (IllegalTreeOperationException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 	

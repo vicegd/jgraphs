@@ -7,23 +7,24 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.slf4j.Logger;
 
 import jgraphs.algorithm.mcts.MCTS;
-import jgraphs.logging.Logging;
-import jgraphs.profiling.Profiling;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
+import jgraphs.profiler.DefaultProfiler;
+import jgraphs.profiler.IProfiler;
 import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class TicTacToeTest {
-	protected static final Logger log = Logging.getInstance().getLogger(TicTacToeTest.class);
-	protected static final Profiling profiling = Profiling.getInstance();
+	private static final ILogger logger = new DefaultLogger(TicTacToeTest.class);
+	private static final IProfiler profiler = new DefaultProfiler(TicTacToeTest.class);
     private MCTS mcts;
 
     @BeforeClass
     public static void beforeClass() {
-    	profiling.createAndActivate(TicTacToeTest.class);
+    	profiler.create();
     }
     
     
@@ -68,8 +69,8 @@ public class TicTacToeTest {
     
     @AfterClass
     public static void afterClass() {
-        profiling.stop();
-        log.info(profiling.toString());
+        profiler.stop();
+        logger.info(profiler.toString());
     }
 
 }

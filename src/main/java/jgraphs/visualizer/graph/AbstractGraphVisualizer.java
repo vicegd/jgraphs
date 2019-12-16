@@ -26,7 +26,7 @@ import jgraphs.utils.Logger;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractGraphVisualizer implements IVisualizer {
-	protected static final Logger log = Logging.getInstance().getLogger(AbstractGraphVisualizer.class);
+	protected static final DefaultLogger logger = Logging.getInstance().getLogger(AbstractGraphVisualizer.class);
 	protected String path;
 	protected MutableGraph g;
 	protected SimpleDateFormat dateFormat;
@@ -38,7 +38,7 @@ public abstract class AbstractGraphVisualizer implements IVisualizer {
             prop.load(input);
             this.path = prop.getProperty("graph.visualizer_path");
     	} catch (IOException ex) {
-       		log.error(ex.getMessage());
+       		logger.error(ex.getMessage());
     	}
 	}
 	
@@ -118,7 +118,7 @@ public abstract class AbstractGraphVisualizer implements IVisualizer {
 			Graphviz.fromGraph(g).render(Format.SVG).toFile(new File(pictureFilePath));
 			Graphviz.fromGraph(g).render(Format.DOT).toFile(new File(dotFilePath));
 		} catch (IOException e) {
-			log.error(e.getMessage());
+			logger.error(e.getMessage());
 		}
 	}
 }

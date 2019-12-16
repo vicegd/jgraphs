@@ -7,12 +7,11 @@ import java.time.Duration;
 import java.time.Instant;
 import java.util.Properties;
 
-import org.slf4j.Logger;
-
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 
 public class DefaultBudgetManager implements IBudgetManager {
-	protected static final Logger log = Logging.getInstance().getLogger(DefaultBudgetManager.class);
+	protected static final ILogger logger = new DefaultLogger(DefaultBudgetManager.class);
 	private long iterations;
 	private long memory;
 	private long seconds;
@@ -25,7 +24,7 @@ public class DefaultBudgetManager implements IBudgetManager {
             this.memory = Long.parseLong(prop.getProperty("budget.memory"));
             this.seconds = Long.parseLong(prop.getProperty("budget.seconds"));
        } catch (IOException ex) {
-       		log.error(ex.getMessage());
+       		logger.error(ex.getMessage());
        }
 	}
 	

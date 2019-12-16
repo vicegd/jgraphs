@@ -8,14 +8,13 @@ import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logging.Logging;
+import jgraphs.logger.ILogger;
+import jgraphs.logger.DefaultLogger;
 
 public class TreeConsoleStatistic implements IStatistic {
-	protected static final Logger log = Logging.getInstance().getLogger(TreeConsoleStatistic.class);
+	protected static final ILogger logger = new DefaultLogger(TreeConsoleStatistic.class);
 	HashMap<Integer, Integer> generatedWidths = new HashMap<Integer, Integer>();
 	HashMap<Integer, Integer> exploredWidths = new HashMap<Integer, Integer>();
 	TreeStatisticData data = new TreeStatisticData();
@@ -23,31 +22,31 @@ public class TreeConsoleStatistic implements IStatistic {
 	@Override
 	public void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration) {
 		this.getData(structure);
-		log.info("\n******************************STATISTICS******************************");	
-		log.info(String.format("Elapsed process time: %d,%d seconds", processDuration.getSeconds(), processDuration.getNano()));
-		log.info(String.format("Elapsed total time: %d,%d seconds", totalDuration.getSeconds(), totalDuration.getNano()));
-		log.info(String.format("Depth of the tree: %d", data.treeDepth));
-		log.info(String.format("Width of the tree: %d", data.generatedTreeWidth));
-		log.info(String.format("Width of the explored tree: %d", data.exploredTreeWidth));
-		log.info(String.format("Number of nodes: %d", data.generatedNodes));	
-		log.info(String.format("Number of explored nodes: %d", data.exploredNodes));
-		log.info(String.format("Number of nodes that have not been explored: %d", data.notExploredNodes));
-		log.info(String.format("Number of visits: %d", data.visits));
-		log.info(String.format("Visits per node: %f", data.visitsPerGeneratedNodes));
-		log.info(String.format("Visits per explored node: %f", data.visitsPerExploredNodes));
-		log.info(String.format("Top visited nodes"));
+		logger.info("\n******************************STATISTICS******************************");	
+		logger.info(String.format("Elapsed process time: %d,%d seconds", processDuration.getSeconds(), processDuration.getNano()));
+		logger.info(String.format("Elapsed total time: %d,%d seconds", totalDuration.getSeconds(), totalDuration.getNano()));
+		logger.info(String.format("Depth of the tree: %d", data.treeDepth));
+		logger.info(String.format("Width of the tree: %d", data.generatedTreeWidth));
+		logger.info(String.format("Width of the explored tree: %d", data.exploredTreeWidth));
+		logger.info(String.format("Number of nodes: %d", data.generatedNodes));	
+		logger.info(String.format("Number of explored nodes: %d", data.exploredNodes));
+		logger.info(String.format("Number of nodes that have not been explored: %d", data.notExploredNodes));
+		logger.info(String.format("Number of visits: %d", data.visits));
+		logger.info(String.format("Visits per node: %f", data.visitsPerGeneratedNodes));
+		logger.info(String.format("Visits per explored node: %f", data.visitsPerExploredNodes));
+		logger.info(String.format("Top visited nodes"));
 		for (var n : data.topVisitedNodes) {
-			log.info(String.format("\tNode: %s (%s) \t Visits: %d \t Scores: %s \t Total scores: %f", structure.getNodeName(n.getId()), n.getId(), n.getState().getVisitCount(), n.getState().serializeScores(), n.getState().getTotalScores()));
+			logger.info(String.format("\tNode: %s (%s) \t Visits: %d \t Scores: %s \t Total scores: %f", structure.getNodeName(n.getId()), n.getId(), n.getState().getVisitCount(), n.getState().serializeScores(), n.getState().getTotalScores()));
 		}
-		log.info(String.format("Top ranked nodes"));
+		logger.info(String.format("Top ranked nodes"));
 		
 		for (var i = 0; i < structure.getFirst().getState().getParticipantManager().getNumberOfParticipants(); i++) {
-			log.info(String.format("\t**Position " + (i+1)));
+			logger.info(String.format("\t**Position " + (i+1)));
 			for (var n : data.topRankedNodes.get(i)) {
-				log.info(String.format("\tNode: %s (%s) \t Visits: %d \t Scores: %s \t Total scores: %f", structure.getNodeName(n.getId()), n.getId(), n.getState().getVisitCount(), n.getState().serializeScores(), n.getState().getTotalScores()));
+				logger.info(String.format("\tNode: %s (%s) \t Visits: %d \t Scores: %s \t Total scores: %f", structure.getNodeName(n.getId()), n.getId(), n.getState().getVisitCount(), n.getState().serializeScores(), n.getState().getTotalScores()));
 			}
 		}
-		log.info("**********************************************************************");
+		logger.info("**********************************************************************");
 	}
 	
 	private void getData(IStructure structure) {
