@@ -1,9 +1,6 @@
 package jgraphs.algorithm.mcts;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+import java.util.HashMap;
 
 import com.google.inject.Inject;
 
@@ -13,9 +10,11 @@ import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
+import jgraphs.utils.Config;
 import jgraphs.utils.Dependency;
 
 public class MCTS extends AbstractProcess {
+	private static final HashMap<String, String> config = Config.getConfig(MCTS.class);
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
 	private IBudgetManager budgetManager;
@@ -27,16 +26,10 @@ public class MCTS extends AbstractProcess {
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;
 		this.budgetManager = budgetManager;
-    	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
-            var prop = new Properties();
-            prop.load(input);
-            var trainersValue = prop.getProperty("mcts.trainers").split(" ");
-            this.trainers = new boolean[trainersValue.length];
-            for (var i = 0; i < trainersValue.length; i++) {
-            	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
-            }
-        } catch (IOException ex) {
-       		logger.error(ex.getMessage());
+        var trainersValue = config.get(Config.MCTS_TRAINERS).split(" ");
+        this.trainers = new boolean[trainersValue.length];
+        for (var i = 0; i < trainersValue.length; i++) {
+           	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
         }
     }
 	
@@ -67,12 +60,14 @@ public class MCTS extends AbstractProcess {
             backPropogation(nodeToExplore, result);
    
             super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
+            super.pauseEvent(super.getStructure());
             if (budgetManager.checkStopCondition(i, super.getTimer())) break; 
         }
 
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         
-        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());       
+        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());
+        super.pauseEvent(super.getStructure());
         super.incrementMovementNumber();
 
         if (winnerNode.getState().getSituation().checkStatus() != -1) {

@@ -3,13 +3,11 @@ package jgraphs.visualizer.graph;
 import static guru.nidi.graphviz.model.Factory.mutNode;
 
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Properties;
 import java.util.UUID;
 
 import guru.nidi.graphviz.attribute.Color;
@@ -19,27 +17,23 @@ import guru.nidi.graphviz.attribute.Style;
 import guru.nidi.graphviz.engine.Format;
 import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
-import jgraphs.algorithm.mcts.budget.DefaultBudgetManager;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.utils.Logger;
+import jgraphs.logger.DefaultLogger;
+import jgraphs.logger.ILogger;
+import jgraphs.utils.Config;
 import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractGraphVisualizer implements IVisualizer {
-	protected static final DefaultLogger logger = Logging.getInstance().getLogger(AbstractGraphVisualizer.class);
+	protected static final HashMap<String, String> config = Config.getConfig(AbstractGraphVisualizer.class);
+	protected static final ILogger logger = new DefaultLogger(AbstractGraphVisualizer.class);
 	protected String path;
 	protected MutableGraph g;
 	protected SimpleDateFormat dateFormat;
 	
 	public AbstractGraphVisualizer() {		
 		this.dateFormat = new SimpleDateFormat("yyyyMMdd_HHmm");
-    	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
-            var prop = new Properties();
-            prop.load(input);
-            this.path = prop.getProperty("graph.visualizer_path");
-    	} catch (IOException ex) {
-       		logger.error(ex.getMessage());
-    	}
+        this.path = config.get(Config.ABSTRACT_GRAPH_VISUALIZER_PATH);
 	}
 	
 	@Override

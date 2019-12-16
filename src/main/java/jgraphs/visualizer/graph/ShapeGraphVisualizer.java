@@ -3,15 +3,16 @@ package jgraphs.visualizer.graph;
 import static guru.nidi.graphviz.model.Factory.mutGraph;
 import static guru.nidi.graphviz.model.Factory.mutNode;
 
+import java.util.List;
+
 import guru.nidi.graphviz.attribute.Label;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.core.structure.ITree;
 
 public class ShapeGraphVisualizer extends AbstractGraphVisualizer {
 	
 	@Override
-	public void processFinishedEvent(IStructure structure, INode winnerNode) {
+	public void processFinishedEvent(IStructure structure, List<INode> result) {
 		this.g = mutGraph("MCTS").setDirected(true);
 		
 		this.iterateTree(structure, structure.getFirst());

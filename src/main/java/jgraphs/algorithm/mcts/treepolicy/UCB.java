@@ -1,34 +1,24 @@
 package jgraphs.algorithm.mcts.treepolicy;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Properties;
+import java.util.HashMap;
 
 import jgraphs.core.node.INode;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.utils.Config;
 
 public class UCB implements ITreePolicy {
-	protected static final ILogger logger = new DefaultLogger(UCB.class);
+	private static final HashMap<String, String> config = Config.getConfig(UCB.class);
 	private double winScore = 1;
 	private double drawScore = 0.5;
 	private double loseScore = 0;
 	private double c = 1.41;
 	
 	public UCB() {
-    	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
-            var prop = new Properties();
-            prop.load(input);
-            this.winScore = Double.parseDouble(prop.getProperty("ucb.winScore"));
-            this.drawScore = Double.parseDouble(prop.getProperty("ucb.drawScore"));
-            this.loseScore = Double.parseDouble(prop.getProperty("ucb.loseScore"));
-            this.c = Double.parseDouble(prop.getProperty("ucb.c"));
-    	} catch (IOException ex) {
-       		logger.error(ex.getMessage());
-    	}
+        this.winScore = Double.parseDouble(config.get(Config.UCB_WIN_SCORE));
+        this.drawScore = Double.parseDouble(config.get(Config.UCB_DRAW_SCORE));
+        this.loseScore = Double.parseDouble(config.get(Config.UCB_LOSE_SCORE));
+        this.c = Double.parseDouble(config.get(Config.UCB_C));
 	}
 	
 	@Override
@@ -60,5 +50,4 @@ public class UCB implements ITreePolicy {
         }
         return (nodeWinScore / (double) nodeVisit) + this.c * Math.sqrt(Math.log(parentVisits) / (double) nodeVisit);
     }
-
 }

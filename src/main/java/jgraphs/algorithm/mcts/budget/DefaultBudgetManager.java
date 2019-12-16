@@ -1,31 +1,21 @@
 package jgraphs.algorithm.mcts.budget;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.Properties;
+import java.util.HashMap;
 
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.utils.Config;
 
 public class DefaultBudgetManager implements IBudgetManager {
-	protected static final ILogger logger = new DefaultLogger(DefaultBudgetManager.class);
+	private static final HashMap<String, String> config = Config.getConfig(DefaultBudgetManager.class);
 	private long iterations;
 	private long memory;
 	private long seconds;
 	
 	public DefaultBudgetManager() {
-    	try (InputStream input = new FileInputStream("src/main/java/config.properties")) {
-            var prop = new Properties();
-            prop.load(input);
-            this.iterations = Long.parseLong(prop.getProperty("budget.iterations"));
-            this.memory = Long.parseLong(prop.getProperty("budget.memory"));
-            this.seconds = Long.parseLong(prop.getProperty("budget.seconds"));
-       } catch (IOException ex) {
-       		logger.error(ex.getMessage());
-       }
+        this.iterations = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_ITERATIONS));
+        this.memory = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_MEMORY));
+        this.seconds = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_SECONDS));
 	}
 	
     public boolean checkStopCondition(long iterationNumber, Instant start) {
@@ -49,6 +39,5 @@ public class DefaultBudgetManager implements IBudgetManager {
     
     public void setSeconds(long seconds) {
     	this.seconds = seconds;
-    }
-      
+    }  
 }

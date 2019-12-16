@@ -54,11 +54,11 @@ public abstract class AbstractProfiler implements IProfiler {
     }
        
     @Override
-	public void start(String childName) {
+	public void start(String name) {
     	if ((!this.forceDisabledAll)&&(this.activate)) {
     		if (!this.forceDisabledMeasurements) 
     			this.measurementRecorder.record(System.currentTimeMillis() - this.startTime);
-    		this.profilers.get(this.className).start(childName);
+    		this.profilers.get(this.className).start(name);
     	}
     }
     
