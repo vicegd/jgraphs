@@ -3,6 +3,7 @@ package jgraphs.core.structure;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import jgraphs.core.node.INode;
@@ -10,8 +11,8 @@ import jgraphs.core.situation.ISituation;
 
 public abstract class AbstractStructure implements IStructure {
 	protected UUID id;
-	protected HashMap<UUID, String> nodeNames;
-	protected HashMap<UUID, INode> nodes;
+	protected Map<UUID, String> nodeNames;
+	protected Map<UUID, INode> nodes;
 	protected List<INode> nodeList;
 	
     public AbstractStructure() {
@@ -62,7 +63,7 @@ public abstract class AbstractStructure implements IStructure {
 	}
 	
 	@Override
-	public void loadStructure(HashMap<UUID, String> nodeNames, HashMap<UUID, INode> nodes, List<INode> nodeList) {
+	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList) {
 		this.nodeNames = nodeNames;
 		this.nodes = nodes;
 		this.nodeList = nodeList;

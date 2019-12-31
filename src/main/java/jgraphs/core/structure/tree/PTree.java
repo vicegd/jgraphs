@@ -1,17 +1,18 @@
-package jgraphs.core.structure;
+package jgraphs.core.structure.tree;
 
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.logger.ILogger;
+import jgraphs.core.structure.AbstractPStructure;
 import jgraphs.logger.DefaultLogger;
+import jgraphs.logger.ILogger;
 import jgraphs.utils.IllegalTreeOperationException;
 
-public class Tree extends AbstractStructure implements ITree {
-	protected static final ILogger logger = new DefaultLogger(Tree.class);
+public class PTree extends AbstractPStructure implements ITree {
+	protected static final ILogger logger = new DefaultLogger(PTree.class);
 
 	@Inject
-    public Tree(INode root) {
+    public PTree(INode root) {
     	super();
     	try {
 			this.addNode(root);

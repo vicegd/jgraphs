@@ -37,8 +37,8 @@ public class TicTacToeTest {
         this.mcts.addStatistic(new TreeConsoleStatistic());
         this.mcts.addVisualizer(new SimpleConsoleVisualizer());
         //this.mcts.addVisualizer(new SimpleGraphVisualizer());
-        this.mcts.addVisualizer(new GraphVisualizer());
-        this.mcts.addTraceability(new DefaultTraceability());
+        //this.mcts.addVisualizer(new GraphVisualizer());
+       // this.mcts.addTraceability(new DefaultTraceability());
        // this.mcts.addVisualizer(new ShapeGraphVisualizer());
     }
 

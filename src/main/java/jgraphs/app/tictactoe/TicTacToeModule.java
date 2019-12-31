@@ -6,9 +6,11 @@ import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.defaultpolicy.RandomMovement;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.algorithm.mcts.treepolicy.UCB;
+import jgraphs.core.node.IMaxValueNode;
+import jgraphs.core.node.ScoreMaxValueNode;
 import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.participant.TwoParticipantsManager;
-import jgraphs.utils.BasicModule;
+import jgraphs.utils.module.BasicModule;
 
 public class TicTacToeModule extends BasicModule {
     @Override
@@ -18,5 +20,6 @@ public class TicTacToeModule extends BasicModule {
     	bind(IDefaultPolicy.class).to(RandomMovement.class);
     	bind(IBudgetManager.class).to(DefaultBudgetManager.class);
     	bind(IParticipantManager.class).to(TwoParticipantsManager.class);
+    	bind(IMaxValueNode.class).to(ScoreMaxValueNode.class);
     }
 }

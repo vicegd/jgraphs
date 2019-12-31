@@ -9,19 +9,20 @@ import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
+import jgraphs.core.process.AbstractSilentPProcess;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Config;
 import jgraphs.utils.Dependency;
 
-public class MCTS extends AbstractProcess {
-	private static final HashMap<String, String> config = Config.getConfig(MCTS.class);
+public class SilentPMCTS extends AbstractSilentPProcess {
+	private static final HashMap<String, String> config = Config.getConfig(SilentPMCTS.class);
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
 	private IBudgetManager budgetManager;
 	private boolean[] trainers;
     
 	@Inject
-    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
+    public SilentPMCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
 		super.setStructure(tree);
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;

@@ -39,5 +39,5 @@ public class DefaultBudgetManager implements IBudgetManager {
     
     public void setSeconds(long seconds) {
     	this.seconds = seconds;
-    }  
+    } 
 }

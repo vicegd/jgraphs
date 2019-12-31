@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.Graph;
 import jgraphs.core.structure.IStructure;
-import jgraphs.core.structure.Tree;
+import jgraphs.core.structure.graph.Graph;
+import jgraphs.core.structure.tree.Tree;
 import jgraphs.logger.ILogger;
 import jgraphs.logger.DefaultLogger;
 import jgraphs.statistics.IStatistic;
@@ -18,15 +18,15 @@ import jgraphs.visualizer.IVisualizer;
 
 public abstract class AbstractProcess {
 	protected static final ILogger logger = new DefaultLogger(AbstractProcess.class);
-	private Duration totalDuration;
-	private Duration processDuration;
-	private List<IVisualizer> visualizers;
-	private List<IStatistic> statistics;
-	private List<ITraceability> traceabilities;
-	private List<INode> results;
-	private Instant timer;
-	private int movementNumber;
-	private IStructure structure;
+	protected Duration totalDuration;
+	protected Duration processDuration;
+	protected List<IVisualizer> visualizers;
+	protected List<IStatistic> statistics;
+	protected List<ITraceability> traceabilities;
+	protected List<INode> results;
+	protected Instant timer;
+	protected int movementNumber;
+	protected IStructure structure;
 	
 	public AbstractProcess() {
 		this.totalDuration = Duration.ZERO;

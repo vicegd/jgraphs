@@ -1,4 +1,4 @@
-package jgraphs.utils;
+package jgraphs.utils.module;
 
 import com.google.inject.AbstractModule;
 
@@ -6,10 +6,10 @@ import jgraphs.core.node.INode;
 import jgraphs.core.node.Node;
 import jgraphs.core.state.IState;
 import jgraphs.core.state.State;
-import jgraphs.core.structure.Graph;
-import jgraphs.core.structure.IGraph;
-import jgraphs.core.structure.ITree;
-import jgraphs.core.structure.Tree;
+import jgraphs.core.structure.graph.Graph;
+import jgraphs.core.structure.graph.IGraph;
+import jgraphs.core.structure.tree.Tree;
+import jgraphs.core.structure.tree.ITree;
 
 public class BasicModule extends AbstractModule {
     @Override

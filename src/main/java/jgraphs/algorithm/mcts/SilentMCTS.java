@@ -9,19 +9,20 @@ import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
+import jgraphs.core.process.AbstractSilentProcess;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Config;
 import jgraphs.utils.Dependency;
 
-public class MCTS extends AbstractProcess {
-	private static final HashMap<String, String> config = Config.getConfig(MCTS.class);
+public class SilentMCTS extends AbstractSilentProcess {
+	private static final HashMap<String, String> config = Config.getConfig(SilentMCTS.class);
 	private ITreePolicy treePolicy;
 	private IDefaultPolicy defaultPolicy;
 	private IBudgetManager budgetManager;
 	private boolean[] trainers;
     
 	@Inject
-    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
+    public SilentMCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
 		super.setStructure(tree);
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;
@@ -59,17 +60,11 @@ public class MCTS extends AbstractProcess {
             // Phase 4 - Update
             backPropogation(nodeToExplore, result);
    
-            super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
-            super.pauseEvent(super.getStructure());
             if (budgetManager.checkStopCondition(i, super.getTimer())) break; 
         }
 
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         
-        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());
-        super.pauseEvent(super.getStructure());
-        super.incrementMovementNumber();
-
         if (winnerNode.getState().getSituation().checkStatus() != -1) {
         	super.addResult(winnerNode);	       	
         }
@@ -101,7 +96,6 @@ public class MCTS extends AbstractProcess {
 	    	newNode.setState(state);
 	    	newNode.getPredecessors().add(promisingNode);
 	        promisingNode.getSuccessors().add(newNode);   
-			super.addNodeToTreeStructure(newNode);
 	    });
     }
 

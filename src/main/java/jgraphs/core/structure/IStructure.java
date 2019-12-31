@@ -1,7 +1,7 @@
 package jgraphs.core.structure;
 
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import jgraphs.core.node.INode;
@@ -24,5 +24,5 @@ public interface IStructure {
 	
 	public void setFirstSituation(ISituation situation);
 	
-	public void loadStructure(HashMap<UUID, String> nodeNames, HashMap<UUID, INode> nodes, List<INode> nodeList);
+	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList);
 }

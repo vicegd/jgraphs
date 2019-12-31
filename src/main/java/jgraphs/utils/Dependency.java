@@ -6,8 +6,9 @@ import com.google.inject.Injector;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.state.IState;
-import jgraphs.core.structure.IGraph;
-import jgraphs.core.structure.ITree;
+import jgraphs.core.structure.graph.IGraph;
+import jgraphs.core.structure.tree.ITree;
+import jgraphs.utils.module.BasicModule;
 
 public class Dependency {
     private static Dependency instance = null; 

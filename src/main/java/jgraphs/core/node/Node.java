@@ -1,8 +1,6 @@
 package jgraphs.core.node;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,23 +9,25 @@ import com.google.inject.Inject;
 import jgraphs.core.state.IState;
 
 public class Node implements INode {
-	private UUID id;
-	private IState state;
-	private List<INode> predecessors;
-	private List<INode> successors;
+	protected UUID id;
+	protected IState state;
+	protected IMaxValueNode maxValueNode;
+	protected List<INode> predecessors;
+	protected List<INode> successors;
 
     @Inject
-    public Node(IState state) {
+    public Node(IState state, IMaxValueNode maxValueNode) {
     	this.id = UUID.randomUUID();
     	this.predecessors = new ArrayList<INode>();
     	this.successors = new ArrayList<INode>();  	
 		this.state = state.createNewState();
 		this.state.setNode(this);
+		this.maxValueNode = maxValueNode;
     }
     
     @Override
     public INode createNewNode() {
-    	var copy = new Node(this.state);
+    	var copy = new Node(this.state, this.maxValueNode);
    		copy.getPredecessors().addAll(this.getPredecessors());
    		copy.getSuccessors().addAll(this.getSuccessors());
         return copy;  
@@ -98,10 +98,8 @@ public class Node implements INode {
     }
 
     @Override
-    public INode getSuccessorWithMaxValue(int player) {
-        return Collections.max(this.successors, Comparator.comparing(node -> {
-            return node.getState().getScore(player); 
-        }));
+    public INode getSuccessorWithMaxValue(int participant) {
+        return this.maxValueNode.getMaxScoreNode(this.successors, participant);
     }
        
     @Override

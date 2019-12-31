@@ -1,6 +1,7 @@
-package jgraphs.core.structure;
+package jgraphs.core.structure.graph;
 
 import jgraphs.core.node.INode;
+import jgraphs.core.structure.AbstractStructure;
 
 public class Graph extends AbstractStructure implements IGraph {
     public Graph() {

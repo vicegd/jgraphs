@@ -35,7 +35,9 @@ public class Config {
     public static final String ABSTRACT_PROFILER_PERFORMANCE_TEXT_FILE = "performance.text.file";
     public static final String DEFAULT_BUDGET_MANAGER_ITERATIONS = "iterations";
     public static final String DEFAULT_BUDGET_MANAGER_MEMORY = "memory";
-    public static final String DEFAULT_BUDGET_MANAGER_SECONDS = "seconds";    
+    public static final String DEFAULT_BUDGET_MANAGER_NODES = "nodes";
+    public static final String DEFAULT_BUDGET_MANAGER_SECONDS = "seconds";
+    public static final String DEFAULT_BUDGET_MANAGER_VISITS = "visits";
     public static final String DEFAULT_COMPARATOR_PATH = "path";
     public static final String FILE_PERSISTENCE_PATH = "path";
     public static final String H2_PERSISTENCE_DB_URL = "db.url";

@@ -11,12 +11,12 @@ import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.situation.ISituation;
 
 public class State implements IState {
-	private UUID id;
-	private INode node;
-	private ISituation situation;
-	private IParticipantManager participantManager;
-	private int visitCount;
-	private double[] scores;
+	protected UUID id;
+	protected INode node;
+	protected ISituation situation;
+	protected IParticipantManager participantManager;
+	protected int visitCount;
+	protected double[] scores;
 
 	@Inject
     public State(IParticipantManager participantManager) {
