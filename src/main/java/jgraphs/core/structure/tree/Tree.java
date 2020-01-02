@@ -14,11 +14,7 @@ public class Tree extends AbstractStructure implements ITree {
 	@Inject
     public Tree(INode root) {
     	super();
-    	try {
-			this.addNode(root);
-		} catch (IllegalTreeOperationException e) {
-			logger.error(e.getMessage());
-		}
+		this.addNewNode(root);
     }
           
 	public void addNode(INode node) throws IllegalTreeOperationException {

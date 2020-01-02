@@ -14,11 +14,7 @@ public class SilentTree extends AbstractStructure implements ITree {
 	@Inject
     public SilentTree(INode root) {
     	super();
-    	try {
-			this.addNode(root);
-		} catch (IllegalTreeOperationException e) {
-			logger.error(e.getMessage());
-		}
+    	this.addNewNode(root);
     }
           
 	public void addNode(INode node) throws IllegalTreeOperationException {

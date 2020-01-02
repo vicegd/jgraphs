@@ -1,13 +1,12 @@
 package jgraphs.app.permutation;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import jgraphs.core.situation.IntArraySituation;
 import jgraphs.core.situation.ISituation;
+import jgraphs.core.situation.IntArraySituation;
 
 public class PermutationSituation extends IntArraySituation {
-	private boolean[] used;
+	protected boolean[] used;
 
 	public PermutationSituation() {
 		this(10);
@@ -28,7 +27,7 @@ public class PermutationSituation extends IntArraySituation {
     
 	@Override
 	public List<ISituation> nextSituations(int participant, Object value) {
-		List<ISituation> situations = new ArrayList<>();
+		this.situations.clear();
 		
 		if (this.level < this.n) {			
 			for (var i = 0; i < this.n; i++) {

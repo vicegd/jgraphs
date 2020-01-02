@@ -7,10 +7,10 @@ import java.util.HashMap;
 import jgraphs.utils.Config;
 
 public class DefaultBudgetManager implements IBudgetManager {
-	private static final HashMap<String, String> config = Config.getConfig(DefaultBudgetManager.class);
-	private long iterations;
-	private long memory;
-	private long seconds;
+	protected static final HashMap<String, String> config = Config.getConfig(DefaultBudgetManager.class);
+	protected long iterations;
+	protected long memory;
+	protected long seconds;
 	
 	public DefaultBudgetManager() {
         this.iterations = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_ITERATIONS));
@@ -18,14 +18,20 @@ public class DefaultBudgetManager implements IBudgetManager {
         this.seconds = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_SECONDS));
 	}
 	
-    public boolean checkStopCondition(long iterationNumber, Instant start) {
+    public boolean checkStopCondition(long iterationNumber) {
         var memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         if (memoryUsed >= this.memory) return true; //break because of memory
-               
-        var duration = Duration.between(start, Instant.now());       
-        if (duration.getSeconds() >= this.seconds) return true; //break because of seconds
-        
+                      
         if (iterationNumber >= this.iterations) return true; //break because of iterations
+        return false;
+    }
+	
+    public boolean checkStopCondition(long iterationNumber, Instant start) {
+        if (this.checkStopCondition(iterationNumber)) return true;
+              
+       	var duration = Duration.between(start, Instant.now());       
+       	if (duration.getSeconds() >= this.seconds) return true; //break because of seconds
+        
         return false;
     }
     

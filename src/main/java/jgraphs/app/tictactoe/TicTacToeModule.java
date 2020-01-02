@@ -10,9 +10,15 @@ import jgraphs.core.node.IMaxValueNode;
 import jgraphs.core.node.ScoreMaxValueNode;
 import jgraphs.core.participant.IParticipantManager;
 import jgraphs.core.participant.TwoParticipantsManager;
-import jgraphs.utils.module.BasicModule;
+import jgraphs.utils.module.DefaultModuleConfiguration;
+import jgraphs.utils.module.EModuleConfiguration;
 
-public class TicTacToeModule extends BasicModule {
+public class TicTacToeModule extends DefaultModuleConfiguration {
+	
+	public TicTacToeModule(EModuleConfiguration moduleConfiguration) {
+		super(moduleConfiguration);
+	}
+	
     @Override
     protected void configure() {
     	super.configure();
@@ -22,4 +28,5 @@ public class TicTacToeModule extends BasicModule {
     	bind(IParticipantManager.class).to(TwoParticipantsManager.class);
     	bind(IMaxValueNode.class).to(ScoreMaxValueNode.class);
     }
+
 }

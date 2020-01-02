@@ -8,14 +8,15 @@ import jgraphs.core.node.INode;
 import jgraphs.core.state.IState;
 import jgraphs.core.structure.graph.IGraph;
 import jgraphs.core.structure.tree.ITree;
-import jgraphs.utils.module.BasicModule;
+import jgraphs.utils.module.DefaultModuleConfiguration;
+import jgraphs.utils.module.EModuleConfiguration;
 
 public class Dependency {
     private static Dependency instance = null; 
     private Injector injector;
   
     private Dependency() { 
-    	this.injector = Guice.createInjector(new BasicModule());	
+    	this.injector = Guice.createInjector(new DefaultModuleConfiguration(EModuleConfiguration.BASIC));	
     } 
     
     private Dependency(AbstractModule module) { 

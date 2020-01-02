@@ -1,14 +1,17 @@
 package jgraphs.core.situation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSituation implements ISituation {
     protected int n;
     protected int level;
+	protected List<ISituation> situations;
 	
     public AbstractSituation(int n) {
     	this.n = n;
     	this.level = 0;
+    	this.situations = new ArrayList<ISituation>();
     }
     
 	@Override

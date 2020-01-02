@@ -1,4 +1,4 @@
-package jgraphs.algorithm.mcts;
+package jgraphs.algorithm.mcts.implementation;
 
 import java.util.HashMap;
 
@@ -8,20 +8,20 @@ import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractPProcess;
+import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Config;
 import jgraphs.utils.Dependency;
 
-public class PMCTS extends AbstractPProcess {
-	private static final HashMap<String, String> config = Config.getConfig(PMCTS.class);
-	private ITreePolicy treePolicy;
-	private IDefaultPolicy defaultPolicy;
-	private IBudgetManager budgetManager;
-	private boolean[] trainers;
+public class MCTS extends AbstractProcess {
+	protected static final HashMap<String, String> config = Config.getConfig(MCTS.class);
+	protected ITreePolicy treePolicy;
+	protected IDefaultPolicy defaultPolicy;
+	protected IBudgetManager budgetManager;
+	protected boolean[] trainers;
     
 	@Inject
-    public PMCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
+    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
 		super.setStructure(tree);
 		this.treePolicy = treePolicy;
 		this.defaultPolicy = defaultPolicy;

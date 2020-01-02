@@ -8,21 +8,19 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import jgraphs.algorithm.mcts.MCTS;
+import jgraphs.algorithm.mcts.implementation.MCTS;
 import jgraphs.logger.DefaultLogger;
 import jgraphs.logger.ILogger;
 import jgraphs.profiler.DefaultProfiler;
 import jgraphs.profiler.IProfiler;
 import jgraphs.statistics.TreeConsoleStatistic;
-import jgraphs.traceability.DefaultTraceability;
 import jgraphs.utils.Dependency;
+import jgraphs.utils.module.EModuleConfiguration;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
-import jgraphs.visualizer.graph.GraphVisualizer;
-import jgraphs.visualizer.graph.SimpleGraphVisualizer;
 
-public class TicTacToeTest {
-	private static final ILogger logger = new DefaultLogger(TicTacToeTest.class);
-	private static final IProfiler profiler = new DefaultProfiler(TicTacToeTest.class);
+public class TicTacToeTestBasic {
+	private static final ILogger logger = new DefaultLogger(TicTacToeTestBasic.class);
+	private static final IProfiler profiler = new DefaultProfiler(TicTacToeTestBasic.class);
     private MCTS mcts;
 
     @BeforeClass
@@ -32,10 +30,10 @@ public class TicTacToeTest {
     
     @Before	
     public void initialize() {
-        this.mcts = Dependency.getInstance(new TicTacToeModule()).getInjector().getInstance(MCTS.class);
-        this.mcts.getStructure().setFirstSituation(new TicTacToeSituation());
-        this.mcts.addStatistic(new TreeConsoleStatistic());
-        this.mcts.addVisualizer(new SimpleConsoleVisualizer());
+        this.mcts = Dependency.getInstance(new TicTacToeModule(EModuleConfiguration.BASIC)).getInjector().getInstance(MCTS.class);
+        this.mcts.getStructure().setFirstSituation(new TicTacToeSituation(11));
+      //  this.mcts.addStatistic(new TreeConsoleStatistic());
+     //   this.mcts.addVisualizer(new SimpleConsoleVisualizer());
         //this.mcts.addVisualizer(new SimpleGraphVisualizer());
         //this.mcts.addVisualizer(new GraphVisualizer());
        // this.mcts.addTraceability(new DefaultTraceability());
@@ -65,7 +63,7 @@ public class TicTacToeTest {
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
     	profiler.start("trainingP1");
-        this.mcts.getBudgetManager().setIterations(10);
+        this.mcts.getBudgetManager().setIterations(80);
         this.mcts.setTrainers(new boolean[] {true, false});
         this.mcts.execute(this.mcts.getStructure().getFirst()); 
         

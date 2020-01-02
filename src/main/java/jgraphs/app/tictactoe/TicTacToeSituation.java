@@ -11,6 +11,10 @@ public class TicTacToeSituation extends IntTableSituation {
     	super(3);
     }
     
+    public TicTacToeSituation(int n) {
+    	super(n);
+    }
+    
     @Override
     public ISituation createNewSituation() {
     	var copy = new TicTacToeSituation();

@@ -1,32 +1,26 @@
 package jgraphs.core.structure.tree;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractPStructure;
 import jgraphs.logger.DefaultLogger;
 import jgraphs.logger.ILogger;
-import jgraphs.utils.IllegalTreeOperationException;
 
-public class PTree extends AbstractPStructure implements ITree {
+public class PTree extends Tree {
 	protected static final ILogger logger = new DefaultLogger(PTree.class);
 
 	@Inject
     public PTree(INode root) {
-    	super();
-    	try {
-			this.addNode(root);
-		} catch (IllegalTreeOperationException e) {
-			logger.error(e.getMessage());
-		}
+    	super(root);
+    	super.nodeNames = new ConcurrentHashMap<UUID, String>();
+    	super.nodes = new ConcurrentHashMap<UUID, INode>();
+    	super.nodeList = Collections.synchronizedList(new ArrayList<INode>());
     }
-          
-	public void addNode(INode node) throws IllegalTreeOperationException {
-		if ((node.getPredecessors().size() == 0)&&(nodeList.size() != 0)) 
-			throw new IllegalTreeOperationException("Error: Only the root node does not have a predecessor");
-		if (node.getPredecessors().size() > 1) 
-			throw new IllegalTreeOperationException("Error: Number of predecessors cannot be greater than 1");
-		super.addNewNode(node);
-	}
+      
    
 }

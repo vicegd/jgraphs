@@ -1,15 +1,17 @@
 package jgraphs.core.structure.graph;
 
-import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractPStructure;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
-public class PGraph extends AbstractPStructure implements IGraph {
+import jgraphs.core.node.INode;
+
+public class PGraph extends Graph {
     public PGraph() {
     	super();
+    	super.nodeNames = new ConcurrentHashMap<UUID, String>();
+    	super.nodes = new ConcurrentHashMap<UUID, INode>();
+    	super.nodeList = Collections.synchronizedList(new ArrayList<INode>());
     }
-          
-	public void addNode(INode node) {
-		super.addNewNode(node);
-	}
-   
 }
