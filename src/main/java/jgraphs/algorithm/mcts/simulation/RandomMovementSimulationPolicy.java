@@ -1,8 +1,8 @@
-package jgraphs.algorithm.mcts.defaultpolicy;
+package jgraphs.algorithm.mcts.simulation;
 
 import jgraphs.core.node.INode;
 
-public class RandomMovement implements IDefaultPolicy {
+public class RandomMovementSimulationPolicy implements ISimulationPolicy {
 
 	@Override
 	public int simulation(INode node) {

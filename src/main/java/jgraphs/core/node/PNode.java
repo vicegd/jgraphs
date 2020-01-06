@@ -1,6 +1,6 @@
 package jgraphs.core.node;
 
-import java.util.Collections;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import com.google.inject.Inject;
 
@@ -10,8 +10,8 @@ public class PNode extends Node {
     @Inject
     public PNode(IState state, IMaxValueNode maxValueNode) {
     	super(state, maxValueNode);
-    	super.predecessors = Collections.synchronizedList(super.predecessors);
-    	super.successors = Collections.synchronizedList(super.successors);  	
+    	super.predecessors = new CopyOnWriteArrayList<INode>(super.predecessors);
+    	super.successors = new CopyOnWriteArrayList<INode>(super.successors);
     }
 
 }

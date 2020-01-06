@@ -1,36 +1,33 @@
 package jgraphs.algorithm.mcts.implementation;
 
-import java.util.HashMap;
-
 import com.google.inject.Inject;
 
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
-import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
-import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
+import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
+import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
+import jgraphs.algorithm.mcts.selection.ISelectionPolicy;
+import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.tree.ITree;
-import jgraphs.utils.Config;
-import jgraphs.utils.Dependency;
 
 public class MCTS extends AbstractProcess {
-	protected static final HashMap<String, String> config = Config.getConfig(MCTS.class);
-	protected ITreePolicy treePolicy;
-	protected IDefaultPolicy defaultPolicy;
+	protected ISelectionPolicy selectionPolicy;
+	protected IExpansionPolicy expansionPolicy;
+	protected ISimulationPolicy simulationPolicy;
+	protected IPropagationPolicy propagationPolicy;
 	protected IBudgetManager budgetManager;
-	protected boolean[] trainers;
     
 	@Inject
-    public MCTS(ITree tree, ITreePolicy treePolicy, IDefaultPolicy defaultPolicy,  IBudgetManager budgetManager) {
+    public MCTS(ITree tree, 
+    		ISelectionPolicy selectionPolicy, IExpansionPolicy expansionPolicy, ISimulationPolicy simulationPolicy, IPropagationPolicy propagationPolicy, 
+    		IBudgetManager budgetManager) {
 		super.setStructure(tree);
-		this.treePolicy = treePolicy;
-		this.defaultPolicy = defaultPolicy;
+		this.selectionPolicy = selectionPolicy;
+		this.expansionPolicy = expansionPolicy;
+		this.simulationPolicy = simulationPolicy;
+		this.propagationPolicy = propagationPolicy;
 		this.budgetManager = budgetManager;
-        var trainersValue = config.get(Config.MCTS_TRAINERS).split(" ");
-        this.trainers = new boolean[trainersValue.length];
-        for (var i = 0; i < trainersValue.length; i++) {
-           	this.trainers[i] = Boolean.parseBoolean(trainersValue[i]);
-        }
     }
 	
 	@Override
@@ -39,8 +36,8 @@ public class MCTS extends AbstractProcess {
             node = this.mcts(node); 
         }
 	}
-              
-    private INode mcts(INode node) {     
+                    
+    protected INode mcts(INode node) {     
     	for (var i = 1; i < Integer.MAX_VALUE; i++) {       	
             // Phase 1 - Selection
             var promisingNode = selection(node);
@@ -57,7 +54,7 @@ public class MCTS extends AbstractProcess {
             var result = simulation(nodeToExplore);
             
             // Phase 4 - Update
-            backPropogation(nodeToExplore, result);
+            propagation(nodeToExplore, result);
    
             super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
             super.pauseEvent(super.getStructure());
@@ -76,57 +73,28 @@ public class MCTS extends AbstractProcess {
         
         return winnerNode;
     }
+
+    protected INode selection(INode rootNode) {
+        return selectionPolicy.selection(rootNode);
+    }
+
+    protected void expansion(INode promisingNode) {
+	    super.addNodesToTreeStructure(expansionPolicy.expansion(promisingNode));
+    }
+
+    protected int simulation(INode node) {
+    	return simulationPolicy.simulation(node);
+    }
+    
+    protected void propagation(INode nodeToExplore, int result) {
+    	propagationPolicy.propagation(nodeToExplore, result);
+    }
     
     public IBudgetManager getBudgetManager() {
     	return this.budgetManager;
     }
     
     public void setTrainers(boolean[] trainers) {
-    	this.trainers = trainers;
-    }
-
-    private INode selection(INode rootNode) {
-        var node = rootNode;
-
-        while (node.getSuccessors().size() != 0) {
-            node = treePolicy.findBestNode(rootNode.getState().getParticipantManager().getOpponent(), node);
-        }
-        return node;
-    }
-
-    private void expansion(INode promisingNode) {
-    	var possibleStates = promisingNode.getState().nextStates();
-	    possibleStates.forEach(state -> {
-	    	var newNode = Dependency.getInstance().createNodeInstance();
-	    	newNode.setState(state);
-	    	newNode.getPredecessors().add(promisingNode);
-	        promisingNode.getSuccessors().add(newNode);   
-			super.addNodeToTreeStructure(newNode);
-	    });
-    }
-
-    private int simulation(INode node) {
-    	return defaultPolicy.simulation(node);
-    }
-    
-    private void backPropogation(INode nodeToExplore, int result) {
-    	var node = nodeToExplore;
-    	var numberOfPlayers = nodeToExplore.getState().getParticipantManager().getNumberOfParticipants();
-        while (node != null) {
-        	node.getState().incrementVisit();
-        	for (var i = 1; i <= numberOfPlayers; i++) { //check all the players
-        		if (this.trainers[i-1] == true) { //we update data only if we should train that player
-        			if (result == i) //current player wins
-        				node.getState().addScore(i, treePolicy.getWinScore());
-        			else if (result == 0) //current player draws
-        				node.getState().addScore(i, treePolicy.getDrawScore());
-        			else //current player loses - when any other player wins 
-        				node.getState().addScore(i, treePolicy.getLoseScore());
-        		}
-        	}
-        	if (node.getPredecessors().size() > 0)
-        		node = node.getPredecessors().get(0);          	
-        	else node = null;
-       }
+    	this.propagationPolicy.setTrainers(trainers);
     }
 }

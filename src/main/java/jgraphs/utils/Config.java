@@ -45,9 +45,9 @@ public class Config {
     public static final String H2_PERSISTENCE_PASS = "pass";
     public static final String H2_PERSISTENCE_USER = "user";
     public static final String LOGGER_PATH = "path";
-    public static final String MCTS_TRAINERS = "trainers";
-    public static final String UCB_C = "c";
-    public static final String UCB_DRAW_SCORE = "draw.score";
-    public static final String UCB_LOSE_SCORE = "lose.score";
-    public static final String UCB_WIN_SCORE = "win.score";
+    public static final String UPDATE_ALL_PROPAGATION_POLICY_DRAW_SCORE = "draw.score";
+    public static final String UPDATE_ALL_PROPAGATION_POLICY_LOSE_SCORE = "lose.score";
+    public static final String UPDATE_ALL_PROPAGATION_POLICY_TRAINERS = "trainers";
+    public static final String UPDATE_ALL_PROPAGATION_POLICY_WIN_SCORE = "win.score";
+    public static final String UCB_SELECTION_POLICY_C = "c";
 }

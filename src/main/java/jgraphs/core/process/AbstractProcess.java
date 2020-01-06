@@ -125,10 +125,11 @@ public abstract class AbstractProcess {
     	this.decrementProcessDuration(time);
     }
     
-	protected void addNodeToTreeStructure(INode node) {
+	protected void addNodesToTreeStructure(List<INode> nodes) {
 		try {
 			var tree = (Tree)this.structure;
-			tree.addNode(node);
+			for (INode node : nodes) 
+				tree.addNode(node);
 		} catch (IllegalTreeOperationException e) {
 			logger.error(e.getMessage());
 		}

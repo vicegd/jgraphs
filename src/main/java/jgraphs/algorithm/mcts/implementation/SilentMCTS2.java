@@ -8,36 +8,18 @@ import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
 import jgraphs.algorithm.mcts.selection.ISelectionPolicy;
 import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractSilentProcess;
 import jgraphs.core.structure.tree.ITree;
 
-public class SilentMCTS extends AbstractSilentProcess {
-	protected ISelectionPolicy selectionPolicy;
-	protected IExpansionPolicy expansionPolicy;
-	protected ISimulationPolicy simulationPolicy;
-	protected IPropagationPolicy propagationPolicy;
-	protected IBudgetManager budgetManager;
-    
+public class SilentMCTS2 extends MCTS {   
 	@Inject
-    public SilentMCTS(ITree tree, 
+    public SilentMCTS2(ITree tree, 
     		ISelectionPolicy selectionPolicy, IExpansionPolicy expansionPolicy, ISimulationPolicy simulationPolicy, IPropagationPolicy propagationPolicy,
     		IBudgetManager budgetManager) {
-		super.setStructure(tree);
-		this.selectionPolicy = selectionPolicy;
-		this.expansionPolicy = expansionPolicy;
-		this.simulationPolicy = simulationPolicy;
-		this.propagationPolicy = propagationPolicy;
-		this.budgetManager = budgetManager;
+		super(tree, selectionPolicy, expansionPolicy, simulationPolicy, propagationPolicy, budgetManager);
     }
 	
 	@Override
-	public void run(INode node) {
-        while (!node.getState().getSituation().hasFinished()) {
-            node = this.mcts(node); 
-        }
-	}
-              
-    private INode mcts(INode node) {     
+	protected INode mcts(INode node) {     
     	for (var i = 1; i < Integer.MAX_VALUE; i++) {       	
             // Phase 1 - Selection
             var promisingNode = selection(node);
@@ -54,7 +36,7 @@ public class SilentMCTS extends AbstractSilentProcess {
             var result = simulation(nodeToExplore);
             
             // Phase 4 - Update
-            backPropogation(nodeToExplore, result);
+            propagation(nodeToExplore, result);
    
             if (budgetManager.checkStopCondition(i)) break; 
         }
@@ -68,27 +50,8 @@ public class SilentMCTS extends AbstractSilentProcess {
         return winnerNode;
     }
     
-    protected INode selection(INode rootNode) {
-        return selectionPolicy.selection(rootNode);
-    }
-
+    @Override
     protected void expansion(INode promisingNode) {
 	    expansionPolicy.expansion(promisingNode);
-    }
-
-    private int simulation(INode node) {
-    	return simulationPolicy.simulation(node);
-    }
-    
-    protected void backPropogation(INode nodeToExplore, int result) {
-    	propagationPolicy.propagation(nodeToExplore, result);
-    }
-    
-    public IBudgetManager getBudgetManager() {
-    	return this.budgetManager;
-    }
-    
-    public void setTrainers(boolean[] trainers) {
-    	this.propagationPolicy.setTrainers(trainers);
-    }
+    }   
 }
