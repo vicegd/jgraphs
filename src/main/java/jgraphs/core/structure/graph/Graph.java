@@ -1,9 +1,9 @@
 package jgraphs.core.structure.graph;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractBasicStructure;
+import jgraphs.core.structure.AbstractNPStructure;
 
-public class Graph extends AbstractBasicStructure implements IGraph {
+public class Graph extends AbstractNPStructure implements IGraph {
     public Graph(INode root) {
     	super();
     	super.addNewNode(root);

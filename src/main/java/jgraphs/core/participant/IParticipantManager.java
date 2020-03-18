@@ -1,7 +1,7 @@
 package jgraphs.core.participant;
 
 public interface IParticipantManager {
-    public IParticipantManager getInstance();
+    public IParticipantManager createNewParticipantManager();
 	
     public int getParticipant();
 

@@ -6,12 +6,11 @@ import com.google.inject.Inject;
 
 import jgraphs.core.state.IState;
 
-public class PNode extends Node {	
+public class PNode extends AbstractNode  {	    
     @Inject
     public PNode(IState state, IMaxValueNode maxValueNode) {
     	super(state, maxValueNode);
     	super.predecessors = new CopyOnWriteArrayList<INode>(super.predecessors);
-    	super.successors = new CopyOnWriteArrayList<INode>(super.successors);
+    	super.successors = new CopyOnWriteArrayList<INode>(super.successors); 	
     }
-
 }
