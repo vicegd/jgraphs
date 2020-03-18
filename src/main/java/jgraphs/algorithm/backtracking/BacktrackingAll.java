@@ -32,7 +32,11 @@ public class BacktrackingAll extends AbstractProcess {
     	    	var newNode = Dependency.getInstance().createNodeInstance();
     	    	newNode.setState(state);
     	    	newNode.getPredecessors().add(node);
+<<<<<<< master
     	        node.getSuccessors().add(newNode);
+=======
+    	        node.getSuccessors().add(newNode);     
+>>>>>>> 16cccd1 Persistence API finished
     	        super.addNodeToTreeStructure(newNode);
     			this.backtracking(newNode);
     	    });

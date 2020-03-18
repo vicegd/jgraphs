@@ -20,4 +20,16 @@ public abstract class AbstractStructure implements IStructure {
 	public void setFirstSituation(ISituation situation) {
 		this.getFirst().getState().setSituation(situation);
 	}
+<<<<<<< master
 }
+=======
+	
+	protected void addNewNode(INode node) {
+		if (!nodes.containsKey(node.getId())) {
+			this.nodes.put(node.getId(), node);
+			this.nodeNames.put(node.getId(), "Node" + (this.nodeNames.size() + 1));
+			this.nodeList.add(node);
+		}
+	}
+}
+>>>>>>> 16cccd1 Persistence API finished

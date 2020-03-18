@@ -1,5 +1,9 @@
 package jgraphs.core.structure;
 
+<<<<<<< master
+=======
+import java.io.Serializable;
+>>>>>>> 16cccd1 Persistence API finished
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -27,8 +31,11 @@ public interface IStructure {
 	public List<INode> getNodeList();
 	
 	public void setFirstSituation(ISituation situation);
+<<<<<<< master
 	
 	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList) throws OperationNotSupportedException;
 	
 	public void loadStructure(ConcurrentHashMap<UUID, String> nodeNames, ConcurrentHashMap<UUID, INode> nodes, CopyOnWriteArrayList<INode> nodeList) throws OperationNotSupportedException;
+=======
+>>>>>>> 16cccd1 Persistence API finished
 }

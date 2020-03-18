@@ -42,23 +42,7 @@ public class Node implements INode {
 	public void setId(UUID id) {
 		this.id = id;	
 	}
-	
-	@Override
-	public boolean containsPredecessor(UUID id) {
-		for (var node : this.predecessors) {
-			if (node.getId().equals(id)) return true;
-		}
-		return false;
-	}
-	
-	@Override
-	public boolean containsSuccessor(UUID id) {
-		for (var node : this.successors) {
-			if (node.getId().equals(id)) return true;
-		}
-		return false;
-	}
-	
+
     @Override
     public IState getState() {
         return this.state;
@@ -118,20 +102,5 @@ public class Node implements INode {
     	sb.append(this.state.toString());
         return sb.toString();
     }
-    
-	@Override
-	public boolean equals(Object obj) {
-		var that = (Node)obj;
-		if (!this.id.equals(that.id)) return false;
-		if (!this.state.equals(that.state)) return false;
-		for (var node : this.predecessors) {
-			if (!that.containsPredecessor(node.getId())) return false;
-		}
-		for (var node : this.successors) {
-			if (!that.containsSuccessor(node.getId())) return false;
-		}
-        return true;
-	}
-	
 
 }

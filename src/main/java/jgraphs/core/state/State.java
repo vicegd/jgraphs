@@ -42,11 +42,6 @@ public class State implements IState {
     	return this.id;
     }
     
-	@Override
-	public void setId(UUID id) {
-		this.id = id;	
-	}
-    
     @Override
     public ISituation getSituation() {
         return this.situation;
@@ -116,11 +111,6 @@ public class State implements IState {
     }
     
 	@Override
-	public void setScores(double[] scores) {
-		this.scores = scores;
-	}
-    
-	@Override
 	public INode getNode() {
 		return this.node;
 	}
@@ -168,6 +158,17 @@ public class State implements IState {
     }
     
     @Override
+    public String toString() {
+    	var sb = new StringBuilder();
+    	sb.append("State:\n");
+    	sb.append("\tParticipant: \t" + this.participantManager.getParticipant() + "\n"); 
+    	sb.append("\tVisitCount: \t" + this.visitCount + "\n"); 
+    	sb.append("\tWinScore: \t" + this.serializeScores() + "\n"); 
+    	sb.append(this.situation.toString());
+        return sb.toString();
+    }
+    
+    @Override
     public String serializeScores() {
     	var sb = new StringBuilder();
     	sb.append("[");
@@ -177,6 +178,7 @@ public class State implements IState {
     	sb.append("]");
     	return sb.toString();
     }
+<<<<<<< master
     
     @Override
     public String toString() {
@@ -204,4 +206,6 @@ public class State implements IState {
         return true;        
 	}
    
+=======
+>>>>>>> 16cccd1 Persistence API finished
 }
