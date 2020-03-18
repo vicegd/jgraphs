@@ -2,16 +2,16 @@ package jgraphs.algorithm.mcts.implementation;
 
 import com.google.inject.Inject;
 
+import jgraphs.algorithm.manager.AbstractManager;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
 import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
 import jgraphs.algorithm.mcts.selection.ISelectionPolicy;
 import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
-import jgraphs.algorithm.process.AbstractProcess;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.tree.ITree;
 
-public class MCTS extends AbstractProcess {
+public class MCTS extends AbstractManager {
 	protected ISelectionPolicy selectionPolicy;
 	protected IExpansionPolicy expansionPolicy;
 	protected ISimulationPolicy simulationPolicy;

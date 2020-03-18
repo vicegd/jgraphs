@@ -21,17 +21,11 @@ import jgraphs.utils.module.EModuleConfiguration;
 
 public class TicTacToeTestPBasic {
 	private static final ILogger logger = new DefaultLogger(TicTacToeTestPBasic.class);
-	private static final IProfiler profiler = new DefaultProfiler(TicTacToeTestPBasic.class);
     private PMCTS mcts;
-
-    @BeforeClass
-    public static void beforeClass() {
-    	profiler.create();
-    }
-    
+   
     @Before	
     public void initialize() {
-        this.mcts = Dependency.getInstance(new TicTacToeModule(EModuleConfiguration.PBASIC)).getInjector().getInstance(PMCTS.class);
+        this.mcts = Dependency.getInstance(new TicTacToeModule(EModuleConfiguration.PBASIC)).getInjector(PMCTS.class);
         this.mcts.getStructure().setFirstSituation(new TicTacToeSituation(5));
       //  this.mcts.addStatistic(new TreeConsoleStatistic());
       //  this.mcts.addVisualizer(new SimpleConsoleVisualizer());
@@ -43,19 +37,12 @@ public class TicTacToeTestPBasic {
   
     @Test
     public void givenEmptyBoard_trainingP1_P1Wins() {
-    	profiler.start("trainingP1");
-        this.mcts.getBudgetManager().setIterations(5000);
+        this.mcts.getBudgetManager().setIterations(500);
         this.mcts.setTrainers(new boolean[] {true, false});
         this.mcts.execute(this.mcts.getStructure().getFirst()); 
         
         var status = this.mcts.getFirstResult().getState().getSituation().checkStatus();
         assertTrue(status == 1);
-    }
-  
-    @AfterClass
-    public static void afterClass() {
-        profiler.stop();
-        logger.info(profiler.toString());
     }
 
 }

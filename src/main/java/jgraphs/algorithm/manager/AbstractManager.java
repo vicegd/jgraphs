@@ -1,4 +1,4 @@
-package jgraphs.algorithm.process;
+package jgraphs.algorithm.manager;
 
 import java.time.Duration;
 import java.time.Instant;
@@ -16,8 +16,8 @@ import jgraphs.subsystem.traceability.ITraceability;
 import jgraphs.subsystem.visualizer.IVisualizer;
 import jgraphs.utils.IllegalTreeOperationException;
 
-public abstract class AbstractProcess {
-	protected static final ILogger logger = new DefaultLogger(AbstractProcess.class);
+public abstract class AbstractManager {
+	protected static final ILogger logger = new DefaultLogger(AbstractManager.class);
 	protected Duration totalDuration;
 	protected Duration processDuration;
 	protected List<IVisualizer> visualizers;
@@ -28,7 +28,7 @@ public abstract class AbstractProcess {
 	protected int movementNumber;
 	protected IStructure structure;
 	
-	public AbstractProcess() {
+	public AbstractManager() {
 		this.totalDuration = Duration.ZERO;
      	this.processDuration = Duration.ZERO;
     	this.visualizers = new ArrayList<IVisualizer>();

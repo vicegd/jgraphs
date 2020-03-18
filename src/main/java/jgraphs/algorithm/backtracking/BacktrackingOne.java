@@ -2,12 +2,12 @@ package jgraphs.algorithm.backtracking;
 
 import com.google.inject.Inject;
 
-import jgraphs.algorithm.process.AbstractProcess;
+import jgraphs.algorithm.manager.AbstractManager;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Dependency;
 
-public class BacktrackingOne extends AbstractProcess {    
+public class BacktrackingOne extends AbstractManager {    
 	private boolean end;
 	
 	@Inject

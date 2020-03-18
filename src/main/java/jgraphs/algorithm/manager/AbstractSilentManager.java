@@ -1,4 +1,4 @@
-package jgraphs.algorithm.process;
+package jgraphs.algorithm.manager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,12 +8,12 @@ import jgraphs.core.structure.IStructure;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 
-public abstract class AbstractSilentProcess {
-	protected static final ILogger logger = new DefaultLogger(AbstractSilentProcess.class);
+public abstract class AbstractSilentManager {
+	protected static final ILogger logger = new DefaultLogger(AbstractSilentManager.class);
 	protected List<INode> results;
 	protected IStructure structure;
 	
-	public AbstractSilentProcess() {
+	public AbstractSilentManager() {
     	this.results = new ArrayList<INode>();
 	}
 
