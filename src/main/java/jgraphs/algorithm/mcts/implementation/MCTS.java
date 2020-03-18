@@ -7,8 +7,8 @@ import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
 import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
 import jgraphs.algorithm.mcts.selection.ISelectionPolicy;
 import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
+import jgraphs.algorithm.process.AbstractProcess;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.tree.ITree;
 
 public class MCTS extends AbstractProcess {

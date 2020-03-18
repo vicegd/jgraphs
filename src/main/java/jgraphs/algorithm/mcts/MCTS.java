@@ -10,8 +10,8 @@ import com.google.inject.Inject;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.defaultpolicy.IDefaultPolicy;
 import jgraphs.algorithm.mcts.treepolicy.ITreePolicy;
+import jgraphs.algorithm.process.AbstractProcess;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.ITree;
 import jgraphs.core.utils.Utils;
 

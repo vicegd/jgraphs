@@ -11,6 +11,8 @@ import jgraphs.algorithm.backtracking.BacktrackingAll;
 import jgraphs.app.permutation.PermutationModule;
 import jgraphs.app.permutation.PermutationSerializer;
 import jgraphs.app.permutation.PermutationSituation;
+import jgraphs.subsystem.comparator.DefaultComparator;
+import jgraphs.subsystem.comparator.IComparator;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 import jgraphs.subsystem.profiler.DefaultProfiler;

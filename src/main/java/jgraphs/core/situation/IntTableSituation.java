@@ -1,8 +1,6 @@
 package jgraphs.core.situation;
 
-import java.util.List;
-
-public class IntTableSituation extends AbstractSituation {
+public abstract class IntTableSituation extends AbstractSituation {
 	protected int[][] values;
 
     public IntTableSituation(int n) {
@@ -53,22 +51,4 @@ public class IntTableSituation extends AbstractSituation {
         }
     }
 
-	@Override
-	public ISituation createNewSituation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ISituation> nextSituations(int participant, Object value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int checkStatus() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-  
 }

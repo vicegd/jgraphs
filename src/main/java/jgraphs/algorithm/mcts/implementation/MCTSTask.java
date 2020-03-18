@@ -5,9 +5,9 @@ import java.util.concurrent.RecursiveAction;
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.persistence.FilePersistence;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
+import jgraphs.subsystem.persistence.FilePersistence;
 
 public class MCTSTask extends RecursiveAction {
 	protected static final ILogger logger = new DefaultLogger(MCTSTask.class);

@@ -2,8 +2,8 @@ package jgraphs.algorithm.backtracking;
 
 import com.google.inject.Inject;
 
+import jgraphs.algorithm.process.AbstractProcess;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Dependency;
 

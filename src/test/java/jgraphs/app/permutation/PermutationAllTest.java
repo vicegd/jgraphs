@@ -8,14 +8,14 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingAll;
-import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 import jgraphs.subsystem.profiler.DefaultProfiler;
 import jgraphs.subsystem.profiler.IProfiler;
-import jgraphs.traceability.DefaultTraceability;
+import jgraphs.subsystem.statistics.TreeConsoleStatistic;
+import jgraphs.subsystem.traceability.DefaultTraceability;
+import jgraphs.subsystem.visualizer.console.SimpleConsoleVisualizer;
 import jgraphs.utils.Dependency;
-import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class PermutationAllTest {
 	private static final ILogger logger = new DefaultLogger(PermutationAllTest.class);

@@ -1,8 +1,6 @@
 package jgraphs.core.situation;
 
-import java.util.List;
-
-public class IntArraySituation extends AbstractSituation {
+public abstract class IntArraySituation extends AbstractSituation {
 	protected int[] values;
 
     public IntArraySituation(int n) {
@@ -41,25 +39,6 @@ public class IntArraySituation extends AbstractSituation {
     protected void copyInfo(IntArraySituation source, IntArraySituation target) {
     	super.copyInfo(source, target);
     	target.values = source.values.clone();
-    }
-
-	@Override
-	public ISituation createNewSituation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<ISituation> nextSituations(int participant, Object value) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public int checkStatus() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
- 
+    } 
 }
 

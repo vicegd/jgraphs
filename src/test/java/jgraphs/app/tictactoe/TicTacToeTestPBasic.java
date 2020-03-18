@@ -10,14 +10,14 @@ import org.junit.Test;
 
 import jgraphs.algorithm.mcts.implementation.MCTS;
 import jgraphs.algorithm.mcts.implementation.PMCTS;
-import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 import jgraphs.subsystem.profiler.DefaultProfiler;
 import jgraphs.subsystem.profiler.IProfiler;
+import jgraphs.subsystem.statistics.TreeConsoleStatistic;
+import jgraphs.subsystem.visualizer.console.SimpleConsoleVisualizer;
 import jgraphs.utils.Dependency;
 import jgraphs.utils.module.EModuleConfiguration;
-import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class TicTacToeTestPBasic {
 	private static final ILogger logger = new DefaultLogger(TicTacToeTestPBasic.class);

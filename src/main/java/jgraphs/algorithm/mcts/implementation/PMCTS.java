@@ -12,9 +12,9 @@ import jgraphs.algorithm.mcts.selection.ISelectionPolicy;
 import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.tree.ITree;
-import jgraphs.statistics.IStatistic;
-import jgraphs.traceability.ITraceability;
-import jgraphs.visualizer.IVisualizer;
+import jgraphs.subsystem.statistics.IStatistic;
+import jgraphs.subsystem.traceability.ITraceability;
+import jgraphs.subsystem.visualizer.IVisualizer;
 
 public class PMCTS extends MCTS {  
 	private ForkJoinPool pool;

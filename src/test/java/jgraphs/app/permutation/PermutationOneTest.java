@@ -8,13 +8,13 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingOne;
-import jgraphs.statistics.TreeConsoleStatistic;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 import jgraphs.subsystem.profiler.DefaultProfiler;
 import jgraphs.subsystem.profiler.IProfiler;
+import jgraphs.subsystem.statistics.TreeConsoleStatistic;
+import jgraphs.subsystem.visualizer.console.SimpleConsoleVisualizer;
 import jgraphs.utils.Dependency;
-import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 
 public class PermutationOneTest {
 	private static final ILogger logger = new DefaultLogger(PermutationOneTest.class);
