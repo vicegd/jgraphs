@@ -13,9 +13,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.flipkart.zjsonpatch.JsonDiff;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
 import jgraphs.serialization.ISerializer;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 import jgraphs.utils.Config;
 
 public class DefaultComparator implements IComparator {

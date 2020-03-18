@@ -104,6 +104,16 @@
 		    <artifactId>spf4j-ui</artifactId>
 		    <version>${spf4j.version}</version>
 		</dependency>
+		<dependency>
+		    <groupId>org.openjdk.jmh</groupId>
+		    <artifactId>jmh-core</artifactId>
+		    <version>${jmh.version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.openjdk.jmh</groupId>
+		    <artifactId>jmh-generator-annprocess</artifactId>
+		    <version>${jmh.version}</version>
+		</dependency>
     </dependencies>
 
     <properties>
@@ -122,6 +132,7 @@
         <zjsonpatch.version>0.4.9</zjsonpatch.version>
         <h2.version>1.4.196</h2.version>
         <spf4j.version>8.6.28</spf4j.version>
+        <jmh.version>1.19</jmh.version>
     </properties>
 
 </project>

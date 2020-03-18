@@ -34,16 +34,17 @@ public class PMCTS extends MCTS {
 	@Override
 	public void run(INode node) {
         while (!node.getState().getSituation().hasFinished()) {
-            node = this.mcts(node, 5000); 
+            node = this.mcts(node); 
         }
 	}
 	
-    protected INode mcts(INode node, int iterations) {     
-    	var task = new MCTSTask(this, node, 1, iterations);
+    protected INode mcts(INode node) {     
+    	var task = new MCTSTask(this, node, 1, super.getBudgetManager().getIterations());
 
-    	System.out.println("A");
+    	//System.out.println("--");
     	pool.invoke(task);
-    	System.out.println("B");
+    	//System.out.println("---");
+
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         
         super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());

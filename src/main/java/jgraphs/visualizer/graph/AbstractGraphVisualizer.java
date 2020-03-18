@@ -19,8 +19,8 @@ import guru.nidi.graphviz.engine.Graphviz;
 import guru.nidi.graphviz.model.MutableGraph;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 import jgraphs.utils.Config;
 import jgraphs.visualizer.IVisualizer;
 

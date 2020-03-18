@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 
 public class Config {
 	protected static final ILogger logger = new DefaultLogger(Config.class);

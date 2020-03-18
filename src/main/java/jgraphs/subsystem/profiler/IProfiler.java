@@ -1,4 +1,4 @@
-package jgraphs.profiler;
+package jgraphs.subsystem.profiler;
 
 public interface IProfiler {
 	public void create();

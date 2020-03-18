@@ -94,7 +94,9 @@ public class Node implements INode {
     public INode getRandomSuccessorNode() {
     	if (this.successors.size() == 0) return null;
    		var selectRandom = (int) (Math.random() * this.successors.size());
-    	return this.successors.get(selectRandom);
+    	var node = this.successors.get(selectRandom);
+    	node.getState().setBeingExplored(true);
+    	return node;
     }
 
     @Override

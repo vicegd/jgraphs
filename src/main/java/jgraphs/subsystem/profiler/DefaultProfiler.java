@@ -1,4 +1,4 @@
-package jgraphs.profiler;
+package jgraphs.subsystem.profiler;
 
 import org.spf4j.perf.MeasurementRecorder;
 import org.spf4j.perf.impl.RecorderFactory;

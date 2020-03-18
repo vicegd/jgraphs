@@ -1,13 +1,15 @@
 package jgraphs.core.structure.graph;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractStructure;
+import jgraphs.core.structure.AbstractBasicStructure;
 
-public class SilentGraph extends AbstractStructure implements IGraph {
-    public SilentGraph() {
+public class SilentGraph extends AbstractBasicStructure implements IGraph {
+    public SilentGraph(INode root) {
     	super();
+    	super.addNewNode(root);
     }
           
+    @Override
 	public void addNode(INode node) {
 	}
    

@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 
 public class TreeConsoleStatistic implements IStatistic {
 	protected static final ILogger logger = new DefaultLogger(TreeConsoleStatistic.class);

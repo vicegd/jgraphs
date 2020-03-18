@@ -12,8 +12,8 @@ import jgraphs.core.node.INode;
 import jgraphs.core.situation.ISituation;
 import jgraphs.core.state.IState;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 import jgraphs.utils.Dependency;
 
 public abstract class AbstractSerializer implements ISerializer {

@@ -15,14 +15,16 @@ public class State implements IState {
 	protected INode node;
 	protected ISituation situation;
 	protected IParticipantManager participantManager;
+	protected boolean beingExplored;
 	protected int visitCount;
 	protected double[] scores;
 
 	@Inject
     public State(IParticipantManager participantManager) {
     	this.id = UUID.randomUUID();
+    	this.beingExplored = false;
         this.visitCount = 0; //visits = 0;    	
-    	this.participantManager = participantManager.createNewParticipantManager();
+    	this.participantManager = participantManager.getInstance();
     	this.scores = new double[this.participantManager.getNumberOfParticipants()]; //scores = 0
     }
    
@@ -73,6 +75,16 @@ public class State implements IState {
     public void setParticipantManager(IParticipantManager participantManager) {
         this.participantManager = participantManager;
     }
+    
+	@Override
+	public boolean getBeingExplored() {
+		return this.beingExplored;
+	}
+
+	@Override
+	public void setBeingExplored(boolean beingExplored) {
+		this.beingExplored = beingExplored;
+	}
 
     @Override
     public int getVisitCount() {
@@ -135,6 +147,7 @@ public class State implements IState {
     @Override
     public void incrementVisit() {
         this.visitCount++;
+        this.beingExplored = false;
     }
 
     @Override
@@ -190,5 +203,5 @@ public class State implements IState {
 		if (!this.serializeScores().equals(that.serializeScores())) return false;
         return true;        
 	}
-    
+   
 }

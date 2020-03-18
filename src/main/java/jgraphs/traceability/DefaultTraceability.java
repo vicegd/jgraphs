@@ -3,8 +3,8 @@ package jgraphs.traceability;
 import java.io.IOException;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 
 public class DefaultTraceability implements ITraceability {
 	protected static final ILogger logger = new DefaultLogger(DefaultTraceability.class);

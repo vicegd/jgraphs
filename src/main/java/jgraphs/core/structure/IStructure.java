@@ -3,6 +3,10 @@ package jgraphs.core.structure;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+import javax.naming.OperationNotSupportedException;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.situation.ISituation;
@@ -24,5 +28,7 @@ public interface IStructure {
 	
 	public void setFirstSituation(ISituation situation);
 	
-	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList);
+	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList) throws OperationNotSupportedException;
+	
+	public void loadStructure(ConcurrentHashMap<UUID, String> nodeNames, ConcurrentHashMap<UUID, INode> nodes, CopyOnWriteArrayList<INode> nodeList) throws OperationNotSupportedException;
 }

@@ -1,17 +1,19 @@
 package jgraphs.core.structure.graph;
 
-import java.util.ArrayList;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArrayList;
+import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
+import jgraphs.core.structure.AbstractPStructure;
 
-public class PGraph extends Graph {
-    public PGraph() {
+public class PGraph extends AbstractPStructure implements IGraph {
+	@Inject
+    public PGraph(INode root) {
     	super();
-    	super.nodeNames = new ConcurrentHashMap<UUID, String>();
-    	super.nodes = new ConcurrentHashMap<UUID, INode>();
-    	super.nodeList = new CopyOnWriteArrayList<INode>(new ArrayList<INode>());
+    	super.addNewNode(root);
     }
+          
+	@Override
+	public void addNode(INode node) {
+		super.addNewNode(node);
+	}
 }

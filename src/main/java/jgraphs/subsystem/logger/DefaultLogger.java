@@ -1,7 +1,6 @@
-package jgraphs.logger;
+package jgraphs.subsystem.logger;
 
 import org.apache.log4j.PropertyConfigurator;
-
 import jgraphs.utils.Config;
 
 public class DefaultLogger implements ILogger {

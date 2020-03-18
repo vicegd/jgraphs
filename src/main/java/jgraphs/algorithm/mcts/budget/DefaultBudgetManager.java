@@ -18,6 +18,7 @@ public class DefaultBudgetManager implements IBudgetManager {
         this.seconds = Long.parseLong(config.get(Config.DEFAULT_BUDGET_MANAGER_SECONDS));
 	}
 	
+	@Override
     public boolean checkStopCondition(long iterationNumber) {
         var memoryUsed = Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory();
         if (memoryUsed >= this.memory) return true; //break because of memory
@@ -26,6 +27,7 @@ public class DefaultBudgetManager implements IBudgetManager {
         return false;
     }
 	
+	@Override
     public boolean checkStopCondition(long iterationNumber, Instant start) {
         if (this.checkStopCondition(iterationNumber)) return true;
               
@@ -35,15 +37,32 @@ public class DefaultBudgetManager implements IBudgetManager {
         return false;
     }
     
+	@Override
+	public long getIterations() {
+		return this.iterations;
+	}
+    
     public void setIterations(long iterations) {
     	this.iterations = iterations;
     }
     
+	@Override
+	public long getMemory() {
+		return this.memory;
+	}
+    
+	@Override
     public void setMemory(long memory) {
     	this.memory = memory;
     }
     
+	@Override
+	public long getSeconds() {
+		return this.seconds;
+	} 
+	
+	@Override
     public void setSeconds(long seconds) {
     	this.seconds = seconds;
-    } 
+    }
 }

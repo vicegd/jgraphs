@@ -12,10 +12,10 @@ import jgraphs.algorithm.backtracking.BacktrackingAll;
 import jgraphs.app.permutation.PermutationModule;
 import jgraphs.app.permutation.PermutationSerializer;
 import jgraphs.app.permutation.PermutationSituation;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
-import jgraphs.profiler.DefaultProfiler;
-import jgraphs.profiler.IProfiler;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
+import jgraphs.subsystem.profiler.DefaultProfiler;
+import jgraphs.subsystem.profiler.IProfiler;
 import jgraphs.utils.Dependency;
 
 public class SerializerTest {

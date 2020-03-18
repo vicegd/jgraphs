@@ -3,20 +3,21 @@ package jgraphs.core.structure.tree;
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractStructure;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
+import jgraphs.core.structure.AbstractBasicStructure;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 import jgraphs.utils.IllegalTreeOperationException;
 
-public class Tree extends AbstractStructure implements ITree {
+public class Tree extends AbstractBasicStructure implements ITree {
 	protected static final ILogger logger = new DefaultLogger(Tree.class);
 
 	@Inject
     public Tree(INode root) {
     	super();
-		this.addNewNode(root);
+    	super.addNewNode(root);
     }
           
+	@Override
 	public void addNode(INode node) throws IllegalTreeOperationException {
 		if ((node.getPredecessors().size() == 0)&&(nodeList.size() != 0)) 
 			throw new IllegalTreeOperationException("Error: Only the root node does not have a predecessor");

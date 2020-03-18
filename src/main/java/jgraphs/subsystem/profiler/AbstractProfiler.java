@@ -1,4 +1,4 @@
-package jgraphs.profiler;
+package jgraphs.subsystem.profiler;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -7,13 +7,10 @@ import java.util.HashMap;
 import org.slf4j.profiler.TimeInstrument;
 import org.spf4j.perf.MeasurementRecorder;
 
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
 import jgraphs.utils.Config;
 
 public abstract class AbstractProfiler implements IProfiler {
 	protected static final HashMap<String, String> config = Config.getConfig(AbstractProfiler.class);
-	protected static final ILogger logger = new DefaultLogger(AbstractProfiler.class);
 	protected static final String DEFAULT_NAME = config.get(Config.ABSTRACT_PROFILER_DEFAULT_NAME);
 	protected boolean activate;
 	protected boolean forceDisabledAll;
@@ -38,7 +35,6 @@ public abstract class AbstractProfiler implements IProfiler {
 		var dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");		
 		var dbFile = config.get(Config.ABSTRACT_PROFILER_PATH) + dateFormat.format(new Date()) + ".tsdb2";
 		var textFile = config.get(Config.ABSTRACT_PROFILER_PATH) + config.get(Config.ABSTRACT_PROFILER_PERFORMANCE_TEXT_FILE);
-		logger.debug(String.format("\nTime Series DB (TSDB) : {}\nTime Series text file : {}", dbFile, textFile));
 		System.setProperty("spf4j.perf.ms.config", "TSDB@" + dbFile + "," + "TSDB_TXT@" + textFile);
 	}
 	

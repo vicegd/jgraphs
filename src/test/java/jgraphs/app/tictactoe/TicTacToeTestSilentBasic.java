@@ -8,10 +8,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jgraphs.algorithm.mcts.implementation.SilentMCTS;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
-import jgraphs.profiler.DefaultProfiler;
-import jgraphs.profiler.IProfiler;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
+import jgraphs.subsystem.profiler.DefaultProfiler;
+import jgraphs.subsystem.profiler.IProfiler;
 import jgraphs.utils.Dependency;
 import jgraphs.utils.module.EModuleConfiguration;
 

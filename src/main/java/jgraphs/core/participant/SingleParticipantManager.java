@@ -1,16 +1,15 @@
 package jgraphs.core.participant;
 
 public class SingleParticipantManager extends AbstractParticipantManager {
-	public SingleParticipantManager() {
+	private SingleParticipantManager() {
 		this.nParticipants = 1;
 	}
 	
-	
 	@Override
-	public IParticipantManager createNewParticipantManager() {
-    	var copy = new SingleParticipantManager();
-    	copy.participant = this.participant;
-        return copy;
+	public IParticipantManager getInstance() {
+		if (instance == null)
+    		instance = new SingleParticipantManager();
+    	return instance; 
 	}
 
 	@Override

@@ -8,11 +8,11 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingOne;
-import jgraphs.logger.ILogger;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.profiler.DefaultProfiler;
-import jgraphs.profiler.IProfiler;
 import jgraphs.statistics.TreeConsoleStatistic;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
+import jgraphs.subsystem.profiler.DefaultProfiler;
+import jgraphs.subsystem.profiler.IProfiler;
 import jgraphs.utils.Dependency;
 import jgraphs.visualizer.console.SimpleConsoleVisualizer;
 

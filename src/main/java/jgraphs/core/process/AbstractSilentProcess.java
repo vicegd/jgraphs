@@ -5,8 +5,8 @@ import java.util.List;
 
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 
 public abstract class AbstractSilentProcess {
 	protected static final ILogger logger = new DefaultLogger(AbstractSilentProcess.class);

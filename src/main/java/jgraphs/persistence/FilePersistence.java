@@ -9,9 +9,9 @@ import java.util.HashMap;
 import org.json.JSONArray;
 
 import jgraphs.core.structure.IStructure;
-import jgraphs.logger.DefaultLogger;
-import jgraphs.logger.ILogger;
 import jgraphs.serialization.ISerializer;
+import jgraphs.subsystem.logger.DefaultLogger;
+import jgraphs.subsystem.logger.ILogger;
 import jgraphs.utils.Config;
 
 public class FilePersistence implements IPersistence {

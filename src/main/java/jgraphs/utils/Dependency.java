@@ -35,8 +35,12 @@ public class Dependency {
     	return instance; 
     } 
     
-    public Injector getInjector() {
+    private Injector getInjector() {
     	return this.injector;
+    }
+    
+    public <T> T getInjector(Class<T> type) {
+    	return this.injector.getInstance(type);
     }
     
     public INode createNodeInstance() {

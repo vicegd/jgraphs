@@ -28,7 +28,7 @@ public class UpdateAllPropagationPolicy implements IPropagationPolicy {
     	var node = nodeToExplore;
     	var numberOfPlayers = nodeToExplore.getState().getParticipantManager().getNumberOfParticipants();
         while (node != null) {
-        	node.getState().incrementVisit();
+        	node.getState().incrementVisit();        	
         	for (var i = 1; i <= numberOfPlayers; i++) { //check all the players
         		if (this.trainers[i-1] == true) { //we update data only if we should train that player
         			if (result == i) //current player wins

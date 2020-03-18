@@ -1,6 +1,7 @@
 package jgraphs.core.participant;
 
 public abstract class AbstractParticipantManager implements IParticipantManager {
+	protected static IParticipantManager instance = null; 
 	protected int participant;
 	protected int nParticipants;
 

@@ -28,7 +28,7 @@ public class TicTacToeModule extends DefaultModuleConfiguration {
     @Override
     protected void configure() {
     	super.configure();    
-    	switch (this.moduleConfiguration) {
+    	switch(this.moduleConfiguration) {
 	    	case BASIC:
 	    	case SILENTBASIC:
 	    	case PBASIC:
