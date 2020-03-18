@@ -12,8 +12,8 @@ import javax.naming.OperationNotSupportedException;
 
 import jgraphs.core.node.INode;
 
-public abstract class AbstractNPStructure extends AbstractStructure {
-    public AbstractNPStructure() {
+public abstract class AbstractNoParallelStructure extends AbstractStructure {
+    public AbstractNoParallelStructure() {
     	super();
     	this.nodeNames = new HashMap<UUID, String>();
 		this.nodes = new HashMap<UUID, INode>();

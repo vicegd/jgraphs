@@ -7,7 +7,7 @@ public class TwoParticipantsManager extends AbstractParticipantManager {
 	
 	@Override
 	public IParticipantManager createNewParticipantManager() {
-    	var copy = new SinglearticipantManager();
+    	var copy = new TwoParticipantsManager();
     	copy.participant = this.participant;
         return copy;
 	}

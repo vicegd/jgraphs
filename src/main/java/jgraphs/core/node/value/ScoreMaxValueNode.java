@@ -1,8 +1,10 @@
-package jgraphs.core.node;
+package jgraphs.core.node.value;
 
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+
+import jgraphs.core.node.INode;
 
 public class ScoreMaxValueNode implements IMaxValueNode {
 	@Override

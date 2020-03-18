@@ -2,6 +2,7 @@ package jgraphs.core.persistence;
 
 import jgraphs.core.serialization.ISerializer;
 import jgraphs.core.structure.IStructure;
+import jgraphs.persistence.IPersistence;
 
 public class FilePersistence implements IPersistence {
 	@Override

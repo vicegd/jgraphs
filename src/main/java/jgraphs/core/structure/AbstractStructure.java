@@ -59,7 +59,7 @@ public abstract class AbstractStructure implements IStructure {
 	
 	@Override
 	public boolean equals(Object obj) {
-		var that = (AbstractPStructure)obj;
+		var that = (AbstractParallelStructure)obj;
 		
 		for (var n : this.nodeList) {
 			if (!n.equals(that.getNode(n.getId()))) return false;

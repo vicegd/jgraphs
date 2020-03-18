@@ -3,9 +3,9 @@ package jgraphs.core.structure.graph;
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractPStructure;
+import jgraphs.core.structure.AbstractParallelStructure;
 
-public class SilentPGraph extends AbstractPStructure implements IGraph {
+public class SilentPGraph extends AbstractParallelStructure implements IGraph {
 	@Inject
     public SilentPGraph(INode root) {
     	super();

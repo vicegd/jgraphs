@@ -1,7 +1,7 @@
 package jgraphs.app.permutation;
 
-import jgraphs.core.node.IMaxValueNode;
 import jgraphs.core.node.ScoreMaxValueNode;
+import jgraphs.core.node.value.IMaxValueNode;
 import jgraphs.core.participant.IParticipantManager;
 <<<<<<< master
 import jgraphs.core.participant.SingleParticipantManager;

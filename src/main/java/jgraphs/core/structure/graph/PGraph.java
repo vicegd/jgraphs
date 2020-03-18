@@ -3,9 +3,9 @@ package jgraphs.core.structure.graph;
 import com.google.inject.Inject;
 
 import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractPStructure;
+import jgraphs.core.structure.AbstractParallelStructure;
 
-public class PGraph extends AbstractPStructure implements IGraph {
+public class PGraph extends AbstractParallelStructure implements IGraph {
 	@Inject
     public PGraph(INode root) {
     	super();

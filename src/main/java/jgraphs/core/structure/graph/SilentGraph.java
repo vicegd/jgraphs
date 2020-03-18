@@ -1,10 +1,13 @@
 package jgraphs.core.structure.graph;
 
-import jgraphs.core.node.INode;
-import jgraphs.core.structure.AbstractNPStructure;
+import com.google.inject.Inject;
 
-public class SilentGraph extends AbstractNPStructure implements IGraph {
-    public SilentGraph(INode root) {
+import jgraphs.core.node.INode;
+import jgraphs.core.structure.AbstractNoParallelStructure;
+
+public class SilentGraph extends AbstractNoParallelStructure implements IGraph {
+	@Inject
+	public SilentGraph(INode root) {
     	super();
     	super.addNewNode(root);
     }

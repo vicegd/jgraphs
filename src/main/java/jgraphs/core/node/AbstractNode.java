@@ -3,6 +3,7 @@ package jgraphs.core.node;
 import java.util.List;
 import java.util.UUID;
 
+import jgraphs.core.node.value.IMaxValueNode;
 import jgraphs.core.state.IState;
 
 public abstract class AbstractNode implements INode {
@@ -19,14 +20,6 @@ public abstract class AbstractNode implements INode {
 		this.maxValueNode = maxValueNode;
     }
     
-    @Override
-    public INode createNewNode() {
-    	var copy = new Node(this.state, this.maxValueNode);
-   		copy.getPredecessors().addAll(this.getPredecessors());
-   		copy.getSuccessors().addAll(this.getSuccessors());
-        return copy;  
-    }
-	
     @Override
     public UUID getId() {
     	return this.id;
@@ -73,7 +66,7 @@ public abstract class AbstractNode implements INode {
     	if (this.successors.size() == 0) return null;
    		var selectRandom = (int) (Math.random() * this.successors.size());
     	var node = this.successors.get(selectRandom);
-    	node.getState().setBeingExplored(true);
+    	node.getState().setBeingExplored(true); //QUITARLO DE AQUI!!!!!!!!!!!!!!!!!
     	return node;
     }
 
