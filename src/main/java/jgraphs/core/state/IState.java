@@ -22,10 +22,6 @@ public interface IState {
 
     public void setParticipantManager(IParticipantManager playerManager);
     
-    public boolean getBeingExplored();
-
-    public void setBeingExplored(boolean beingExploredRoot);
-    
     public int getVisitCount();
 
     public void setVisitCount(int visitCount);

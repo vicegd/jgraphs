@@ -13,13 +13,12 @@ public abstract class AbstractState implements IState {
 	protected INode node;
 	protected ISituation situation;
 	protected IParticipantManager participantManager;
-	protected boolean beingExplored;
+
 	protected int visitCount;
 	protected double[] scores;
 
     public AbstractState(IParticipantManager participantManager) {
     	this.id = UUID.randomUUID();
-    	this.beingExplored = false;
         this.visitCount = 0; //visits = 0;    	
     	this.participantManager = participantManager.createNewParticipantManager();
     	this.scores = new double[this.participantManager.getNumberOfParticipants()]; //scores = 0
@@ -58,16 +57,6 @@ public abstract class AbstractState implements IState {
     public void setParticipantManager(IParticipantManager participantManager) {
         this.participantManager = participantManager;
     }
-    
-	@Override
-	public boolean getBeingExplored() {
-		return this.beingExplored;
-	}
-
-	@Override
-	public void setBeingExplored(boolean beingExplored) {
-		this.beingExplored = beingExplored;
-	}
 
     @Override
     public int getVisitCount() {
@@ -125,7 +114,6 @@ public abstract class AbstractState implements IState {
     @Override
     public void incrementVisit() {
         this.visitCount++;
-        this.beingExplored = false;
     }
 
     @Override
