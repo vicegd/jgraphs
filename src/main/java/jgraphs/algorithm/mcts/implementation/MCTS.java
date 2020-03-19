@@ -2,7 +2,7 @@ package jgraphs.algorithm.mcts.implementation;
 
 import com.google.inject.Inject;
 
-import jgraphs.algorithm.manager.AbstractManager;
+import jgraphs.algorithm.manager.Manager;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
 import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
@@ -11,7 +11,7 @@ import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.tree.ITree;
 
-public class MCTS extends AbstractManager {
+public class MCTS extends Manager {
 	protected ISelectionPolicy selectionPolicy;
 	protected IExpansionPolicy expansionPolicy;
 	protected ISimulationPolicy simulationPolicy;
@@ -56,15 +56,15 @@ public class MCTS extends AbstractManager {
             // Phase 4 - Update
             propagation(nodeToExplore, result);
    
-            super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
-            super.pauseEvent(super.getStructure());
-            if (budgetManager.checkStopCondition(i, super.getTimer())) break; 
+            //super.structureChangedEvent(super.getStructure(), node, nodeToExplore, super.getMovementNumber(), i, result);
+            //super.pauseEvent(super.getStructure());
+            if (budgetManager.checkStopCondition(i, super.getInitInstant())) break; 
         }
 
         var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
         
-        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());
-        super.pauseEvent(super.getStructure());
+        //super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());
+        //super.pauseEvent(super.getStructure());
         super.incrementMovementNumber();
 
         if (winnerNode.getState().getSituation().checkStatus() != -1) {

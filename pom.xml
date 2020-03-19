@@ -133,6 +133,7 @@
         <h2.version>1.4.196</h2.version>
         <spf4j.version>8.6.28</spf4j.version>
         <jmh.version>1.19</jmh.version>
+        <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
     </properties>
 
 </project>

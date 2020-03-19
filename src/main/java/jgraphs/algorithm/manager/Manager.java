@@ -1,6 +1,7 @@
 package jgraphs.algorithm.manager;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +24,10 @@ public abstract class Manager {
 	protected List<INode> results;
 	protected int movementNumber;
 	protected IStructure structure;
+	protected Instant initTime;
 	
 	public Manager() {
+		this.initTime = Instant.now();
     	this.visualizers = new ArrayList<IVisualizer>();
     	this.statistics = new ArrayList<IStatistic>();
     	this.traceabilities = new ArrayList<ITraceability>();
@@ -56,6 +59,10 @@ public abstract class Manager {
 	
 	public int getMovementNumber() {
 		return this.movementNumber;
+	}
+	
+	public Instant getInitInstant() {
+		return this.initTime;
 	}
 	
 	public void incrementMovementNumber() {

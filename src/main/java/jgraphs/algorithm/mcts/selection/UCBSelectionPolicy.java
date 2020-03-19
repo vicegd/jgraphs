@@ -27,11 +27,9 @@ public class UCBSelectionPolicy implements ISelectionPolicy {
 	
     protected INode findBestNode(int player, INode node) {
         var totalVisits = node.getState().getVisitCount();
-        //System.out.println("A");
         var result =  Collections.max(
           node.getSuccessors(),
           Comparator.comparing(c -> getValue(totalVisits, c.getState().getScore(player), c.getState().getVisitCount())));
-        //System.out.println("B");
         return result;
     }
 	
