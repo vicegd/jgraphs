@@ -5,10 +5,12 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.jfree.util.Log;
+
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
 import jgraphs.core.structure.graph.Graph;
-import jgraphs.core.structure.tree.Tree;
+import jgraphs.core.structure.tree.ITree;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 import jgraphs.subsystem.statistics.IStatistic;
@@ -18,33 +20,28 @@ import jgraphs.utils.IllegalTreeOperationException;
 
 public abstract class AbstractManager {
 	protected static final ILogger logger = new DefaultLogger(AbstractManager.class);
-	protected Duration totalDuration;
-	protected Duration processDuration;
 	protected List<IVisualizer> visualizers;
 	protected List<IStatistic> statistics;
 	protected List<ITraceability> traceabilities;
 	protected List<INode> results;
-	protected Instant timer;
 	protected int movementNumber;
 	protected IStructure structure;
+	protected Instant initTime;
 	
 	public AbstractManager() {
-		this.totalDuration = Duration.ZERO;
-     	this.processDuration = Duration.ZERO;
+		this.initTime = Instant.now();
     	this.visualizers = new ArrayList<IVisualizer>();
     	this.statistics = new ArrayList<IStatistic>();
     	this.traceabilities = new ArrayList<ITraceability>();
     	this.results = new ArrayList<INode>();
     	this.movementNumber = 1;
 	}
-
-	public void execute(INode node) {
-		this.initializeExecution();
-		this.run(node);
-    	this.finalizeExecution();
-	}
 	
 	public abstract void run(INode node);
+	
+	public void run() {
+        this.run(this.structure.getFirst());
+	}
 		
 	public IStructure getStructure() {
 		return this.structure;
@@ -66,12 +63,12 @@ public abstract class AbstractManager {
 		return this.results.get(0);
 	}
 	
-	public Instant getTimer() {
-		return this.timer;
-	}
-	
 	public int getMovementNumber() {
 		return this.movementNumber;
+	}
+	
+	public Instant getInitInstant() {
+		return this.initTime;
 	}
 	
 	public void incrementMovementNumber() {
@@ -91,74 +88,51 @@ public abstract class AbstractManager {
     }
     	
     protected void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
-    	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.structureChangedEvent(structure, sourceNode, endNode, movementNumber, iterationNumber, status);
     	}
-    	this.decrementProcessDuration(time);
     }
  
     protected void movementPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber) {
-    	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.movementPerformedEvent(structure, sourceNode, endNode, movementNumber);
     	}
-    	this.decrementProcessDuration(time);
     }
     
     protected void processFinishedEvent(IStructure structure, List<INode> result, Duration processDuration, Duration totalDuration) {
-    	var time = Instant.now();
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.processFinishedEvent(structure, result);
     	}
-    	this.decrementProcessDuration(time);
     	for(IStatistic statistic : statistics) {
     		statistic.processFinishedEvent(structure, processDuration, totalDuration);
     	}
     }
     
     protected void pauseEvent(IStructure structure) {
-    	var time = Instant.now();
     	for(ITraceability traceability : traceabilities) {
     		traceability.pause(structure);
     	}
-    	this.decrementProcessDuration(time);
     }
     
+	protected void addNodeToTreeStructure(INode node) {
+		var nodes = new ArrayList<INode>();
+		nodes.add(node);
+		this.addNodesToTreeStructure(nodes);
+	}
+    
 	protected void addNodesToTreeStructure(List<INode> nodes) {
-		try {
-			var tree = (Tree)this.structure;
-			for (INode node : nodes) 
+		var tree = (ITree)this.structure;
+		for (INode node : nodes)
+			try {
 				tree.addNode(node);
-		} catch (IllegalTreeOperationException e) {
-			logger.error(e.getMessage());
-		}
+			} catch (IllegalTreeOperationException e) {
+				Log.error(e.getMessage());
+			}
 	}
 	
 	protected void addNodeToGraphStructure(INode node) {
 		var graph = (Graph)this.structure;
 		graph.addNode(node);
 	}
-    
-	private void initializeExecution() {
-    	this.timer = Instant.now();
-	}
 	
-	private void finalizeExecution() {
-		this.incrementProcessDuration(this.timer); 
-		this.incrementTotalDuration(this.timer);
-    	this.processFinishedEvent(this.structure, this.results, this.processDuration, this.totalDuration);
-	}
-	
-    private void incrementTotalDuration(Instant instant) {
-    	this.totalDuration = this.totalDuration.plus(Duration.between(instant, Instant.now()));
-    }
-    
-    private void incrementProcessDuration(Instant instant) {
-    	this.processDuration = this.processDuration.plus(Duration.between(instant, Instant.now()));
-    }
-    
-    private void decrementProcessDuration(Instant instant) {
-    	this.processDuration = this.processDuration.minus(Duration.between(instant, Instant.now()));
-    }
 }

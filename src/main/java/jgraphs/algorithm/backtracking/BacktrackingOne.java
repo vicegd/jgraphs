@@ -12,6 +12,7 @@ public class BacktrackingOne extends AbstractManager {
 	
 	@Inject
     public BacktrackingOne(ITree tree) {
+		super();
 		super.setStructure(tree);
 		this.end = false;
     }
@@ -26,7 +27,7 @@ public class BacktrackingOne extends AbstractManager {
     	node.getState().incrementVisit();
     	
     	if (node.getState().getSituation().hasFinished()) {
-    		super.movementPerformedEvent(super.getStructure(), super.getStructure().getSecondToLast(), super.getStructure().getLast(), super.getMovementNumber());        
+    		//super.movementPerformedEvent(super.getStructure(), super.getStructure().getSecondToLast(), super.getStructure().getLast(), super.getMovementNumber());        
     		super.addResult(node);
     		this.end = true;
     	}

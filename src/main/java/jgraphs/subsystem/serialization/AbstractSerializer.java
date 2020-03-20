@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import javax.naming.OperationNotSupportedException;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -90,7 +92,11 @@ public abstract class AbstractSerializer implements ISerializer {
 			});
 		});
 		
-		structure.loadStructure(nodeNames, nodes, nodeList);	
+		try {
+			structure.loadStructure(nodeNames, nodes, nodeList);
+		} catch (OperationNotSupportedException e) {
+			logger.error(e.getMessage());
+		}	
 		return structure;
 	}
 	

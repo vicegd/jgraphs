@@ -12,6 +12,8 @@ public interface IState {
 	
 	public UUID getId();
 	
+	public void setId(UUID id);
+	
 	public ISituation getSituation();
 	
 	public String getStateValuesToHTML();
@@ -31,6 +33,8 @@ public interface IState {
     public double getTotalScores();
 
     public void setScore(int player, double score);
+    
+    public void setScores(double[] scores);
     
     public INode getNode();
     

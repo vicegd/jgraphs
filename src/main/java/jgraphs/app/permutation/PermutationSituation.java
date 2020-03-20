@@ -15,6 +15,9 @@ public class PermutationSituation extends IntArraySituation {
     public PermutationSituation(int n) {
     	super(n);
     	this.used = new boolean[super.n];
+		for (int i=0; i<this.n; i++) {
+			super.values[i] = -1;
+		}	
     }
         
     @Override
@@ -34,12 +37,13 @@ public class PermutationSituation extends IntArraySituation {
 				if (!this.used[i]) {
 					var situation = (PermutationSituation)this.createNewSituation();			
 					situation.values[this.level] = i;
-					situation.used[i] = true;
-					situation.level += 1;
+					situation.used[i] = true;		
+					situation.level += 1;	
 					situations.add(situation);
 				}
 			}
 		}
+		
 		return situations;
 	}
 
@@ -51,6 +55,10 @@ public class PermutationSituation extends IntArraySituation {
     
     public boolean[] getUsed() {
     	return this.used;
+    }
+    
+    public void setUsed(boolean[] used) {
+    	this.used = used;
     }
   
 }

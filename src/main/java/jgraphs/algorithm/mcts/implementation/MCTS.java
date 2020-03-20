@@ -2,7 +2,7 @@ package jgraphs.algorithm.mcts.implementation;
 
 import com.google.inject.Inject;
 
-import jgraphs.algorithm.manager.Manager;
+import jgraphs.algorithm.manager.AbstractManager;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
 import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
@@ -11,7 +11,7 @@ import jgraphs.algorithm.mcts.simulation.ISimulationPolicy;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.tree.ITree;
 
-public class MCTS extends Manager {
+public class MCTS extends AbstractManager {
 	protected ISelectionPolicy selectionPolicy;
 	protected IExpansionPolicy expansionPolicy;
 	protected ISimulationPolicy simulationPolicy;
@@ -22,6 +22,7 @@ public class MCTS extends Manager {
     public MCTS(ITree tree, 
     		ISelectionPolicy selectionPolicy, IExpansionPolicy expansionPolicy, ISimulationPolicy simulationPolicy, IPropagationPolicy propagationPolicy, 
     		IBudgetManager budgetManager) {
+		super();
 		super.setStructure(tree);
 		this.selectionPolicy = selectionPolicy;
 		this.expansionPolicy = expansionPolicy;

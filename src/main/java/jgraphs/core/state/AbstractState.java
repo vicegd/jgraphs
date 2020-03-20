@@ -30,6 +30,11 @@ public abstract class AbstractState implements IState {
     }
     
     @Override
+    public void setId(UUID id) {
+    	this.id = id;
+    }
+    
+    @Override
     public ISituation getSituation() {
         return this.situation;
     }
@@ -85,6 +90,11 @@ public abstract class AbstractState implements IState {
     @Override
     public void setScore(int participant, double score) {
         this.scores[participant-1] = score;
+    }
+    
+    @Override
+    public void setScores(double[] scores) {
+        this.scores = scores;
     }
     
 	@Override

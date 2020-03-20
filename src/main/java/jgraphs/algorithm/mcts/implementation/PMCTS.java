@@ -5,6 +5,7 @@ import java.util.concurrent.ForkJoinPool;
 
 import com.google.inject.Inject;
 
+import jgraphs.algorithm.manager.AbstractManager;
 import jgraphs.algorithm.mcts.budget.IBudgetManager;
 import jgraphs.algorithm.mcts.expansion.IExpansionPolicy;
 import jgraphs.algorithm.mcts.propagation.IPropagationPolicy;
@@ -16,18 +17,29 @@ import jgraphs.subsystem.statistics.IStatistic;
 import jgraphs.subsystem.traceability.ITraceability;
 import jgraphs.subsystem.visualizer.IVisualizer;
 
-public class PMCTS extends MCTS {  
+public class PMCTS extends AbstractManager {
 	private ForkJoinPool pool;
-	
+	protected ISelectionPolicy selectionPolicy;
+	protected IExpansionPolicy expansionPolicy;
+	protected ISimulationPolicy simulationPolicy;
+	protected IPropagationPolicy propagationPolicy;
+	protected IBudgetManager budgetManager;
+    
 	@Inject
     public PMCTS(ITree tree, 
-    		ISelectionPolicy selectionPolicy, IExpansionPolicy expansionPolicy, ISimulationPolicy simulationPolicy, IPropagationPolicy propagationPolicy,  
+    		ISelectionPolicy selectionPolicy, IExpansionPolicy expansionPolicy, ISimulationPolicy simulationPolicy, IPropagationPolicy propagationPolicy, 
     		IBudgetManager budgetManager) {
-		super(tree, selectionPolicy, expansionPolicy, simulationPolicy, propagationPolicy, budgetManager);
+		super();
+		super.setStructure(tree);		
 		super.visualizers = new CopyOnWriteArrayList<IVisualizer>(super.visualizers);
 		super.statistics = new CopyOnWriteArrayList<IStatistic>(super.statistics);
 		super.traceabilities = new CopyOnWriteArrayList<ITraceability>(super.traceabilities);
 		super.results = new CopyOnWriteArrayList<INode>(super.results); 
+		this.selectionPolicy = selectionPolicy;
+		this.expansionPolicy = expansionPolicy;
+		this.simulationPolicy = simulationPolicy;
+		this.propagationPolicy = propagationPolicy;
+		this.budgetManager = budgetManager;
 		this.pool = new ForkJoinPool();
     }
 	
@@ -37,25 +49,42 @@ public class PMCTS extends MCTS {
             node = this.mcts(node); 
         }
 	}
-	
-    protected INode mcts(INode node) {     
-    	var task = new MCTSTask(this, node, 1, super.getBudgetManager().getIterations());
+                    
+	protected INode mcts(INode node) {     
+		var task = new MCTSTask(this, node, 1, this.getBudgetManager().getIterations());
+	    pool.invoke(task);
 
-    	//System.out.println("--");
-    	pool.invoke(task);
-    	//System.out.println("---");
+	    var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
+	    super.incrementMovementNumber();
 
-        var winnerNode = node.getSuccessorWithMaxValue(node.getState().getParticipantManager().getOpponent());
-        
-        super.movementPerformedEvent(super.getStructure(), node, winnerNode, super.getMovementNumber());
-        super.pauseEvent(super.getStructure());
-        super.incrementMovementNumber();
+	    if (winnerNode.getState().getSituation().checkStatus() != -1) {
+	    	super.addResult(winnerNode);	       	
+	    }
+	        
+	    return winnerNode;
+	}
 
-        if (winnerNode.getState().getSituation().checkStatus() != -1) {
-        	super.addResult(winnerNode);	       	
-        }
-        
-        return winnerNode;
+    protected INode selection(INode rootNode) {
+        return selectionPolicy.selection(rootNode);
     }
-            
+
+    protected void expansion(INode promisingNode) {
+	    super.addNodesToTreeStructure(expansionPolicy.expansion(promisingNode));
+    }
+
+    protected int simulation(INode node) {
+    	return simulationPolicy.simulation(node);
+    }
+    
+    protected void propagation(INode nodeToExplore, int result) {
+    	propagationPolicy.propagation(nodeToExplore, result);
+    }
+    
+    public IBudgetManager getBudgetManager() {
+    	return this.budgetManager;
+    }
+    
+    public void setTrainers(boolean[] trainers) {
+    	this.propagationPolicy.setTrainers(trainers);
+    }
 }

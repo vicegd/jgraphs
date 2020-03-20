@@ -2,14 +2,15 @@ package jgraphs.algorithm.backtracking;
 
 import com.google.inject.Inject;
 
+import jgraphs.algorithm.manager.AbstractManager;
 import jgraphs.core.node.INode;
-import jgraphs.core.process.AbstractProcess;
 import jgraphs.core.structure.tree.ITree;
 import jgraphs.utils.Dependency;
 
-public class BacktrackingAll extends AbstractProcess {  
+public class BacktrackingAll extends AbstractManager {  
 	@Inject
     public BacktrackingAll(ITree tree) {
+		super();
 		super.setStructure(tree);
     }
 	
@@ -23,7 +24,7 @@ public class BacktrackingAll extends AbstractProcess {
     	node.getState().incrementVisit();
     	
     	if (node.getState().getSituation().hasFinished()) {
-    		super.movementPerformedEvent(super.getStructure(), super.getStructure().getSecondToLast(), super.getStructure().getLast(), super.getMovementNumber());       
+    		//super.movementPerformedEvent(super.getStructure(), super.getStructure().getSecondToLast(), super.getStructure().getLast(), super.getMovementNumber());       
     		super.addResult(node);
     	}
     	else {
@@ -32,11 +33,7 @@ public class BacktrackingAll extends AbstractProcess {
     	    	var newNode = Dependency.getInstance().createNodeInstance();
     	    	newNode.setState(state);
     	    	newNode.getPredecessors().add(node);
-<<<<<<< master
-    	        node.getSuccessors().add(newNode);
-=======
-    	        node.getSuccessors().add(newNode);     
->>>>>>> 16cccd1 Persistence API finished
+    	        node.getSuccessors().add(newNode);   
     	        super.addNodeToTreeStructure(newNode);
     			this.backtracking(newNode);
     	    });
