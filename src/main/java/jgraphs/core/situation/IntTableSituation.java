@@ -50,5 +50,17 @@ public abstract class IntTableSituation extends AbstractSituation {
             }
         }
     }
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (IntTableSituation)obj;
+		if (!super.equals(obj)) return false;
+		for (int i=0; i<values.length; i++) {
+			for (int j=0; j<values.length; j++) {
+				if (this.values[i][j] != that.values[i][j]) return false;
+			}
+		}
+        return true;        
+	}
 
 }

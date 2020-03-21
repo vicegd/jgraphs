@@ -1,5 +1,6 @@
 package jgraphs.app.permutation;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import jgraphs.core.situation.ISituation;
@@ -30,7 +31,7 @@ public class PermutationSituation extends IntArraySituation {
     
 	@Override
 	public List<ISituation> nextSituations(int participant, Object value) {
-		this.situations.clear();
+		List<ISituation> situations = new ArrayList<>();
 		
 		if (this.level < this.n) {			
 			for (var i = 0; i < this.n; i++) {
@@ -60,5 +61,15 @@ public class PermutationSituation extends IntArraySituation {
     public void setUsed(boolean[] used) {
     	this.used = used;
     }
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (PermutationSituation)obj;
+		if (!super.equals(obj)) return false;
+		for (int i=0; i<used.length; i++) {
+			if (this.used[i] != that.used[i]) return false;
+		}
+        return true;        
+	}
   
 }

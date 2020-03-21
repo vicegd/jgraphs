@@ -30,4 +30,15 @@ public abstract class AbstractParallelStructure extends AbstractStructure {
 	public void loadStructure(Map<UUID, String> nodeNames, Map<UUID, INode> nodes, List<INode> nodeList) throws OperationNotSupportedException {
 		throw new OperationNotSupportedException();
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		var that = (AbstractParallelStructure)obj;
+		
+		for (var n : this.nodeList) {
+			if (!n.equals(that.getNode(n.getId()))) return false;
+		}
+		
+        return true;
+	}
 }

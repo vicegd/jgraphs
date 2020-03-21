@@ -40,5 +40,15 @@ public abstract class IntArraySituation extends AbstractSituation {
     	super.copyInfo(source, target);
     	target.values = source.values.clone();
     } 
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (IntArraySituation)obj;
+		if (!super.equals(obj)) return false;
+		for (int i=0; i<values.length; i++) {
+			if (this.values[i] != that.values[i]) return false;
+		}
+        return true;        
+	}
 }
 

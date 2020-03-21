@@ -1,6 +1,7 @@
 package jgraphs.serialization;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -30,8 +31,9 @@ public class SerializerTest {
         assertEquals(2, json.length());
         
         var newTree = new PermutationSerializer().deserialize(json); 
-        var jsonNewTree = new PermutationSerializer().serialize(newTree); 
-                
+        assertTrue(tree.equals(newTree));
+        
+        var jsonNewTree = new PermutationSerializer().serialize(newTree);                
         assertEquals(json.toString(), jsonNewTree.toString());
     }
     
@@ -45,8 +47,9 @@ public class SerializerTest {
         assertEquals(5, json.length());
         
         var newTree = new PermutationSerializer().deserialize(json); 
-        var jsonNewTree = new PermutationSerializer().serialize(newTree); 
-                
+        assertTrue(tree.equals(newTree));
+        
+        var jsonNewTree = new PermutationSerializer().serialize(newTree);                 
         assertEquals(json.toString(), jsonNewTree.toString());
     }
         
@@ -60,8 +63,9 @@ public class SerializerTest {
         assertEquals(65, json.length());
         
         var newTree = new PermutationSerializer().deserialize(json); 
-        var jsonNewTree = new PermutationSerializer().serialize(newTree); 
-                
+        assertTrue(tree.equals(newTree));
+        
+        var jsonNewTree = new PermutationSerializer().serialize(newTree);          
         assertEquals(json.toString(), jsonNewTree.toString());
     }
 }

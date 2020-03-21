@@ -57,17 +57,6 @@ public abstract class AbstractStructure implements IStructure {
 		this.getFirst().getState().setSituation(situation);
 	}
 	
-	@Override
-	public boolean equals(Object obj) {
-		var that = (AbstractParallelStructure)obj;
-		
-		for (var n : this.nodeList) {
-			if (!n.equals(that.getNode(n.getId()))) return false;
-		}
-		
-        return true;
-	}
-	
 	/**
 	 * Should not be called from the outside
 	 * @param node

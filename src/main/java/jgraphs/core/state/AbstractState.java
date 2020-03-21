@@ -166,7 +166,7 @@ public abstract class AbstractState implements IState {
         return sb.toString();
     }
     
-	/*@Override
+	@Override
 	public boolean equals(Object obj) {
 		var that = (AbstractState)obj;
 		if (!this.id.equals(that.id)) return false;
@@ -178,5 +178,5 @@ public abstract class AbstractState implements IState {
 		if (this.visitCount != that.visitCount) return false;
 		if (!this.serializeScores().equals(that.serializeScores())) return false;
         return true;        
-	}*/
+	}
 }

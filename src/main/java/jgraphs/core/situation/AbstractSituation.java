@@ -1,17 +1,14 @@
 package jgraphs.core.situation;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AbstractSituation implements ISituation {
     protected int n;
     protected int level;
-	protected List<ISituation> situations;
 	
     public AbstractSituation(int n) {
     	this.n = n;
     	this.level = 0;
-    	this.situations = new ArrayList<ISituation>();
     }
     
 	@Override
@@ -55,5 +52,13 @@ public abstract class AbstractSituation implements ISituation {
     	target.n = source.n;
     	target.level = source.level;
     }
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (AbstractSituation)obj;
+		if (this.n != that.n) return false;
+		if (this.level != that.level) return false;
+        return true;        
+	}
 
 }

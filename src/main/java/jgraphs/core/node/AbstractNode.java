@@ -88,5 +88,15 @@ public abstract class AbstractNode implements INode {
     	sb.append(this.state.toString());
         return sb.toString();
     }
+    
+	@Override
+	public boolean equals(Object obj) {
+		var that = (AbstractNode)obj;
+		if (!this.id.equals(that.id)) return false;
+		if (!this.state.equals(that.state)) return false;
+		if (this.predecessors.size() != that.predecessors.size()) return false;
+		if (this.successors.size() != that.successors.size()) return false;
+        return true;        
+	}
 
 }
