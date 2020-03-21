@@ -34,7 +34,7 @@ public class DefaultComparator implements IComparator {
 			
 			result = new JSONArray(patch.toString());
 			
-			logger.debug("COMPARISON:" + result.write(new StringWriter(), 3, 0).toString());
+			//logger.debug("COMPARISON:" + result.write(new StringWriter(), 3, 0).toString());
 		} catch (IOException e) {
 			logger.error(e.getMessage());
 		}		

@@ -1,1 +1,38 @@
-[{"predecessors":[],"name":"Node1","successors":["5d0eeada-74ac-4aed-9477-4a4b7375cc1d"],"id":"7ed47964-b8be-492e-95ef-e22683e1a981","state":{"currentParticipant":0,"visits":1,"totalScores":0,"scores":[0],"id":"c4910a17-b75d-41d2-862e-8dce26896924","situation":{"level":0,"values":[0],"used":[false],"n":1}}},{"predecessors":["7ed47964-b8be-492e-95ef-e22683e1a981"],"name":"Node2","successors":[],"id":"5d0eeada-74ac-4aed-9477-4a4b7375cc1d","state":{"currentParticipant":0,"visits":1,"totalScores":0,"scores":[0],"id":"2a8a821e-8bed-4298-9743-11f4abbf789a","situation":{"level":1,"values":[0],"used":[true],"n":1}}}]
+[
+   {
+      "predecessors": [],
+      "name": "Node1",
+      "successors": ["b41d6dae-4f09-4042-804b-93dbd752a98c"],
+      "id": "0d178e86-b410-4d91-b875-55fe350709e0",
+      "state": {
+         "currentParticipant": 0,
+         "visits": 1,
+         "scores": [0],
+         "id": "bc4cac19-c10a-499a-ba28-b099c9dc2266",
+         "situation": {
+            "level": 0,
+            "values": [-1],
+            "used": [false],
+            "n": 1
+         }
+      }
+   },
+   {
+      "predecessors": ["0d178e86-b410-4d91-b875-55fe350709e0"],
+      "name": "Node2",
+      "successors": [],
+      "id": "b41d6dae-4f09-4042-804b-93dbd752a98c",
+      "state": {
+         "currentParticipant": 0,
+         "visits": 1,
+         "scores": [0],
+         "id": "de5cbd28-57ce-4cb3-bb2e-945f2a5b5308",
+         "situation": {
+            "level": 1,
+            "values": [0],
+            "used": [true],
+            "n": 1
+         }
+      }
+   }
+]
