@@ -19,7 +19,8 @@ public class BacktrackingOne extends AbstractManager {
 	
 	@Override
 	public void run(INode node) {
-    	this.backtracking(node);   	
+    	this.backtracking(node);  
+    	checkpointEvent(super.getStructure());
 	}
 	   
     private void backtracking(INode node) { 

@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import jgraphs.algorithm.backtracking.BacktrackingOne;
-import jgraphs.subsystem.statistics.TreeConsoleStatistic;
+import jgraphs.subsystem.statistics.TreeConsoleStatistics;
 import jgraphs.subsystem.visualizer.console.SimpleConsoleVisualizer;
 import jgraphs.utils.Dependency;
 import jgraphs.utils.module.EModuleConfiguration;
@@ -17,7 +17,7 @@ public class PermutationOneTest {
     @Before	
     public void initialize() {    	
         this.backtracking = Dependency.getInstance(new PermutationModule(EModuleConfiguration.BASIC)).getInjector(BacktrackingOne.class);
-        this.backtracking.addStatistic(new TreeConsoleStatistic());
+        this.backtracking.addStatistics(new TreeConsoleStatistics());
         this.backtracking.addVisualizer(new SimpleConsoleVisualizer());
     }
     

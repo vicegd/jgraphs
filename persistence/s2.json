@@ -2,13 +2,13 @@
    {
       "predecessors": [],
       "name": "Node1",
-      "successors": ["b41d6dae-4f09-4042-804b-93dbd752a98c"],
-      "id": "0d178e86-b410-4d91-b875-55fe350709e0",
+      "successors": ["7d7a90b7-e436-4a09-b0e7-5369cdeae907"],
+      "id": "65d60f8c-23d6-4d23-aefc-63c87d525e02",
       "state": {
          "currentParticipant": 0,
          "visits": 1,
          "scores": [0],
-         "id": "bc4cac19-c10a-499a-ba28-b099c9dc2266",
+         "id": "6e2b6e53-26c8-482e-ba6a-cd8aa2136afa",
          "situation": {
             "level": 0,
             "values": [-1],
@@ -18,15 +18,15 @@
       }
    },
    {
-      "predecessors": ["0d178e86-b410-4d91-b875-55fe350709e0"],
+      "predecessors": ["65d60f8c-23d6-4d23-aefc-63c87d525e02"],
       "name": "Node2",
       "successors": [],
-      "id": "b41d6dae-4f09-4042-804b-93dbd752a98c",
+      "id": "7d7a90b7-e436-4a09-b0e7-5369cdeae907",
       "state": {
          "currentParticipant": 0,
          "visits": 1,
          "scores": [0],
-         "id": "de5cbd28-57ce-4cb3-bb2e-945f2a5b5308",
+         "id": "d2f8b0b8-d648-4ab1-a4ef-03b6f17f9a7c",
          "situation": {
             "level": 1,
             "values": [0],

@@ -79,12 +79,18 @@ public abstract class AbstractManager {
     	this.visualizers.add(visualizer);
     }
     
-    public void addStatistic(IStatistic statistic) {
+    public void addStatistics(IStatistic statistic) {
     	this.statistics.add(statistic);
     }
     
     public void addTraceability(ITraceability traceability) {
     	this.traceabilities.add(traceability);
+    }
+    
+    protected void checkpointEvent(IStructure structure) {
+    	for(IStatistic statistic : statistics) {
+    		statistic.checkpointEvent(structure, initTime, Instant.now());
+    	}
     }
     	
     protected void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
@@ -102,9 +108,6 @@ public abstract class AbstractManager {
     protected void processFinishedEvent(IStructure structure, List<INode> result, Duration processDuration, Duration totalDuration) {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.processFinishedEvent(structure, result);
-    	}
-    	for(IStatistic statistic : statistics) {
-    		statistic.processFinishedEvent(structure, processDuration, totalDuration);
     	}
     }
     
@@ -134,5 +137,4 @@ public abstract class AbstractManager {
 		var graph = (Graph)this.structure;
 		graph.addNode(node);
 	}
-	
 }

@@ -4,7 +4,7 @@ import java.util.List;
 
 import jgraphs.core.node.INode;
 
-public class TreeStatisticData {
+public class TreeStatisticsInfo {
 	public long treeDepth;
 	public long generatedTreeWidth;
 	public long exploredTreeWidth;

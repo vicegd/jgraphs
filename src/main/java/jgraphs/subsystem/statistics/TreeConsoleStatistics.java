@@ -1,9 +1,11 @@
 package jgraphs.subsystem.statistics;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.stream.Collectors;
@@ -13,18 +15,19 @@ import jgraphs.core.structure.IStructure;
 import jgraphs.subsystem.logger.DefaultLogger;
 import jgraphs.subsystem.logger.ILogger;
 
-public class TreeConsoleStatistic implements IStatistic {
-	protected static final ILogger logger = new DefaultLogger(TreeConsoleStatistic.class);
-	HashMap<Integer, Integer> generatedWidths = new HashMap<Integer, Integer>();
-	HashMap<Integer, Integer> exploredWidths = new HashMap<Integer, Integer>();
-	TreeStatisticData data = new TreeStatisticData();
+public class TreeConsoleStatistics implements IStatistic {
+	protected static final ILogger logger = new DefaultLogger(TreeConsoleStatistics.class);
+	protected List<TreeStatisticsInfo> info = new ArrayList<TreeStatisticsInfo>();
+	protected HashMap<Integer, Integer> generatedWidths;
+	protected HashMap<Integer, Integer> exploredWidths;
 
 	@Override
-	public void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration) {
-		this.getData(structure);
+	public void checkpointEvent(IStructure structure, Instant start, Instant end) {
+		this.generatedWidths = new HashMap<Integer, Integer>();
+		this.exploredWidths = new HashMap<Integer, Integer>();
+		var data = this.getData(structure);
 		logger.info("\n******************************STATISTICS******************************");	
-		logger.info(String.format("Elapsed process time: %d,%d seconds", processDuration.getSeconds(), processDuration.getNano()));
-		logger.info(String.format("Elapsed total time: %d,%d seconds", totalDuration.getSeconds(), totalDuration.getNano()));
+		logger.info(String.format("Elapsed total time: %d nanoseconds (%d seconds)", Duration.between(start, end).getNano(), Duration.between(start, end).getSeconds()));
 		logger.info(String.format("Depth of the tree: %d", data.treeDepth));
 		logger.info(String.format("Width of the tree: %d", data.generatedTreeWidth));
 		logger.info(String.format("Width of the explored tree: %d", data.exploredTreeWidth));
@@ -49,27 +52,33 @@ public class TreeConsoleStatistic implements IStatistic {
 		logger.info("**********************************************************************");
 	}
 	
-	private void getData(IStructure structure) {
-		iterateTree(structure.getFirst(), 1);
-		this.data.generatedTreeWidth = Collections.max(generatedWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
-		this.data.exploredTreeWidth = Collections.max(exploredWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
-		this.data.generatedNodes = structure.getNodeList().size();
-		this.data.exploredNodes = structure.getNodeList().stream()
+	public List<TreeStatisticsInfo> getStatisticsInfo() {
+		return this.info;
+	}
+	
+	private TreeStatisticsInfo getData(IStructure structure) {
+		var data = new TreeStatisticsInfo();
+		
+		iterateTree(data, structure.getFirst(), 1);
+		data.generatedTreeWidth = Collections.max(generatedWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
+		data.exploredTreeWidth = Collections.max(exploredWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
+		data.generatedNodes = structure.getNodeList().size();
+		data.exploredNodes = structure.getNodeList().stream()
 				.filter(n -> n.getState().getVisitCount() > 0)
 				.count();
-		this.data.notExploredNodes = data.generatedNodes - data.exploredNodes;
-		this.data.visits = structure.getNodeList().stream()
+		data.notExploredNodes = data.generatedNodes - data.exploredNodes;
+		data.visits = structure.getNodeList().stream()
 				.map(n -> n.getState().getVisitCount())
 				.mapToInt(Integer::valueOf)
 				.sum();
-		this.data.visitsPerGeneratedNodes = (float)data.visits / (float)data.generatedNodes;
-		this.data.visitsPerExploredNodes =  (float)data.visits / (float)data.exploredNodes;
-		this.data.topVisitedNodes = structure.getNodeList().stream()
+		data.visitsPerGeneratedNodes = (float)data.visits / (float)data.generatedNodes;
+		data.visitsPerExploredNodes =  (float)data.visits / (float)data.exploredNodes;
+		data.topVisitedNodes = structure.getNodeList().stream()
 				.sorted((n1, n2) -> n2.getState().getVisitCount() - n1.getState().getVisitCount())
 				.limit(10)
 				.collect(Collectors.toList());
 
-		this.data.topRankedNodes = new ArrayList<>();
+		data.topRankedNodes = new ArrayList<>();
 		var q = new PriorityQueue<Integer>();		
 		for (var i = 0; i < structure.getFirst().getState().getParticipantManager().getNumberOfParticipants(); i++) {
 			q.add(i);
@@ -80,13 +89,15 @@ public class TreeConsoleStatistic implements IStatistic {
 					.limit(10)
 					.collect(Collectors.toList());
 			q.poll();
-			this.data.topRankedNodes.add(rankedList);
+			data.topRankedNodes.add(rankedList);
 		}
+		this.info.add(data);
+		return data;
 	}
 	
-	private void iterateTree(INode node, int depth) {
-		if (depth > this.data.treeDepth)
-			this.data.treeDepth = depth;
+	private void iterateTree(TreeStatisticsInfo data, INode node, int depth) {
+		if (depth > data.treeDepth)
+			data.treeDepth = depth;
 		if (generatedWidths.get(depth) != null) 
 			generatedWidths.put(depth, generatedWidths.get(depth) + 1);
 		else
@@ -98,7 +109,7 @@ public class TreeConsoleStatistic implements IStatistic {
 			exploredWidths.put(depth, 1);
 		
 		for (INode n : node.getSuccessors()) {	
-			iterateTree(n, depth + 1);		
+			iterateTree(data, n, depth + 1);		
 		}
 	}
 }

@@ -1,9 +1,9 @@
 package jgraphs.subsystem.statistics;
 
-import java.time.Duration;
+import java.time.Instant;
 
 import jgraphs.core.structure.IStructure;
 
 public interface IStatistic {
-	public void processFinishedEvent(IStructure structure, Duration processDuration, Duration totalDuration);
+	public void checkpointEvent(IStructure structure, Instant start, Instant end);
 }
