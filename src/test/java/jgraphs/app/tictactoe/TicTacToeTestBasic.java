@@ -16,6 +16,12 @@ public class TicTacToeTestBasic {
     public void initialize() {
         this.mcts = Dependency.getInstance(new TicTacToeModule(EModuleConfiguration.BASIC)).getInjector(MCTS.class);
         this.mcts.getStructure().setFirstSituation(new TicTacToeSituation(5));
+        //  this.mcts.addStatistic(new TreeConsoleStatistic());
+        //   this.mcts.addVisualizer(new SimpleConsoleVisualizer());
+           //this.mcts.addVisualizer(new SimpleGraphVisualizer());
+           //this.mcts.addVisualizer(new GraphVisualizer());
+          // this.mcts.addTraceability(new DefaultTraceability());
+          // this.mcts.addVisualizer(new ShapeGraphVisualizer());
     }
    
     @Test

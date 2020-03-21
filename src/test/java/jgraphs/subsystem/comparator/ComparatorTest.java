@@ -1,4 +1,4 @@
-package jgraphs.comparator;
+package jgraphs.subsystem.comparator;
 
 import static org.junit.Assert.assertEquals;
 

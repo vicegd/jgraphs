@@ -1,4 +1,4 @@
-package jgraphs.profiler;
+package jgraphs.subsystem.profiler;
 
 import org.jfree.util.Log;
 import org.junit.AfterClass;

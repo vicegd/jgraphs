@@ -15,7 +15,7 @@ public class TicTacToeTestPBasic {
     @Before	
     public void initialize() {
         this.mcts = Dependency.getInstance(new TicTacToeModule(EModuleConfiguration.PBASIC)).getInjector(PMCTS.class);
-        this.mcts.getStructure().setFirstSituation(new TicTacToePSituation(5));
+        this.mcts.getStructure().setFirstSituation(new TicTacToeSituation(5));
     }
   
     @Test
