@@ -20,12 +20,12 @@ public class ProfilerTest {
     }
     
     @Test
-    public void test1() {
+    public void profiler_test1() {
     	profiler.start("test1");
     }
 
     @Test
-    public void test2() {
+    public void profiler_test2() {
     	long operation = 0;
     	for (int i=0; i<1000; i++) {
     		operation += Math.sqrt(i);
@@ -35,7 +35,7 @@ public class ProfilerTest {
     }
    
     @Test
-    public void test3() {
+    public void profiler_test3() {
     	long operation = 0;
     	for (int i=0; i<1000000; i++) {
     		operation += Math.sqrt(i);

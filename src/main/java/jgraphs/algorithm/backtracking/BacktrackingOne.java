@@ -20,12 +20,14 @@ public class BacktrackingOne extends AbstractManager {
 	@Override
 	public void run(INode node) {
     	this.backtracking(node);  
-    	checkpointEvent(super.getStructure());
+    	super.checkpointEvent();
 	}
 	   
     private void backtracking(INode node) { 
     	super.incrementMovementNumber();
     	node.getState().incrementVisit();
+    	
+    	super.pauseEvent();
     	
     	if (node.getState().getSituation().hasFinished()) {
     		//super.movementPerformedEvent(super.getStructure(), super.getStructure().getSecondToLast(), super.getStructure().getLast(), super.getMovementNumber());        

@@ -6,9 +6,9 @@ import jgraphs.core.node.INode;
 
 public class TreeStatisticsInfo {
 	public long treeDepth;
-	public long generatedTreeWidth;
+	public long treeWidth;
 	public long exploredTreeWidth;
-	public long generatedNodes;
+	public long nodes;
 	public long exploredNodes;
 	public long notExploredNodes;
 	public long visits;

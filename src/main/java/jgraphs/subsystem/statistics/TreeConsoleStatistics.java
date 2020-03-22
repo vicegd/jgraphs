@@ -29,9 +29,9 @@ public class TreeConsoleStatistics implements IStatistic {
 		logger.info("\n******************************STATISTICS******************************");	
 		logger.info(String.format("Elapsed total time: %d nanoseconds (%d seconds)", Duration.between(start, end).getNano(), Duration.between(start, end).getSeconds()));
 		logger.info(String.format("Depth of the tree: %d", data.treeDepth));
-		logger.info(String.format("Width of the tree: %d", data.generatedTreeWidth));
+		logger.info(String.format("Width of the tree: %d", data.treeWidth));
 		logger.info(String.format("Width of the explored tree: %d", data.exploredTreeWidth));
-		logger.info(String.format("Number of nodes: %d", data.generatedNodes));	
+		logger.info(String.format("Number of nodes: %d", data.nodes));	
 		logger.info(String.format("Number of explored nodes: %d", data.exploredNodes));
 		logger.info(String.format("Number of nodes that have not been explored: %d", data.notExploredNodes));
 		logger.info(String.format("Number of visits: %d", data.visits));
@@ -44,7 +44,7 @@ public class TreeConsoleStatistics implements IStatistic {
 		logger.info(String.format("Top ranked nodes"));
 		
 		for (var i = 0; i < structure.getFirst().getState().getParticipantManager().getNumberOfParticipants(); i++) {
-			logger.info(String.format("\t**Position " + (i+1)));
+			logger.info(String.format("\t**Participant " + (i+1)));
 			for (var n : data.topRankedNodes.get(i)) {
 				logger.info(String.format("\tNode: %s (%s) \t Visits: %d \t Scores: %s \t Total scores: %f", structure.getNodeName(n.getId()), n.getId(), n.getState().getVisitCount(), n.getState().serializeScores(), n.getState().getTotalScores()));
 			}
@@ -56,22 +56,27 @@ public class TreeConsoleStatistics implements IStatistic {
 		return this.info;
 	}
 	
+	public TreeStatisticsInfo getLastStatisticsInfo() {
+		return this.info.get(this.info.size()-1);
+	}
+	
 	private TreeStatisticsInfo getData(IStructure structure) {
-		var data = new TreeStatisticsInfo();
-		
+		var data = new TreeStatisticsInfo();	
 		iterateTree(data, structure.getFirst(), 1);
-		data.generatedTreeWidth = Collections.max(generatedWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
+		
+		data.treeWidth = Collections.max(generatedWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
 		data.exploredTreeWidth = Collections.max(exploredWidths.entrySet(), Map.Entry.comparingByValue()).getValue();
-		data.generatedNodes = structure.getNodeList().size();
+		
+		data.nodes = structure.getNodeList().size();
 		data.exploredNodes = structure.getNodeList().stream()
 				.filter(n -> n.getState().getVisitCount() > 0)
 				.count();
-		data.notExploredNodes = data.generatedNodes - data.exploredNodes;
+		data.notExploredNodes = data.nodes - data.exploredNodes;
 		data.visits = structure.getNodeList().stream()
 				.map(n -> n.getState().getVisitCount())
 				.mapToInt(Integer::valueOf)
 				.sum();
-		data.visitsPerGeneratedNodes = (float)data.visits / (float)data.generatedNodes;
+		data.visitsPerGeneratedNodes = (float)data.visits / (float)data.nodes;
 		data.visitsPerExploredNodes =  (float)data.visits / (float)data.exploredNodes;
 		data.topVisitedNodes = structure.getNodeList().stream()
 				.sorted((n1, n2) -> n2.getState().getVisitCount() - n1.getState().getVisitCount())

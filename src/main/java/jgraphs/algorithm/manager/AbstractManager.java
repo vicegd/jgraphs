@@ -87,9 +87,15 @@ public abstract class AbstractManager {
     	this.traceabilities.add(traceability);
     }
     
-    protected void checkpointEvent(IStructure structure) {
+    protected void checkpointEvent() {
     	for(IStatistic statistic : statistics) {
-    		statistic.checkpointEvent(structure, initTime, Instant.now());
+    		statistic.checkpointEvent(this.structure, initTime, Instant.now());
+    	}
+    }
+    
+    protected void pauseEvent() {
+    	for(ITraceability traceability : traceabilities) {
+    		traceability.pause(this.structure);
     	}
     }
     	
@@ -108,12 +114,6 @@ public abstract class AbstractManager {
     protected void processFinishedEvent(IStructure structure, List<INode> result, Duration processDuration, Duration totalDuration) {
     	for(IVisualizer visualizer : visualizers) {
     		visualizer.processFinishedEvent(structure, result);
-    	}
-    }
-    
-    protected void pauseEvent(IStructure structure) {
-    	for(ITraceability traceability : traceabilities) {
-    		traceability.pause(structure);
     	}
     }
     

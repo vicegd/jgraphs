@@ -37,7 +37,7 @@ public class ComparatorTest {
     }
     
     @Test
-    public void given2StructuresWith2Nodes_comparator_then7Differences() {
+    public void given2StructuresWith2Nodes_comparator_then6Differences() {
     	var tree = this.backtracking.getStructure();
     	tree.setFirstSituation(new PermutationSituation(1));
         this.backtracking.run();  
