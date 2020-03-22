@@ -99,21 +99,21 @@ public abstract class AbstractManager {
     	}
     }
     	
-    protected void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
+    protected void structureChangedEvent(INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.structureChangedEvent(structure, sourceNode, endNode, movementNumber, iterationNumber, status);
+    		visualizer.structureChangedEvent(this.structure, sourceNode, endNode, movementNumber, iterationNumber, status);
     	}
     }
  
-    protected void movementPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber) {
+    protected void movementPerformedEvent(INode sourceNode, INode endNode, int movementNumber) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(structure, sourceNode, endNode, movementNumber);
+    		visualizer.movementPerformedEvent(this.structure, sourceNode, endNode, movementNumber);
     	}
     }
     
-    protected void processFinishedEvent(IStructure structure, List<INode> result, Duration processDuration, Duration totalDuration) {
+    protected void processFinishedEvent(List<INode> result, Duration processDuration, Duration totalDuration) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.processFinishedEvent(structure, result);
+    		visualizer.processFinishedEvent(this.structure, result);
     	}
     }
     

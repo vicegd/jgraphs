@@ -27,6 +27,6 @@ public class TraceabilityTest {
     	var tree = this.backtracking.getStructure();
         tree.setFirstSituation(new PermutationSituation(1));
         this.backtracking.run();        
-        assertEquals(2, tracebility.getStops());
+        assertEquals(2, this.tracebility.getStops());
     }
 }
