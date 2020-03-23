@@ -1,6 +1,5 @@
 package jgraphs.algorithm.manager;
 
-import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +33,7 @@ public abstract class AbstractManager {
     	this.statistics = new ArrayList<IStatistic>();
     	this.traceabilities = new ArrayList<ITraceability>();
     	this.results = new ArrayList<INode>();
-    	this.movementNumber = 1;
+    	this.movementNumber = 0;
 	}
 	
 	public abstract void run(INode node);
@@ -89,7 +88,7 @@ public abstract class AbstractManager {
     
     protected void checkpointEvent() {
     	for(IStatistic statistic : statistics) {
-    		statistic.checkpointEvent(this.structure, initTime, Instant.now());
+    		statistic.checkpointEvent(this.structure, this.initTime, Instant.now());
     	}
     }
     
@@ -98,22 +97,22 @@ public abstract class AbstractManager {
     		traceability.pause(this.structure);
     	}
     }
-    	
-    protected void structureChangedEvent(INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
+    
+    protected void processFinishedEvent() {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.structureChangedEvent(this.structure, sourceNode, endNode, movementNumber, iterationNumber, status);
-    	}
-    }
- 
-    protected void movementPerformedEvent(INode sourceNode, INode endNode, int movementNumber) {
-    	for(IVisualizer visualizer : visualizers) {
-    		visualizer.movementPerformedEvent(this.structure, sourceNode, endNode, movementNumber);
+    		visualizer.processFinishedEvent(this.structure, this.results);
     	}
     }
     
-    protected void processFinishedEvent(List<INode> result, Duration processDuration, Duration totalDuration) {
+    protected void movementPerformedEvent(INode sourceNode, INode endNode) {
     	for(IVisualizer visualizer : visualizers) {
-    		visualizer.processFinishedEvent(this.structure, result);
+    		visualizer.movementPerformedEvent(this.structure, sourceNode, endNode, this.movementNumber);
+    	}
+    }
+    
+    protected void iterationPerformedEvent(INode sourceNode, INode endNode, int iterationNumber) {
+    	for(IVisualizer visualizer : visualizers) {
+    		visualizer.iterationPerformedEvent(this.structure, sourceNode, endNode, this.movementNumber, iterationNumber);
     	}
     }
     

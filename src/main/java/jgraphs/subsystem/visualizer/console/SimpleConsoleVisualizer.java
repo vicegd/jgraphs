@@ -10,14 +10,18 @@ import jgraphs.subsystem.visualizer.IVisualizer;
 
 public class SimpleConsoleVisualizer implements IVisualizer {
 	protected static final ILogger logger = new DefaultLogger(SimpleConsoleVisualizer.class);
+	
 	@Override
-	public void structureChangedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber, int status) {
-		logger.info("\n******************************STRUCTURE CHANGED***********************");
-		logger.info(String.format("Movement:%d Iteration:%d Tree:%s (%d nodes) from %s (%s) to %s (%s) Status:%d", 
-				movementNumber, iterationNumber,
-				structure.getId(), structure.getNodeList().size(),
-				structure.getNodeName(sourceNode.getId()), sourceNode.getId(),
-				structure.getNodeName(endNode.getId()), endNode.getId(), status));
+	public void processFinishedEvent(IStructure structure, List<INode> result) {
+		logger.info("\n******************************PROCESS FINISHED************************");	
+		logger.info("The process has ended with the following results:");
+		for (var i = 0; i < result.size(); i++) {
+			var node = result.get(i);
+			logger.info(String.format("%d - Status:%d - %s (%s)", i+1, 
+					node.getState().getSituation().checkStatus(), 
+					structure.getNodeName(node.getId()), node.getId()));
+			logger.info(node.toString());
+		}
 		logger.info("**********************************************************************");
 	}
 	
@@ -29,19 +33,16 @@ public class SimpleConsoleVisualizer implements IVisualizer {
 				structure.getNodeName(endNode.getId()), endNode.getId()));
 		logger.info(endNode.toString());
 		logger.info("**********************************************************************");
-	}
-
+	}	
+	
 	@Override
-	public void processFinishedEvent(IStructure structure, List<INode> result) {
-		logger.info("\n******************************PROCESS FINISHED************************");	
-		logger.info("The process has ended with the following results:");
-		for (var i = 0; i < result.size(); i++) {
-			var node = result.get(i);
-			logger.info(String.format("%d - Status:%d - %s (%s)", i+1, 
-					node.getState().getSituation().checkStatus(), 
-					structure.getNodeName(node.getId()), node.getId()));
-		}
+	public void iterationPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber) {
+		logger.info("\n******************************ITERATION PERFORMED**********************");
+		logger.info(String.format("Movement:%d Iteration:%d Tree:%s (%d nodes) from %s (%s) to %s (%s) Status:%d", 
+				movementNumber, iterationNumber,
+				structure.getId(), structure.getNodeList().size(),
+				structure.getNodeName(sourceNode.getId()), sourceNode.getId(),
+				structure.getNodeName(endNode.getId()), endNode.getId(), endNode.getState().getSituation().checkStatus()));
 		logger.info("**********************************************************************");
 	}
-	
 }

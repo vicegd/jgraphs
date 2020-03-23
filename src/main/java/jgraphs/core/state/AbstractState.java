@@ -40,7 +40,7 @@ public abstract class AbstractState implements IState {
     }
     
     @Override
-    public String getStateValuesToHTML() {
+    public String getValuesToHTML() {
         var values = new StringBuilder();
         values.append("<br/>participant:" + this.getParticipantManager().getParticipant());
         values.append("<br/>scores:" + this.serializeScores());

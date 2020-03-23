@@ -77,7 +77,7 @@ public abstract class AbstractNode implements INode {
     @Override
     public String toString() {
     	var sb = new StringBuilder();
-    	sb.append("Node: \n");
+    	sb.append("**Node: \n");
     	sb.append("\tId: " + this.id + "\n");
     	for (INode n : this.predecessors) {
     		sb.append("\tPredecessor: " + n.getId() + "\n"); 
@@ -86,6 +86,7 @@ public abstract class AbstractNode implements INode {
     		sb.append("\tSuccessor: " + n.getId() + "\n"); 
     	}
     	sb.append(this.state.toString());
+    	sb.append("\n");
         return sb.toString();
     }
     

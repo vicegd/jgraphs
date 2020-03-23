@@ -9,7 +9,7 @@ import guru.nidi.graphviz.attribute.Label;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
 
-public class ShapeGraphVisualizer extends AbstractGraphVisualizer {
+public class StructureGraphVisualizer extends AbstractGraphVisualizer {
 	
 	@Override
 	public void processFinishedEvent(IStructure structure, List<INode> result) {

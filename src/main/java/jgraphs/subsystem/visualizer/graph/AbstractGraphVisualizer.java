@@ -35,9 +35,9 @@ public abstract class AbstractGraphVisualizer implements IVisualizer {
 		this.dateFormat = new SimpleDateFormat("yyyyMMdd_HHmm");
         this.path = config.get(Config.ABSTRACT_GRAPH_VISUALIZER_PATH);
 	}
-	
+
 	@Override
-	public void structureChangedEvent(IStructure structure, INode sourceNode, INode end, int movementNumber, int iterationNumber, int status) {
+	public void processFinishedEvent(IStructure structure, List<INode> result) {
 	}
 
 	@Override
@@ -45,7 +45,7 @@ public abstract class AbstractGraphVisualizer implements IVisualizer {
 	}
 	
 	@Override
-	public void processFinishedEvent(IStructure structure, List<INode> result) {
+	public void iterationPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber) {
 	}
 	
 	protected void iterateTree(IStructure structure, INode node, INode currentNode, INode nodeToExplore, int result) {
@@ -98,9 +98,9 @@ public abstract class AbstractGraphVisualizer implements IVisualizer {
 	}
 	
 	protected String getInfoFromNode(IStructure structure, INode node) {
-		return ((structure.getNodeName(node.getId()) != null)?structure.getNodeName(node.getId()):node.getId().toString()) + 
-	        		"<br/>" + node.getState().getStateValuesToHTML() + 
-	        		"<br/>" + node.getState().getSituation().getValuesToHTML();
+		return ((structure.getNodeName(node.getId()) != null)?structure.getNodeName(node.getId()):node.getId().toString()) +
+	        		node.getState().getValuesToHTML() + "<br/>" +
+	        		node.getState().getSituation().getValuesToHTML();
 	}
 	
 	protected String getUniqueFolderPath(IStructure structure) {

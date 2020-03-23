@@ -20,11 +20,9 @@ public abstract class IntArraySituation extends AbstractSituation {
     @Override
     public String getValuesToHTML() {
         var v = new StringBuilder();
-        v.append("<p>");
         for (var i = 0; i < values.length; i++) {
             v.append(values[i] + " ");
         } 
-        v.append("</p>");
         return v.toString();
     }
        

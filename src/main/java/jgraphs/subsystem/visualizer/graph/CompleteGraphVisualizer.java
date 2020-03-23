@@ -7,13 +7,13 @@ import java.util.List;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
 
-public class GraphVisualizer extends AbstractGraphVisualizer {
+public class CompleteGraphVisualizer extends AbstractGraphVisualizer {
 	
 	@Override
-	public void structureChangedEvent(IStructure structure, INode sourceNode, INode nodeToExplore, int movementNumber, int iterationNumber, int status) {
+	public void iterationPerformedEvent(IStructure structure, INode sourceNode, INode endNode, int movementNumber, int iterationNumber) {
 		g = mutGraph("MCTS").setDirected(true);
 		
-		iterateTree(structure, structure.getFirst(), sourceNode, nodeToExplore, status);
+		iterateTree(structure, structure.getFirst(), sourceNode, endNode, endNode.getState().getSituation().checkStatus());
 		
 		var uniqueFolder = this.getUniqueFolderPath(structure);
 		var folderPath = this.path + "/" + uniqueFolder + "/movement" +  movementNumber;

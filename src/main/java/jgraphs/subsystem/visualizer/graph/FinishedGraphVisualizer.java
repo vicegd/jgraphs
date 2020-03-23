@@ -7,7 +7,7 @@ import java.util.List;
 import jgraphs.core.node.INode;
 import jgraphs.core.structure.IStructure;
 
-public class SimpleGraphVisualizer extends AbstractGraphVisualizer {
+public class FinishedGraphVisualizer extends AbstractGraphVisualizer {
 		
 	@Override
 	public void processFinishedEvent(IStructure structure, List<INode> result) {

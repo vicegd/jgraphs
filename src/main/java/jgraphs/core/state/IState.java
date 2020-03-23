@@ -16,7 +16,7 @@ public interface IState {
 	
 	public ISituation getSituation();
 	
-	public String getStateValuesToHTML();
+	public String getValuesToHTML();
 
     public void setSituation(ISituation situation);
     

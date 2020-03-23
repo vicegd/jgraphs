@@ -18,6 +18,7 @@ public class BacktrackingAll extends AbstractManager {
 	public void run(INode node) {
     	this.backtracking(node);  
     	super.checkpointEvent();
+    	super.processFinishedEvent();
 	}
 	   
     private void backtracking(INode node) { 
@@ -38,6 +39,8 @@ public class BacktrackingAll extends AbstractManager {
     	    	newNode.getPredecessors().add(node);
     	        node.getSuccessors().add(newNode);   
     	        super.addNodeToTreeStructure(newNode);
+    	        super.movementPerformedEvent(node, newNode); 
+    	        super.iterationPerformedEvent(node, newNode, 0); 
     			this.backtracking(newNode);
     	    });
     	}

@@ -68,4 +68,14 @@ public abstract class AbstractStructure implements IStructure {
 			this.nodeList.add(node);
 		}
 	}
+	
+    @Override
+    public String toString() {
+    	var sb = new StringBuilder();
+    	sb.append("******Structure:******\n");
+    	for (var n : this.nodeList) {
+			sb.append(n.toString());
+		}
+        return sb.toString();
+    }
 }
