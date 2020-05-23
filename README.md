@@ -1,4 +1,5 @@
-<!-- TABLE OF CONTENTS -->
+# JGraphs: A Toolset to Work with Monte-Carlo Tree Search-Based Algorithms
+
 ## Table of Contents
 
 * [About the Project](#about-the-project)
