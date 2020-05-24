@@ -58,7 +58,6 @@ const API_KEY = 'ENTER YOUR API';
 
 <!-- USAGE EXAMPLES -->
 ## Usage
-
 Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
 
 _For more examples, please refer to the [Documentation](https://example.com)_
@@ -79,7 +78,7 @@ Contributions are what make the open source community such an amazing place to b
 
 <!-- LICENSE -->
 ## License
-Distributed under the GNU GPLv3 License. See `LICENSE` for more information.
+Distributed under the GNU GPLv3 License. See [LICENSE](https://github.com/vicegd/jgraphs/blob/master/LICENSE) for more information.
 
 <!-- CONTACT -->
 ## Contact
