@@ -33,8 +33,8 @@ JGraphs is a toolset to work with MCTS-based algorithms. JGraphs is an extensibl
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
-* Java 10
-* Maven
+* [Java 10](https://jdk.java.net/)
+* [Maven](https://maven.apache.org/download.cgi)
 
 ### Installation
 1. Clone the repo
