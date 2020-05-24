@@ -16,19 +16,21 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
 JGraphs is a toolset to work with MCTS-based algorithms. JGraphs is an extensible framework that allows developers to create applications based on MCTS in an agile and simple way. It provides several utilities that facilitate analysis, debugging, visualization and interoperability between applications, while offering some default implementations as well as extension mechanisms to make it easier for developers to tailor the code to their specific needs. With JGraph, developers will be able to focus on solving MCTS-based problems, which are already very complex, rather than reinventing the wheel repeatedly
 
 ### Built With
-This section should list any major frameworks that you built your project using. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-* [Bootstrap](https://getbootstrap.com)
-* [JQuery](https://jquery.com)
-* [Laravel](https://laravel.com)
+* [Apache Commons](https://commons.apache.org/)
+* [Google Guice](https://github.com/google/guice)
+* [Graphviz-java](https://github.com/nidi3/graphviz-java)
+* [H2 Database Engine](https://www.h2database.com/html/main.html)
+* [JSON-java](https://github.com/stleary/JSON-java)
+* [JUnit](https://junit.org/junit5/)
+* [SLF4J](http://www.slf4j.org/)
+* [SPF4J](https://github.com/zolyfarkas/spf4j)
+* [zjsonpatch](https://github.com/flipkart-incubator/zjsonpatch)
 
 <!-- GETTING STARTED -->
 ## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
@@ -85,10 +87,9 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
 ## Contact
+Vicente García Díaz - [https://www.vicen.info/](https://www.vicen.info/) 
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
+Project Link: [https://github.com/vicegd/jgraphs/](https://github.com/vicegd/jgraphs/)
 
 <!-- ACKNOWLEDGEMENTS 
 ## Acknowledgements
