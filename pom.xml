@@ -120,7 +120,7 @@
         <guice.version>4.2.2</guice.version>
         <json.version>20180130</json.version>
         <zjsonpatch.version>0.4.9</zjsonpatch.version>
-        <h2.version>1.4.196</h2.version>
+        <h2.version>2.1.210</h2.version>
         <spf4j.version>8.6.28</spf4j.version>
     </properties>
 
